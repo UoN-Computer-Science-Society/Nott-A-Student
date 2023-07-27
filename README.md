@@ -7,4 +7,3 @@
 - Built with passion by UNM Computer Science Society. And Flutter; with a backend served using AppWrite.
 
 ----
-

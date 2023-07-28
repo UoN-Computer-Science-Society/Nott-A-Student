@@ -1,0 +1,1 @@
+const String appTitle = 'Nott A Student';

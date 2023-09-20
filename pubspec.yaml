@@ -40,6 +40,7 @@ dependencies:
   auto_route: ^7.7.1
   dio: ^5.3.0
   google_fonts: ^5.1.0
+  introduction_screen: ^3.1.11
 
 dev_dependencies:
   flutter_test:

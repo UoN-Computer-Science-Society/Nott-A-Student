@@ -12,8 +12,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-   // double screenWidth = 430;
-    print(screenWidth);
+    double inputWidth = screenWidth - 48;
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -23,7 +22,10 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
             children: [
               Text(
                 "Step 1: Personal Infomation",
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge
+                    ?.copyWith(fontSize: 20),
               )
             ],
           ),
@@ -38,17 +40,21 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
             ],
           ),
           const Gap(10),
-          TextFormField(
+
+        TextField(
             decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: 'Enter your name',
-              focusColor: Theme.of(context).primaryColor,
+              border: OutlineInputBorder(),
+              hintStyle: Theme.of(context).textTheme.labelLarge,
+              hintText: 'Enter your name',
             ),
           ),
+
           const Gap(20),
+          // Wrap the DropdownMenu in a Container with the desired width
+
           DropdownMenu(
-            label: const Text("Select Your Year"),
-            width: screenWidth -16 ,
+            width: inputWidth,
+            label: Text("Select Your Year",style: Theme.of(context).textTheme.labelLarge),
             dropdownMenuEntries: const [
               DropdownMenuEntry(value: "Year 1", label: "Year 1"),
               DropdownMenuEntry(value: "Year 2", label: "Year 2"),
@@ -57,8 +63,8 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
           ),
           const Gap(20),
           DropdownMenu(
-            label: const Text("Select your school"),
-            width: screenWidth - 16,
+            width: inputWidth,
+            label: const Text("Select Your School",style: TextStyle(color: Colors.black),),
             dropdownMenuEntries: const [
               DropdownMenuEntry(value: "Year 1", label: "Year 1"),
               DropdownMenuEntry(value: "Year 2", label: "Year 2"),
@@ -67,8 +73,8 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
           ),
           const Gap(20),
           DropdownMenu(
-            label: const Text("Select Your Program"),
-            width: screenWidth - 16,
+            width: inputWidth,
+            label: const Text("Select Your Program",style: TextStyle(color: Colors.black),),
             dropdownMenuEntries: const [
               DropdownMenuEntry(value: "Year 1", label: "Year 1"),
               DropdownMenuEntry(value: "Year 2", label: "Year 2"),

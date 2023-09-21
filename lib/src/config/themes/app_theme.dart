@@ -21,7 +21,7 @@ class AppTheme {
             ),
             headlineMedium: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
             titleMedium: TextStyle(

@@ -6,8 +6,6 @@ class AccountSetup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -17,7 +15,7 @@ class AccountSetup extends StatelessWidget {
             children: [
               Text(
                 "Step 2: Account Setup",
-                style: Theme.of(context).textTheme.headlineLarge,
+                style: Theme.of(context).textTheme.headlineMedium,
               )
             ],
           ),
@@ -33,11 +31,10 @@ class AccountSetup extends StatelessWidget {
           ),
           const Gap(10),
           TextFormField(
-            initialValue: "CS1@nottingham.edu.my",
-            readOnly: true,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              focusColor: Theme.of(context).primaryColor,
+              hintText: 'Create an username',
+              hintStyle: Theme.of(context).textTheme.labelLarge,
             ),
           ),
           const Gap(20),
@@ -54,8 +51,8 @@ class AccountSetup extends StatelessWidget {
           TextFormField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              labelText: 'Enter your Password',
-              focusColor: Theme.of(context).primaryColor,
+              hintText: 'Enter your Password',
+              hintStyle: Theme.of(context).textTheme.labelLarge,
             ),
           ),
           const Gap(20),
@@ -72,8 +69,8 @@ class AccountSetup extends StatelessWidget {
           TextFormField(
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              labelText: 'Confirm your password',
-              focusColor: Theme.of(context).primaryColor,
+              hintText: 'Confirm your password',
+             hintStyle: Theme.of(context).textTheme.labelLarge,
             ),
           ),
           const Gap(10),

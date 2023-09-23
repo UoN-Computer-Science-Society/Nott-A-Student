@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:nott_a_student/src/config/themes/app_theme.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/account_widget/account-setup-form.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/account_widget/personal-info-form.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/account_widget/ready-screen.dart';
+import 'package:nott_a_student/src/features/auth/presentation/widget/account-setup-form.dart';
+import 'package:nott_a_student/src/features/auth/presentation/widget/personal-info-form.dart';
+import 'package:nott_a_student/src/features/auth/presentation/widget/ready-screen.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -40,6 +40,7 @@ class _SignupState extends State<Signup> {
               const Gap(40),
               EasyStepper(
                 activeStep: activeStep,
+                enableStepTapping: false,
                 lineLength: 100,
                 lineSpace: 0,
                 lineType: LineType.normal,

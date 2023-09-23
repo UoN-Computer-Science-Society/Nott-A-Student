@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/login.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/signup.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
+import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
 
 /* var pagemodel = [
   PageViewModel(
@@ -241,8 +244,16 @@ class _IntroState extends State<Intro> {
               InkWell(
                 onTap: (() {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const Login()),
-                  );
+                    MaterialPageRoute(
+                        builder: (context) => RepositoryProvider(
+                              create: (context) => AuthRepository(),
+                              child: BlocProvider(
+                                create: (context) => LoginCubit(authRepo: context.read<AuthRepository>()),
+                                child: Login(),
+                              ),
+                            )),
+                  ); 
+                   
                 }),
                 child: Container(
                   width: 250,
@@ -322,7 +333,7 @@ class _IntroState extends State<Intro> {
           currentPageIndex = page;
         });
         //need to change the below number if the total number of page change
-        //the number can be calculate by number = total page - 1 
+        //the number can be calculate by number = total page - 1
         if (currentPageIndex == 4) {
           showSkipButton = false;
         } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
@@ -248,12 +248,12 @@ class _IntroState extends State<Intro> {
                         builder: (context) => RepositoryProvider(
                               create: (context) => AuthRepository(),
                               child: BlocProvider(
-                                create: (context) => LoginCubit(authRepo: context.read<AuthRepository>()),
+                                create: (context) => LoginCubit(
+                                    authRepo: context.read<AuthRepository>()),
                                 child: Login(),
                               ),
                             )),
-                  ); 
-                   
+                  );
                 }),
                 child: Container(
                   width: 250,

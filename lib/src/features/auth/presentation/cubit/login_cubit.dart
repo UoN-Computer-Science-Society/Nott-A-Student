@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 
 part 'login_state.dart';
 
@@ -11,19 +11,19 @@ class LoginCubit extends Cubit<LoginState> {
   void onUserNameChanged(String username) {
     print(username);
     if (username != state.username) {
-    emit(state.copyWith(username: username));
-  }
+      emit(state.copyWith(username: username));
+    }
   }
 
   void onPasswordChanged(String password) {
     print(password);
     if (password != state.password) {
-    emit(state.copyWith(password: password));
-  }
+      emit(state.copyWith(password: password));
+    }
   }
 
- // Future<void> onFormSubmit(String username,String password) async {
-    Future<void> onFormSubmit() async {
+  // Future<void> onFormSubmit(String username,String password) async {
+  Future<void> onFormSubmit() async {
     if (state.username.isEmpty || state.password.isEmpty) {
       emit(LoginFailed(errorMessage: "Username or Password is empty"));
     } else {

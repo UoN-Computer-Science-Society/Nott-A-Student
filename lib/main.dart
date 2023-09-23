@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/config/themes/app_theme.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/config/themes/app_theme.dart';
-import 'package:nott_a_student/src/features/welcome-page/introduction-screen/intro.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/login.dart';
-import 'package:nott_a_student/src/features/welcome-page/login-screen/signup.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,18 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme.style(),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MultiBlocProvider(
+        providers: [
+          RepositoryProvider<AuthRepository>(
+            create: (_) => AuthRepository(),
+          ),
+          BlocProvider<LoginCubit>(
+            create: (context) =>
+                LoginCubit(authRepo: context.read<AuthRepository>()),
+          ),
+        ],
+        child: const MyHomePage(title: 'Flutter Demo Home Page'),
+      ),
     );
   }
 }

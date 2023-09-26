@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
@@ -14,15 +15,18 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool passwordVisible = false;
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     String username = '';
     String password = '';
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Container(
-          padding: const EdgeInsets.all(16.0),
+    return Scaffold(
+      body: Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formkey,
           child: Column(
             children: [
               const Gap(70),
@@ -48,28 +52,57 @@ class _LoginState extends State<Login> {
               const InputLabel(label: "Username"),
               const Gap(20),
               TextFormField(
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'Enter your username',
-                    focusColor: Theme.of(context).primaryColor,
-                  ),
-                  onChanged: (value) => {
-                        /*  BlocProvider.of<LoginCubit>(context)
-                            .onUserNameChanged(value), */
-                        username = value,
-                      }),
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter your username',
+                ),
+                onChanged: (value) => {
+                    BlocProvider.of<LoginCubit>(context)
+                              .onUserNameChanged(value), 
+                 // username = value,
+                },
+                validator: MultiValidator(
+                  [
+                    RequiredValidator(errorText: "* Required"),
+                    EmailValidator(errorText: "Enter valid email"),
+                  ],
+                ),
+              ),
               const Gap(20),
               const InputLabel(label: "Password"),
               const Gap(20),
               TextFormField(
-                  decoration: const InputDecoration(
+                  obscureText: !passwordVisible,
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    labelText: 'Enter your password',
+                    hintText: 'Enter your password',
+                    suffixIcon: IconButton(
+                      icon: Icon(passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(
+                          () {
+                            passwordVisible = !passwordVisible;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  validator: MultiValidator(
+                    [
+                      RequiredValidator(errorText: "* Required"),
+                      MinLengthValidator(8,
+                          errorText: "Password should be atleast 8 characters"),
+                      /*    MaxLengthValidator(15,
+                          errorText:
+                              "Password should not be greater than 15 characters") */
+                    ],
                   ),
                   onChanged: (value) => {
-                        /*   BlocProvider.of<LoginCubit>(context)
-                            .onPasswordChanged(value), */
-                        password = value
+                         BlocProvider.of<LoginCubit>(context)
+                              .onPasswordChanged(value), 
+                     //   password = value
                       }),
               const Gap(10),
               Row(
@@ -120,9 +153,18 @@ class _LoginState extends State<Login> {
                 child: InkWell(
                   onTap: (() {
                     // context.read()<LoginCubit>().onFormSubmit(username,password);
-                    context.read<LoginCubit>().onUserNameChanged(username);
+
+                    if (formkey.currentState!.validate()) {
+                   //   context.read<LoginCubit>().onUserNameChanged(username);
+                     // context.read<LoginCubit>().onPasswordChanged(password);
+                      context.read<LoginCubit>().onFormSubmit();
+                      print("Validated");
+                    } else {
+                      print("Not Validated");
+                    }
+                    /*  context.read<LoginCubit>().onUserNameChanged(username);
                     context.read<LoginCubit>().onPasswordChanged(password);
-                    context.read<LoginCubit>().onFormSubmit();
+                    context.read<LoginCubit>().onFormSubmit(); */
                   }),
                   child: Container(
                     width: 250,

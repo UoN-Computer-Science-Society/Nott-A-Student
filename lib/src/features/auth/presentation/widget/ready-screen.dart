@@ -4,8 +4,29 @@ import 'package:gap/gap.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
-class ReadyScreen extends StatelessWidget {
+class ReadyScreen extends StatefulWidget {
   const ReadyScreen({super.key});
+
+  @override
+  State<ReadyScreen> createState() => _ReadyScreen();
+}
+
+class _ReadyScreen extends State<ReadyScreen> {
+  String _username = "";
+  @override
+  void initState() {
+    super.initState();
+    _initializeField();
+  }
+
+  void _initializeField() {
+    setState(() {
+      _username = context
+          .read<SignupCubit>()
+          .state
+          .name; // Set the counter to your desired initial value.
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +37,12 @@ class ReadyScreen extends StatelessWidget {
           Image.network(
               "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
               height: 175.0),
-          const Gap(40),
+          const Gap(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Welcome Aboard! [Username]",
+                "Welcome Aboard! $_username",
                 style: Theme.of(context).textTheme.headlineLarge,
               )
             ],

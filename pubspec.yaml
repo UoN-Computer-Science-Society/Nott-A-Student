@@ -40,6 +40,7 @@ dependencies:
   gap: ^3.0.1
   google_fonts: ^5.1.0
   introduction_screen: ^3.1.11
+  form_field_validator: ^1.1.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0

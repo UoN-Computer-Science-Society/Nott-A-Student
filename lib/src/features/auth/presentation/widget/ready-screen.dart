@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
 class ReadyScreen extends StatelessWidget {
   const ReadyScreen({super.key});
@@ -26,11 +29,15 @@ class ReadyScreen extends StatelessWidget {
           const Gap(10),
           Text(
             "Your journey with Nott a Student begins now,and we're excited to  be part of it",
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.normal),
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontWeight: FontWeight.normal),
           ),
           const Gap(20),
           InkWell(
             onTap: (() {
+              context.read<SignupCubit>().onFormSubmit();
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const Placeholder()),
               );
@@ -50,6 +57,43 @@ class ReadyScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+          BlocListener<SignupCubit, SignupState>(
+            listener: (context, state) {
+              if (state.status is ProceedSuccess && state.step == 2) {
+                context.read<SignupCubit>().onStepChanged(1);
+              } else if (state is ProceedFailed) {
+                // Show an error message to the user.
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Login failed: ${state.status}'),
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+              }
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                InkWell(
+                  onTap: (() => {
+                        /* context
+                            .read<SignupCubit>()
+                            .onStatusChanged(ProceedInitial()), */
+                        context.read<SignupCubit>().onStepChanged(1),
+                      }),
+                  child: Row(children: [
+                    Icon(
+                      Icons.arrow_back,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    Text("Back",
+                        style:
+                            TextStyle(color: Theme.of(context).primaryColor)),
+                  ]),
+                ),
+              ],
             ),
           ),
         ],

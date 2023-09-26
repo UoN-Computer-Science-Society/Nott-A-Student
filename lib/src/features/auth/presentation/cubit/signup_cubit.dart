@@ -1,4 +1,7 @@
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 import 'package:bloc/bloc.dart';
+import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
@@ -128,6 +131,49 @@ class SignupCubit extends Cubit<SignupState> {
         emit(SignUpFailed(errorMessage: e.toString()));
       } */
 
-    print(state.name + state.year + state.school + state.program + state.email + state.password + state.confirmPassword);
+    print(state.name +
+        state.year +
+        state.school +
+        state.program +
+        state.email +
+        state.password +
+        state.confirmPassword);
+
+    Client client = Client();
+    Account account = Account(client);
+
+    client
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('6507b9d722fa8ccd95eb');
+
+    Future result = account.create(
+        userId: ID.unique(),
+        email: state.email,
+        password: state.password,
+        name: state.name);
+
+    result.then((response) {
+      var user = response as User;
+      print(user.email);
+      // Update user preferences
+      var userPrefs = {
+        'Year': state.year,
+        'School': state.school,
+        'Program': state.program
+      };
+
+      Future updatePref = account.updatePrefs(prefs: userPrefs);
+      updatePref.then((value) {
+        Future getPref = account.getPrefs();
+        getPref.then((value) {
+          var prefs = value as Preferences;
+          print(prefs.data);
+        });
+      }).catchError((error) {
+        print(error);
+      });
+    }).catchError((error) {
+      print(error);
+    });
   }
 }

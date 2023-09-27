@@ -1,41 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nott_a_student/src/config/router/app_router.dart';
 import 'package:nott_a_student/src/config/themes/app_theme.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final AppRouter _appRouter = AppRouter();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
+    return /*  MultiBlocProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (_) => AuthRepository(),
+        ),
+        BlocProvider<LoginCubit>(
+          create: (context) =>
+              LoginCubit(authRepo: context.read<AuthRepository>()),
+        ),
+      ],
+      child: */
+        MaterialApp(
+      title: 'Nott A Student',
       theme: AppTheme.style(),
       debugShowCheckedModeBanner: false,
-      home: MultiBlocProvider(
-        providers: [
-          RepositoryProvider<AuthRepository>(
-            create: (_) => AuthRepository(),
-          ),
-          BlocProvider<LoginCubit>(
-            create: (context) =>
-                LoginCubit(authRepo: context.read<AuthRepository>()),
-          ),
-        ],
-        child: const MyHomePage(title: 'Flutter Demo Home Page'),
-      ),
+      onGenerateRoute: _appRouter.onGenerateRoute,
+      /*      ), */
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _appRouter.dispose();
   }
 }
 
-class MyHomePage extends StatefulWidget {
+
+
+/* class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
@@ -55,3 +69,5 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+ */
+

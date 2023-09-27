@@ -1,17 +1,14 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-import 'package:bloc/bloc.dart';
-import 'dart:convert';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  final AuthRepository authRepo;
-
-  SignupCubit({required this.authRepo}) : super(SignupState());
+  SignupCubit() : super(SignupState());
 
   void onNameChanged(String name) {
     print(name);

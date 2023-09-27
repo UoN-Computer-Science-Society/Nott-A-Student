@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:easy_stepper/easy_stepper.dart';
-import 'package:nott_a_student/src/config/themes/app_theme.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/account-setup-form.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/personal-info-form.dart';

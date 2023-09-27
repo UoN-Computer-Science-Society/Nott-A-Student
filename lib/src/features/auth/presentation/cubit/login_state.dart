@@ -1,6 +1,6 @@
 part of 'login_cubit.dart';
 
-class LoginState {
+class LoginState extends Equatable {
   final String username;
   final String password;
 

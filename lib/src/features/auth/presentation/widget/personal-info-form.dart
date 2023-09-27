@@ -71,6 +71,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BlocListener<SignupCubit, SignupState>(
+                    listenWhen:(previous, current) => previous.status != current.status,
                     listener: (context, state) {
                       if (state.status is ProceedSuccess && state.step == 0) {
                         context.read<SignupCubit>().onStepChanged(1);

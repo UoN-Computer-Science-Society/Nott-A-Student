@@ -233,8 +233,15 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
           },
         ),
       ),
-      validator: (val) => MatchValidator(errorText: 'passwords do not match')
-          .validateMatch(val!, context.read<SignupCubit>().state.password),
+      validator: (val) {
+        if (val!.isEmpty) {
+          return "* Required";
+        }
+        if (val != context.read<SignupCubit>().state.password) {
+          return "Passwords do not match";
+        }
+        return null; // Validation passed
+      },
       onChanged: (value) {
         context.read<SignupCubit>().onConfirmPasswordChanged(value);
         //confirmPassword = value;

@@ -8,10 +8,10 @@ class LoginCubit extends Cubit<LoginState> {
   final AuthRepository authRepo;
   LoginCubit({required this.authRepo}) : super(LoginState());
 
-  void onUserNameChanged(String username) {
-    print(username);
-    if (username != state.username) {
-      emit(state.copyWith(username: username));
+  void onUserNameChanged(String email) {
+    print(email);
+    if (email != state.email) {
+      emit(state.copyWith(email: email));
     }
   }
 
@@ -24,12 +24,12 @@ class LoginCubit extends Cubit<LoginState> {
 
   // Future<void> onFormSubmit(String username,String password) async {
   Future<void> onFormSubmit() async {
-    if (state.username.isEmpty || state.password.isEmpty) {
+    if (state.email.isEmpty || state.password.isEmpty) {
       emit(LoginFailed(errorMessage: "Username or Password is empty"));
     } else {
       try {
         final userId = await authRepo.login(
-          username: state.username,
+          email: state.email,
           password: state.password,
         );
 

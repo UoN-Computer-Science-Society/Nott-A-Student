@@ -1,41 +1,28 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:nott_a_student/src/features/auth/domain/session.dart';
 
 class AuthRepository {
-  final client = Client()
+
+  Future<String> login({
+    required String email,
+    required String password,
+  }) async {
+      final client = Client()
       .setEndpoint('https://cloud.appwrite.io/v1')
       .setProject('6507b9d722fa8ccd95eb');
 
-  Future<String> attemptAutoLogin() async {
-    await Future.delayed(Duration(seconds: 1));
-    throw Exception('not signed in');
-  }
-
-  Future<String> login({
-    required String username,
-    required String password,
-  }) async {
     print('attempting login');
-    print(username);
+    print(email);
     print(password);
 
     final account = Account(client);
     final session =
-        await account.createEmailSession(email: username, password: password);
-
-    print(session);
+        await account.createEmailSession(email: email, password: password);
+    saveData(session);
     if (session.current) {
       return session.userId;
     } else {
       throw Exception('login failed');
     }
-
-    //   await Future.delayed(Duration(seconds: 3));
-
-    //   if (username == "tinjet" && password == "1234") {
-    //     return 'abc';
-    //   } else {
-    //     return "Failed";
-    //   }
-    // }
   }
 }

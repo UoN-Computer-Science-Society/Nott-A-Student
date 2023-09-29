@@ -50,3 +50,9 @@ class ProceedFailed extends SubmissionStatus {
   @override
   List<Object> get props => [errorMessage];
 }
+
+
+class SignupSuccess extends SubmissionStatus {
+  @override
+  List<Object> get props => [];
+}

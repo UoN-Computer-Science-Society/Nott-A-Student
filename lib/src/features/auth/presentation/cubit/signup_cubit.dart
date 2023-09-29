@@ -3,12 +3,14 @@ import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/domain/session.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(SignupState());
+  final AuthRepository authRepo;
+  SignupCubit({required this.authRepo}) : super(const SignupState());
 
   void onNameChanged(String name) {
     print(name);
@@ -113,21 +115,6 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   Future<void> onFormSubmit() async {
-    /*      try {
-        final userId = await authRepo.login(
-          email: state.email,
-          password: state.password,
-        );
-
-        if (userId != "Failed") {
-          emit(SignUpSuccess(userId: userId));
-        } else {
-          emit(SignUpFailed(errorMessage: "Username or Password Incorrect"));
-        }
-      } catch (e) {
-        emit(SignUpFailed(errorMessage: e.toString()));
-      } */
-
     print(state.name +
         state.year +
         state.school +
@@ -137,11 +124,12 @@ class SignupCubit extends Cubit<SignupState> {
         state.confirmPassword);
 
     Client client = Client();
-    Account account = Account(client);
 
     client
         .setEndpoint('https://cloud.appwrite.io/v1')
         .setProject('6507b9d722fa8ccd95eb');
+    
+    Account account = Account(client);
 
     Future result = account.create(
         userId: ID.unique(),
@@ -149,9 +137,10 @@ class SignupCubit extends Cubit<SignupState> {
         password: state.password,
         name: state.name);
 
-    result.then((response) {
+      emit(state.copyWith(status: SignupSuccess()));
+    /* result.then((response) {
       var user = response as User;
-      print(user.email);
+
       // Update user preferences
       var userPrefs = {
         'Year': state.year,
@@ -172,5 +161,14 @@ class SignupCubit extends Cubit<SignupState> {
     }).catchError((error) {
       print(error);
     });
+ */
+/*     final userId = await authRepo.login(
+      email: state.email,
+      password: state.password,
+    );
+
+    if (userId != "Failed") {
+      emit(state.copyWith(status: SignupSuccess()));
+    } */
   }
 }

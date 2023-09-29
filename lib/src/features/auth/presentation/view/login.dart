@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
 
@@ -137,6 +139,8 @@ class _LoginState extends State<Login> {
                         duration: Duration(seconds: 3),
                       ),
                     );
+
+                    context.read<AuthCubit>().attemptAutoLogin();
                   } else if (state is LoginFailed) {
                     // Show an error message to the user.
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -147,6 +151,22 @@ class _LoginState extends State<Login> {
                     );
                   }
                 },
+/*               BlocListener<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state.authStatus is AuthAuthorized) {
+                    Navigator.of(context).pushNamed(
+                      '/dashboard',
+                    );
+                  } else if (state.authStatus is AuthUnauthorized) {
+                    Navigator.of(context).pushNamed(
+                      '/login',
+                    );
+                  } else if (state.authStatus is AuthInitial) {
+                    Navigator.of(context).pushNamed(
+                      '/intro',
+                    );
+                  }
+                }, */
                 child: InkWell(
                   onTap: (() {
                     // context.read()<LoginCubit>().onFormSubmit(username,password);

@@ -3,7 +3,6 @@ import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
-import 'package:nott_a_student/src/features/auth/domain/session.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
 part 'signup_state.dart';
@@ -114,7 +113,7 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  Future<void> onFormSubmit() async {
+  void onFormSubmit() {
     print(state.name +
         state.year +
         state.school +
@@ -123,45 +122,48 @@ class SignupCubit extends Cubit<SignupState> {
         state.password +
         state.confirmPassword);
 
-    Client client = Client();
+    try {
+      Client client = Client();
 
-    client
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('6507b9d722fa8ccd95eb');
-    
-    Account account = Account(client);
+      client
+          .setEndpoint('https://cloud.appwrite.io/v1')
+          .setProject('6507b9d722fa8ccd95eb');
 
-    Future result = account.create(
-        userId: ID.unique(),
-        email: state.email,
-        password: state.password,
-        name: state.name);
+      Account account = Account(client);
+      final result = account.create(
+          userId: ID.unique(),
+          email: state.email,
+          password: state.password,
+          name: state.name);
+      result.then((response) {
+        var user = response as User;
 
-      emit(state.copyWith(status: SignupSuccess()));
-    /* result.then((response) {
-      var user = response as User;
+        // Update user preferences
+        var userPrefs = {
+          'Year': state.year,
+          'School': state.school,
+          'Program': state.program
+        };
 
-      // Update user preferences
-      var userPrefs = {
-        'Year': state.year,
-        'School': state.school,
-        'Program': state.program
-      };
-
-      Future updatePref = account.updatePrefs(prefs: userPrefs);
-      updatePref.then((value) {
-        Future getPref = account.getPrefs();
-        getPref.then((value) {
-          var prefs = value as Preferences;
-          print(prefs.data);
+        Future updatePref = account.updatePrefs(prefs: userPrefs);
+        updatePref.then((value) {
+          Future getPref = account.getPrefs();
+          getPref.then((value) {
+            var prefs = value as Preferences;
+            print(prefs.data);
+          });
+        }).catchError((error) {
+          print(error);
         });
       }).catchError((error) {
         print(error);
       });
-    }).catchError((error) {
-      print(error);
-    });
- */
+
+      emit(state.copyWith(status: SignupSuccess()));
+    } catch (e) {
+      emit(state.copyWith(status: SignupFailed(exception: e.toString())));
+    }
+
 /*     final userId = await authRepo.login(
       email: state.email,
       password: state.password,

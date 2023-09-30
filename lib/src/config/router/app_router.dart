@@ -9,13 +9,9 @@ import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/dashboard.dart';
 
 class AppRouter {
-  late LoginCubit _loginCubit;
-  late SignupCubit _signupCubit;
+  final LoginCubit _loginCubit = LoginCubit(authRepo: AuthRepository());
+  final SignupCubit _signupCubit = SignupCubit(authRepo: AuthRepository());
   Route onGenerateRoute(RouteSettings settings) {
-    
-    _loginCubit = LoginCubit(authRepo: AuthRepository());
-    _signupCubit = SignupCubit(authRepo: AuthRepository());
-
     //final Object? key = settings.arguments;
     switch (settings.name) {
       case '/':

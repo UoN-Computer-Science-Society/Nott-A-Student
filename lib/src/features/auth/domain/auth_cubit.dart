@@ -16,35 +16,29 @@ class AuthCubit extends Cubit<AuthState> {
       .setEndpoint('https://cloud.appwrite.io/v1')
       .setProject('6507b9d722fa8ccd95eb');
   Future<void> attemptAutoLogin() async {
-    //clearSession();
- /*   final account = Account(client);
-    Future result = account.getSession(
-      sessionId: '65153d5eabe5d9d7b0ec',
-    );
-
-    await result.then((response) {
-      print(response);
-      Session session = response as Session;
-      print(session.userId);
-    }).catchError((error) {
-      print(error.response);
-    }); */
-
     String id = await getData(); // Await the result of getData
-    print("Attempting auto login");
-    if (id.isNotEmpty) {
-      emit(state.copyWith(
-        authStatus: const AuthAuthorized(),
-      ));
-      print(id);
-      print("Attempting auto login success");
+
+    if (id != '') {
+      bool active = await checkSessionExpired(id);
+      print("Attempting auto login");
+
+      if (active) {
+        emit(state.copyWith(
+          authStatus: const AuthAuthorized(),
+        ));
+        print(id);
+        print("Attempting auto login success");
+      } else {
+        // The user is not logged in
+        emit(state.copyWith(
+          authStatus: const AuthUnauthorized(),
+        ));
+        print("Attempting auto login fail: ");
+      }
     } else {
-      // The user is not logged in
-      emit(state.copyWith(
-        authStatus: const AuthUnauthorized(),
-      ));
-      print("Attempting auto login fail ");
-    }  
+           print("Attempting auto login fail");
+    }
+
   }
 
   Future<String> login({
@@ -68,6 +62,28 @@ class AuthCubit extends Cubit<AuthState> {
       return session.userId;
     } else {
       throw Exception('login failed');
+    }
+  }
+
+  void logout() async {
+    print('attempting logout');
+
+    try {
+      getData();
+      final account = Account(client);
+      Future result = account.deleteSession(
+        sessionId: await getData(),
+      );
+
+      clearLocalSession();
+
+      emit(state.copyWith(
+        session: null,
+        authStatus: const AuthUnauthorized(),
+      ));
+      print('attempting logout success');
+    } catch (e) {
+      print(e.toString());
     }
   }
 

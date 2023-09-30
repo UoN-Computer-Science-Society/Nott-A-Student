@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
@@ -22,10 +21,7 @@ class _ReadyScreen extends State<ReadyScreen> {
 
   void _initializeField() {
     setState(() {
-      _username = context
-          .read<SignupCubit>()
-          .state
-          .name; // Set the counter to your desired initial value.
+      _username = context.read<SignupCubit>().state.name;
     });
   }
 
@@ -83,7 +79,7 @@ class _ReadyScreen extends State<ReadyScreen> {
             listener: (context, state) {
               if (state.status is ProceedSuccess && state.step == 2) {
                 context.read<SignupCubit>().onStepChanged(1);
-              } else if (state is ProceedFailed) {
+              } else if (state.status is ProceedFailed) {
                 // Show an error message to the user.
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -91,7 +87,7 @@ class _ReadyScreen extends State<ReadyScreen> {
                     duration: const Duration(seconds: 3),
                   ),
                 );
-              } else /* if (state is SignupSuccess) */ {
+              } else if (state.status is SignupSuccess) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Sign up Success.'),
@@ -101,7 +97,17 @@ class _ReadyScreen extends State<ReadyScreen> {
                 Navigator.of(context).pushNamed(
                   '/login',
                 );
-                print("sign in sucesss");
+                print("sign up sucesss");
+              } else if (state.status is SignupFailed) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("signup failed"),
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+                Navigator.of(context).pushNamed(
+                  '/signup',
+                );
               }
             },
             child: Row(

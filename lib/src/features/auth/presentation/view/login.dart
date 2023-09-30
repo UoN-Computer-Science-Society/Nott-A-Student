@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
 
@@ -21,8 +20,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-/*     String username = '';
-    String password = ''; */
+   String email = '';
+    String password = ''; 
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -50,16 +49,16 @@ class _LoginState extends State<Login> {
                 ],
               ),
               const Gap(20),
-              const InputLabel(label: "Username"),
+              const InputLabel(label: "Email"),
               const Gap(20),
               TextFormField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: 'Enter your username',
+                  hintText: 'Enter your email',
                 ),
                 onChanged: (value) => {
                   BlocProvider.of<LoginCubit>(context).onUserNameChanged(value),
-                  // username = value,
+                  email = value,
                 },
                 validator: MultiValidator(
                   [
@@ -102,7 +101,7 @@ class _LoginState extends State<Login> {
                   onChanged: (value) => {
                         BlocProvider.of<LoginCubit>(context)
                             .onPasswordChanged(value),
-                        //   password = value
+                       password = value
                       }),
               const Gap(10),
               Row(
@@ -141,6 +140,9 @@ class _LoginState extends State<Login> {
                     );
 
                     context.read<AuthCubit>().attemptAutoLogin();
+                      Navigator.of(context).pushNamed(
+                      '/dashboard',
+                    );
                   } else if (state is LoginFailed) {
                     // Show an error message to the user.
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -151,37 +153,16 @@ class _LoginState extends State<Login> {
                     );
                   }
                 },
-/*               BlocListener<AuthCubit, AuthState>(
-                listener: (context, state) {
-                  if (state.authStatus is AuthAuthorized) {
-                    Navigator.of(context).pushNamed(
-                      '/dashboard',
-                    );
-                  } else if (state.authStatus is AuthUnauthorized) {
-                    Navigator.of(context).pushNamed(
-                      '/login',
-                    );
-                  } else if (state.authStatus is AuthInitial) {
-                    Navigator.of(context).pushNamed(
-                      '/intro',
-                    );
-                  }
-                }, */
                 child: InkWell(
                   onTap: (() {
-                    // context.read()<LoginCubit>().onFormSubmit(username,password);
-
                     if (formkey.currentState!.validate()) {
-                      //   context.read<LoginCubit>().onUserNameChanged(username);
-                      // context.read<LoginCubit>().onPasswordChanged(password);
+                      context.read<LoginCubit>().onUserNameChanged(email);
+                      context.read<LoginCubit>().onPasswordChanged(password);
                       context.read<LoginCubit>().onFormSubmit();
                       print("Validated");
                     } else {
                       print("Not Validated");
                     }
-                    /*  context.read<LoginCubit>().onUserNameChanged(username);
-                    context.read<LoginCubit>().onPasswordChanged(password);
-                    context.read<LoginCubit>().onFormSubmit(); */
                   }),
                   child: Container(
                     width: 250,

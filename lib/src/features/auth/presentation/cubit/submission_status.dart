@@ -4,12 +4,12 @@ abstract class SubmissionStatus extends Equatable {
   const SubmissionStatus();
 }
 
- class InitialFormStatus extends SubmissionStatus {
+class InitialFormStatus extends SubmissionStatus {
   const InitialFormStatus();
 
   @override
   List<Object> get props => [];
-} 
+}
 
 class FormSubmitting extends SubmissionStatus {
   @override
@@ -46,13 +46,21 @@ class ProceedFailed extends SubmissionStatus {
   final String errorMessage;
 
   ProceedFailed({required this.errorMessage});
-  
+
   @override
   List<Object> get props => [errorMessage];
 }
 
-
 class SignupSuccess extends SubmissionStatus {
   @override
   List<Object> get props => [];
+}
+
+class SignupFailed extends SubmissionStatus {
+  final String exception;
+
+  SignupFailed({required this.exception});
+
+  @override
+  List<Object> get props => [exception];
 }

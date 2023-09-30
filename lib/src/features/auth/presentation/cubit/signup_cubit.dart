@@ -8,7 +8,8 @@ import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_s
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(SignupState());
+  final AuthRepository authRepo;
+  SignupCubit({required this.authRepo}) : super(const SignupState());
 
   void onNameChanged(String name) {
     print(name);
@@ -112,22 +113,7 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  Future<void> onFormSubmit() async {
-    /*      try {
-        final userId = await authRepo.login(
-          email: state.email,
-          password: state.password,
-        );
-
-        if (userId != "Failed") {
-          emit(SignUpSuccess(userId: userId));
-        } else {
-          emit(SignUpFailed(errorMessage: "Username or Password Incorrect"));
-        }
-      } catch (e) {
-        emit(SignUpFailed(errorMessage: e.toString()));
-      } */
-
+  void onFormSubmit() {
     print(state.name +
         state.year +
         state.school +
@@ -136,41 +122,55 @@ class SignupCubit extends Cubit<SignupState> {
         state.password +
         state.confirmPassword);
 
-    Client client = Client();
-    Account account = Account(client);
+    try {
+      Client client = Client();
 
-    client
-        .setEndpoint('https://cloud.appwrite.io/v1')
-        .setProject('6507b9d722fa8ccd95eb');
+      client
+          .setEndpoint('https://cloud.appwrite.io/v1')
+          .setProject('6507b9d722fa8ccd95eb');
 
-    Future result = account.create(
-        userId: ID.unique(),
-        email: state.email,
-        password: state.password,
-        name: state.name);
+      Account account = Account(client);
+      final result = account.create(
+          userId: ID.unique(),
+          email: state.email,
+          password: state.password,
+          name: state.name);
+      result.then((response) {
+        var user = response as User;
 
-    result.then((response) {
-      var user = response as User;
-      print(user.email);
-      // Update user preferences
-      var userPrefs = {
-        'Year': state.year,
-        'School': state.school,
-        'Program': state.program
-      };
+        // Update user preferences
+        var userPrefs = {
+          'Year': state.year,
+          'School': state.school,
+          'Program': state.program
+        };
 
-      Future updatePref = account.updatePrefs(prefs: userPrefs);
-      updatePref.then((value) {
-        Future getPref = account.getPrefs();
-        getPref.then((value) {
-          var prefs = value as Preferences;
-          print(prefs.data);
+        Future updatePref = account.updatePrefs(prefs: userPrefs);
+        updatePref.then((value) {
+          Future getPref = account.getPrefs();
+          getPref.then((value) {
+            var prefs = value as Preferences;
+            print(prefs.data);
+          });
+        }).catchError((error) {
+          print(error);
         });
       }).catchError((error) {
         print(error);
       });
-    }).catchError((error) {
-      print(error);
-    });
+
+      emit(state.copyWith(status: SignupSuccess()));
+    } catch (e) {
+      emit(state.copyWith(status: SignupFailed(exception: e.toString())));
+    }
+
+/*     final userId = await authRepo.login(
+      email: state.email,
+      password: state.password,
+    );
+
+    if (userId != "Failed") {
+      emit(state.copyWith(status: SignupSuccess()));
+    } */
   }
 }

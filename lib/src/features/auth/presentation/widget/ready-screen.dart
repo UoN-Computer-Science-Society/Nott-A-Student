@@ -21,10 +21,7 @@ class _ReadyScreen extends State<ReadyScreen> {
 
   void _initializeField() {
     setState(() {
-      _username = context
-          .read<SignupCubit>()
-          .state
-          .name; // Set the counter to your desired initial value.
+      _username = context.read<SignupCubit>().state.name;
     });
   }
 
@@ -59,9 +56,7 @@ class _ReadyScreen extends State<ReadyScreen> {
           InkWell(
             onTap: (() {
               context.read<SignupCubit>().onFormSubmit();
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const Placeholder()),
-              );
+              // context.read<AuthCubit>().attemptAutoLogin();
             }),
             child: Container(
               width: 250,
@@ -84,13 +79,34 @@ class _ReadyScreen extends State<ReadyScreen> {
             listener: (context, state) {
               if (state.status is ProceedSuccess && state.step == 2) {
                 context.read<SignupCubit>().onStepChanged(1);
-              } else if (state is ProceedFailed) {
+              } else if (state.status is ProceedFailed) {
                 // Show an error message to the user.
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Login failed: ${state.status}'),
+                    content: Text('${state.status}'),
                     duration: const Duration(seconds: 3),
                   ),
+                );
+              } else if (state.status is SignupSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Sign up Success.'),
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+                Navigator.of(context).pushNamed(
+                  '/login',
+                );
+                print("sign up sucesss");
+              } else if (state.status is SignupFailed) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("signup failed"),
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+                Navigator.of(context).pushNamed(
+                  '/signup',
                 );
               }
             },

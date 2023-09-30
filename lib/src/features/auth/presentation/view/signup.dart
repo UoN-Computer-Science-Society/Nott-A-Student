@@ -107,11 +107,11 @@ class _SignupState extends State<Signup> {
               const Gap(30),
               BlocBuilder<SignupCubit, SignupState>(builder: (context, state) {
                 if (state.step == 0) {
-                  return PersonalInfoForm();
+                  return const PersonalInfoForm();
                 } else if (state.step == 1) {
                   return AccountSetup();
                 } else {
-                  return ReadyScreen();
+                  return const ReadyScreen();
                 }
               }),
               /* activeStep == 0

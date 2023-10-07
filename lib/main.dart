@@ -7,7 +7,8 @@ import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/dashboard.dart';
+import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ void main() async {
 
   // Attempt auto-login
   await authCubit.attemptAutoLogin();
-  authCubit.logout();
+  //authCubit.logout();
   runApp(
     BlocProvider.value(
       value: authCubit,
@@ -36,8 +37,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return 
+    MultiBlocProvider(
+  providers: [
+       BlocProvider(
       create: (context) => LoginCubit(authRepo: AuthRepository()),
+    ),
+    BlocProvider(
+      create: (BuildContext context) => NewsTypeCubit(),
+    ),
+  ],
+
       child: MaterialApp(
         title: 'Nott A Student',
         theme: AppTheme.style(),

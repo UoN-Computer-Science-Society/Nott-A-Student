@@ -6,11 +6,13 @@ import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit
 import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/dashboard.dart';
+import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
 
 class AppRouter {
   final LoginCubit _loginCubit = LoginCubit(authRepo: AuthRepository());
   final SignupCubit _signupCubit = SignupCubit(authRepo: AuthRepository());
+  final NewsTypeCubit _newsTypeCubit = NewsTypeCubit();
   Route onGenerateRoute(RouteSettings settings) {
     //final Object? key = settings.arguments;
     switch (settings.name) {
@@ -37,7 +39,7 @@ class AppRouter {
           ),
         );
       case '/dashboard':
-        return MaterialPageRoute(
+         return MaterialPageRoute(
           builder: (_) => const Dashboard(),
         );
       default:

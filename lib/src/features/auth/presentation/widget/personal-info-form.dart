@@ -1,11 +1,37 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
+import 'package:nott_a_student/src/features/auth/domain/model/dept.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/_showLoginButton.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
+
+List<DropdownMenuEntry<String>> deptList = [];
+
+Future<List<DeptItem>> loadDropdownItems() async {
+  final String jsonString =
+      await rootBundle.loadString('lib/src/utils/constants/dept.json');
+  final Map<String, dynamic> jsonMap = json.decode(jsonString);
+
+  return jsonMap.entries
+      .map((entry) =>
+          DeptItem.fromJson({'label': entry.key,'value': entry.value, }))
+      .toList();
+}
+
+Future<List<DropdownMenuEntry<String>>> dropdownMenuEntries() async {
+  final List<DeptItem> items = await loadDropdownItems();
+  deptList = items.map((item) {
+    return DropdownMenuEntry(value: item.value, label: item.label);
+  }).toList();
+
+  return deptList;
+}
 
 class PersonalInfoForm extends StatefulWidget {
   const PersonalInfoForm({super.key});
@@ -27,11 +53,21 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
   void initState() {
     super.initState();
     _initializeName();
+    dropdownMenuEntries().then((_) {
+    // After the dropdown entries are loaded, rebuild the widget
+    if (mounted) {
+      setState(() {});
+    }
+  });
+
   }
 
   void _initializeName() {
     setState(() {
-      _namecontroller.text = context.read<SignupCubit>().state.name; // Set the counter to your desired initial value.
+      _namecontroller.text = context
+          .read<SignupCubit>()
+          .state
+          .name; // Set the counter to your desired initial value.
     });
   }
 
@@ -71,7 +107,8 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BlocListener<SignupCubit, SignupState>(
-                    listenWhen:(previous, current) => previous.status != current.status,
+                    listenWhen: (previous, current) =>
+                        previous.status != current.status,
                     listener: (context, state) {
                       if (state.status is ProceedSuccess && state.step == 0) {
                         context.read<SignupCubit>().onStepChanged(1);
@@ -111,8 +148,6 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     );
   }
 
-  
-
   Widget _yearSelect(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double inputWidth = screenWidth - 48;
@@ -144,11 +179,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
       width: inputWidth,
       label: Text("Select Your School",
           style: Theme.of(context).textTheme.labelLarge),
-      dropdownMenuEntries: const [
-        DropdownMenuEntry(value: "Year 1", label: "Year 1"),
-        DropdownMenuEntry(value: "Year 2", label: "Year 2"),
-        DropdownMenuEntry(value: "Year 3", label: "Year 3")
-      ],
+      dropdownMenuEntries: deptList,
       initialSelection: context.read<SignupCubit>().state.school,
       onSelected: (value) {
         school = value!;
@@ -174,11 +205,9 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         program = value!;
         context.read<SignupCubit>().onProgramChanged(value);
       },
-      
     );
   }
 }
-
 
 class _nameField extends StatelessWidget {
   const _nameField({
@@ -193,22 +222,20 @@ class _nameField extends StatelessWidget {
     return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
         return TextFormField(
-          controller: _controller,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintStyle: Theme.of(context).textTheme.labelLarge,
-            hintText: 'Enter your name',
-          ),
-          onChanged: (value) {
-            //name = value;
-            context.read<SignupCubit>().onNameChanged(value);
-          },
-               validator: MultiValidator([
-                      RequiredValidator(errorText: "* Required"),
-                    ])
-        );
+            controller: _controller,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintStyle: Theme.of(context).textTheme.labelLarge,
+              hintText: 'Enter your name',
+            ),
+            onChanged: (value) {
+              //name = value;
+              context.read<SignupCubit>().onNameChanged(value);
+            },
+            validator: MultiValidator([
+              RequiredValidator(errorText: "* Required"),
+            ]));
       },
     );
   }
 }
-

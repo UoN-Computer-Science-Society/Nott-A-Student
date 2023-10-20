@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/header.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/news_card.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/searchBar.dart';
+import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
 
 List newsType = ["All", " FOSE", "FASS", "Student Association"];
 
@@ -67,6 +66,39 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
+      /*  bottomNavigationBar: BottomNavigationBar(
+
+        items: const[
+          BottomNavigationBarItem(
+            label: 'Dashboard',
+            icon: Icon(Icons.dashboard),
+          ),
+          BottomNavigationBarItem(
+            label: 'Timetable',
+            icon: Icon(Icons.calendar_today),
+          ),
+          BottomNavigationBarItem(
+            label: 'Bus',
+            icon: Icon(Icons.bus_alert),
+          ),
+          BottomNavigationBarItem(
+            label: 'Account',
+            icon: Icon(Icons.person),
+          ),
+        ],
+        selectedItemColor: Color(0xFF005697), // Selected item color
+        unselectedItemColor: Color(0xFF3B7DB0), // Unselected item color
+        showSelectedLabels: true, // Show labels for selected items
+        showUnselectedLabels: true, // Show labels for unselected items
+        currentIndex: _selectedIndex,
+        onTap: (value) {
+          setState(() {
+            _selectedIndex = value; // Update the selected index
+            print(_selectedIndex);
+          });
+        },
+      ), */
+      bottomNavigationBar: BottomNavBar(),
     );
   }
 
@@ -98,3 +130,5 @@ class _DashboardState extends State<Dashboard> {
     );
   } */
 }
+
+

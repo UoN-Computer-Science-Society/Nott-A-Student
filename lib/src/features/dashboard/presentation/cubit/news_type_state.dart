@@ -1,11 +1,9 @@
 part of 'news_type_cubit.dart';
 
-
-
 class NewsTypeState extends Equatable {
   final String type;
 
-  NewsTypeState({
+  const NewsTypeState({
     this.type = "All",
   });
 

@@ -16,15 +16,17 @@ Widget newsTypeButton(BuildContext context, String text) {
         },
         child: Container(
           padding: const EdgeInsets.all(8.0), // Add padding
+          constraints: const BoxConstraints(minWidth: 80),
           decoration: BoxDecoration(
-            color: context.read<NewsTypeCubit>().state.type == text
-                ? Colors.blue
-                : Colors.white,
-            border: Border.all(
-              color: Colors.black, // Border color
-              width: 1.0, // Border width
-            ),
-          ), // Change color when clicked
+              color: context.read<NewsTypeCubit>().state.type == text
+                  ? const Color(0x33005697)
+                  : Colors.white,
+              border: Border.all(
+                color: Colors.black, // Border color
+                width: 0.4, // Border width
+              ),
+              borderRadius: const BorderRadius.all(
+                  Radius.circular(2))), // Change color when clicked
           child: Center(
             child: Text(
               text,

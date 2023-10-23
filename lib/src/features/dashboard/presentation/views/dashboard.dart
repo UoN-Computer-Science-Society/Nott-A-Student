@@ -3,10 +3,11 @@ import 'package:gap/gap.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/header.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/news_card.dart';
+import 'package:nott_a_student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/searchBar.dart';
 import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
 
-List newsType = ["All", "SA"," FOSE", "FASS"];
+List newsType = ["ALL", "SA", "FOSE", "FASS", "CAREERS"];
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key});
@@ -30,8 +31,7 @@ class _DashboardState extends State<Dashboard> {
             const Header(),
             const Gap(20),
             const searchBar(),
-            const SizedBox(height: 10),
-
+            const Gap(10),
             Row(children: [
               Text(
                 "Latest News",
@@ -50,19 +50,23 @@ class _DashboardState extends State<Dashboard> {
                   separatorBuilder: (context, index) {
                     return const SizedBox(width: 12.0);
                   },
-                  itemCount: 4),
+                  itemCount: newsType.length),
             ),
-     const Gap(5),
+            const Gap(20),
             Expanded(
-              child: ListView(
-                // Scroll the NewsCard widgets vertically
-                children: const [
-                  NewsCard(),
-                  NewsCard(),
-                  NewsCard(),
-                  NewsCard(),
-                  NewsCard(),
-                ],
+              child: ScrollConfiguration(
+                behavior: scrollBehaviour(),
+                child: ListView(
+                  physics: const ClampingScrollPhysics(),
+                  // Scroll the NewsCard widgets vertically
+                  children: const [
+                    NewsCard(),
+                    NewsCard(),
+                    NewsCard(),
+                    NewsCard(),
+                    NewsCard(),
+                  ],
+                ),
               ),
             ),
           ],

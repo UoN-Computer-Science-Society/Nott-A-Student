@@ -12,7 +12,7 @@ class AppTheme {
         primaryColor: const Color(0xff005697),
         splashColor: Colors.transparent,
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black),
-        fontFamily: 'NimbusSansL',
+        fontFamily: 'Nimbus Sans L',
         textTheme: const TextTheme(
             headlineLarge: TextStyle(
               fontSize: 28,
@@ -27,7 +27,17 @@ class AppTheme {
             titleMedium: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Color(0xff000000),
+            ),
+            titleSmall: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
               color: Color(0xff005697),
-            )));
+            ),
+            bodyMedium: TextStyle(
+                fontFamily: 'Work Sans',
+                fontSize: 13,
+                fontWeight: FontWeight.normal,
+                color: Color(0xff324553))));
   }
 }

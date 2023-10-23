@@ -21,7 +21,8 @@ class Header extends StatelessWidget {
                   ?.copyWith(color: Theme.of(context).primaryColor),
             ),
             const Gap(5),
-            Text(DateFormat('EEEE, d MMMM y').format(DateTime.now())),
+            Text(DateFormat('EEEE, d MMMM y').format(DateTime.now()),
+                style: Theme.of(context).textTheme.bodyMedium)
           ],
         ),
         IconButton(

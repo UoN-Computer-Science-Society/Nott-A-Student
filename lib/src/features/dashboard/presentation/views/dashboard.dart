@@ -40,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
             ]),
             const Gap(15),
             SizedBox(
-              height: 40,
+              height: 50,
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   //   padding: const EdgeInsets.all(16.0),
@@ -72,39 +72,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      /*  bottomNavigationBar: BottomNavigationBar(
-
-        items: const[
-          BottomNavigationBarItem(
-            label: 'Dashboard',
-            icon: Icon(Icons.dashboard),
-          ),
-          BottomNavigationBarItem(
-            label: 'Timetable',
-            icon: Icon(Icons.calendar_today),
-          ),
-          BottomNavigationBarItem(
-            label: 'Bus',
-            icon: Icon(Icons.bus_alert),
-          ),
-          BottomNavigationBarItem(
-            label: 'Account',
-            icon: Icon(Icons.person),
-          ),
-        ],
-        selectedItemColor: Color(0xFF005697), // Selected item color
-        unselectedItemColor: Color(0xFF3B7DB0), // Unselected item color
-        showSelectedLabels: true, // Show labels for selected items
-        showUnselectedLabels: true, // Show labels for unselected items
-        currentIndex: _selectedIndex,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value; // Update the selected index
-            print(_selectedIndex);
-          });
-        },
-      ), */
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 

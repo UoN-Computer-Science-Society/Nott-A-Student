@@ -3,6 +3,7 @@ import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
+import 'package:nott_a_student/src/features/auth/domain/session.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
 part 'signup_state.dart';
@@ -113,7 +114,7 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  void onFormSubmit() {
+  Future<void> onFormSubmit() async {
     print(state.name +
         state.year +
         state.school +
@@ -135,22 +136,31 @@ class SignupCubit extends Cubit<SignupState> {
           email: state.email,
           password: state.password,
           name: state.name);
+
       result.then((response) {
-        var user = response as User;
+        var test = authRepo.login(email: state.email, password: state.password);
 
-        // Update user preferences
-        var userPrefs = {
-          'Year': state.year,
-          'School': state.school,
-          'Program': state.program
-        };
+        test.then((value) {
+          print("Update preferences start");
+          // Update user preferences
+          var userPrefs = {
+            'Year': state.year,
+            'School': state.school,
+            'Program': state.program,
+          };
 
-        Future updatePref = account.updatePrefs(prefs: userPrefs);
-        updatePref.then((value) {
-          Future getPref = account.getPrefs();
-          getPref.then((value) {
-            var prefs = value as Preferences;
-            print(prefs.data);
+          Future updatePref = account.updatePrefs(
+            prefs: userPrefs,
+          );
+          updatePref.then((value) {
+            Future getPref = account.getPrefs();
+            getPref.then((value) {
+              var prefs = value as Preferences;
+              print(prefs.data);
+            });
+          }).catchError((error) {
+            print(error);
+            print('preference error');
           });
         }).catchError((error) {
           print(error);
@@ -172,5 +182,47 @@ class SignupCubit extends Cubit<SignupState> {
     if (userId != "Failed") {
       emit(state.copyWith(status: SignupSuccess()));
     } */
+  }
+
+  Future<void> updateUserPreferences() async {
+    print("Update preferences function");
+    Client client = Client();
+
+    client
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('6507b9d722fa8ccd95eb');
+
+    Account account = Account(client);
+    print("recognise account start");
+    String sessionId = await getData();
+    print("update: " + sessionId);
+    Future updateSession = account.updateSession(sessionId: sessionId);
+
+    updateSession.then((value) {
+      print("Update preferences start");
+      // Update user preferences
+      var userPrefs = {
+        'Year': state.year,
+        'School': state.school,
+        'Program': state.program
+      };
+
+      Future updatePref = account.updatePrefs(
+        prefs: userPrefs,
+      );
+      updatePref.then((value) {
+        Future getPref = account.getPrefs();
+        getPref.then((value) {
+          var prefs = value as Preferences;
+          print(prefs.data);
+        });
+      }).catchError((error) {
+        print(error);
+        print('preference error');
+      });
+    }).catchError((error) {
+      print(error);
+      print('session error');
+    });
   }
 }

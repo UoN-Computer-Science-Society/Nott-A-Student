@@ -3,9 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 class Header extends StatelessWidget {
-  const Header({
-    super.key,
-  });
+  const Header();
 
   @override
   Widget build(BuildContext context) {

@@ -16,6 +16,10 @@ class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: 0,
+      ),
       body: IntroductionScreen(
         key: introKey,
         pages: [
@@ -115,7 +119,7 @@ class _IntroState extends State<Intro> {
                 const SizedBox(height: 10),
                 InkWell(
                   onTap: (() {
-                      Navigator.of(context).pushNamed(
+                    Navigator.of(context).pushNamed(
                       '/login',
                     );
                   }),

@@ -22,12 +22,12 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Colors.white,toolbarHeight: 0,),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const Gap(40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

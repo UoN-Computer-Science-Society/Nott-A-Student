@@ -6,11 +6,13 @@ import 'package:nott_a_student/src/presentation/cubit/cubit/bottom_nav_bar_cubit
 class NavItem extends StatelessWidget {
   final String label;
   final IconData icon;
+  final String route;
 
   NavItem({
     Key? key,
     required this.label,
     required this.icon,
+    required this.route,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,9 @@ class NavItem extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             context.read<BottomNavBarCubit>().onSwitch(label);
+            Navigator.of(context).pushNamed(
+             route,
+            );
           },
           child: Container(
             width: 90, // Specify the width as per your requirements

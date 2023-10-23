@@ -6,7 +6,7 @@ import 'package:nott_a_student/src/features/dashboard/presentation/widgets/news_
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/searchBar.dart';
 import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
 
-List newsType = ["All", " FOSE", "FASS", "Student Association"];
+List newsType = ["All", "SA"," FOSE", "FASS"];
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key});
@@ -19,15 +19,18 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: 0,
+      ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const Gap(70),
             const Header(),
             const Gap(20),
             const searchBar(),
-            const Gap(20),
+            const SizedBox(height: 10),
 
             Row(children: [
               Text(
@@ -37,7 +40,7 @@ class _DashboardState extends State<Dashboard> {
             ]),
             const Gap(15),
             SizedBox(
-              height: 40,
+              height: 50,
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   //   padding: const EdgeInsets.all(16.0),
@@ -49,8 +52,7 @@ class _DashboardState extends State<Dashboard> {
                   },
                   itemCount: 4),
             ),
-
-            // const Gap(20),
+     const Gap(5),
             Expanded(
               child: ListView(
                 // Scroll the NewsCard widgets vertically
@@ -66,39 +68,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      /*  bottomNavigationBar: BottomNavigationBar(
-
-        items: const[
-          BottomNavigationBarItem(
-            label: 'Dashboard',
-            icon: Icon(Icons.dashboard),
-          ),
-          BottomNavigationBarItem(
-            label: 'Timetable',
-            icon: Icon(Icons.calendar_today),
-          ),
-          BottomNavigationBarItem(
-            label: 'Bus',
-            icon: Icon(Icons.bus_alert),
-          ),
-          BottomNavigationBarItem(
-            label: 'Account',
-            icon: Icon(Icons.person),
-          ),
-        ],
-        selectedItemColor: Color(0xFF005697), // Selected item color
-        unselectedItemColor: Color(0xFF3B7DB0), // Unselected item color
-        showSelectedLabels: true, // Show labels for selected items
-        showUnselectedLabels: true, // Show labels for unselected items
-        currentIndex: _selectedIndex,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value; // Update the selected index
-            print(_selectedIndex);
-          });
-        },
-      ), */
-      bottomNavigationBar: BottomNavBar(),
+      bottomNavigationBar: const BottomNavBar(),
     );
   }
 
@@ -130,5 +100,3 @@ class _DashboardState extends State<Dashboard> {
     );
   } */
 }
-
-

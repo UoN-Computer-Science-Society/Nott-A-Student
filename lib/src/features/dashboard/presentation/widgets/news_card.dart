@@ -20,34 +20,31 @@ class NewsCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             child: Image.network(
               "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-              height: 140.0,
-              width: 140.0,
+              height: 100.0,
+              width: 100.0,
               fit: BoxFit.cover,
             ),
           ),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  left: 12.0, right: 12.0, top: 12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Computer Science Society",
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  const SizedBox(height: 8.0),
-                  const Text("The quick brown fox jumps over"),
-                  Container(
-                    margin: const EdgeInsets.only(top: 50),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("1 Jan"),
-                        Icon(Icons.more_horiz),
-                      ],
-                    ),
+                  const SizedBox(height: 4.0),
+                  const Text("The quick brown fox jumps over.The quick brown fox jumps over"),
+                    const SizedBox(height: 4.0),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("1 Jan"),
+                      Icon(Icons.more_horiz),
+                    ],
                   ),
                 ],
               ),

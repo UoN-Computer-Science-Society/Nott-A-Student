@@ -88,14 +88,15 @@ class _ReadyScreen extends State<ReadyScreen> {
                   ),
                 );
               } else if (state.status is SignupSuccess) {
+                //context.read<SignupCubit>().updateUserPreferences();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Sign up Success.'),
+                    content: Text('Welcome'),
                     duration: Duration(seconds: 3),
                   ),
                 );
                 Navigator.of(context).pushNamed(
-                  '/login',
+                  '/dashboard',
                 );
                 print("sign up sucesss");
               } else if (state.status is SignupFailed) {

@@ -23,13 +23,13 @@ class _LoginState extends State<Login> {
    String email = '';
     String password = ''; 
     return Scaffold(
+        appBar: AppBar(backgroundColor: Colors.white,toolbarHeight: 0,),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: formkey,
           child: Column(
             children: [
-              const Gap(70),
               Row(
                 children: [
                   Text(

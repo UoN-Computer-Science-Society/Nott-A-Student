@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:nott_a_student/src/features/auth/presentation/view/account-view.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
@@ -39,8 +40,12 @@ class AppRouter {
           ),
         );
       case '/dashboard':
-         return MaterialPageRoute(
+        return MaterialPageRoute(
           builder: (_) => const Dashboard(),
+        );
+      case '/account':
+        return MaterialPageRoute(
+          builder: (_) => const Account(),
         );
       default:
         return MaterialPageRoute(

@@ -36,7 +36,7 @@ class _NewsCardState extends State<NewsCard> {
                   left: 12.0, right: 12.0, top: 12.0, bottom: 12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Computer Science Society",

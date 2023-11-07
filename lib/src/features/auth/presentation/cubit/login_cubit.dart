@@ -28,16 +28,18 @@ class LoginCubit extends Cubit<LoginState> {
       emit(LoginFailed(errorMessage: "Username or Password is empty"));
     } else {
       try {
-        final userId = await authRepo.login(
+        final userId = authRepo.login(
           email: state.email,
           password: state.password,
         );
 
-        if (userId != "Failed") {
-          emit(LoginSuccess(userId: userId));
+        userId.then((value) {
+          if (value.isNotEmpty) {
+          emit(LoginSuccess(userId: value));
         } else {
           emit(LoginFailed(errorMessage: "Username or Password Incorrect"));
         }
+        });
       } catch (e) {
         emit(LoginFailed(errorMessage: e.toString()));
       }

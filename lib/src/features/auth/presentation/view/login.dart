@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
 
@@ -130,16 +131,16 @@ class _LoginState extends State<Login> {
               ),
               const Gap(20),
               BlocListener<LoginCubit, LoginState>(
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state is LoginSuccess) {
+                    await context.read<AuthCubit>().attemptAutoLogin();
+                  context.read<AccountCubit>().initializeAccountInfo();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Login success: Welcome ${state.userId}'),
                         duration: Duration(seconds: 3),
                       ),
                     );
-
-                    context.read<AuthCubit>().attemptAutoLogin();
                       Navigator.of(context).pushNamed(
                       '/dashboard',
                     );

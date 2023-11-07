@@ -56,6 +56,11 @@ class SignupSuccess extends SubmissionStatus {
   List<Object> get props => [];
 }
 
+class SignupLoading extends SubmissionStatus {
+  @override
+  List<Object> get props => [];
+}
+
 class AfterSignupSuccess extends SubmissionStatus {
   @override
   List<Object> get props => [];

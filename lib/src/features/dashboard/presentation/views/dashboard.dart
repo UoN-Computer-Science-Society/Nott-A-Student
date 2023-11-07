@@ -24,52 +24,55 @@ class _DashboardState extends State<Dashboard> {
         backgroundColor: Colors.white,
         toolbarHeight: 0,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Header(),
-            const Gap(20),
-            const searchBar(),
-            const Gap(10),
-            Row(children: [
-              Text(
-                "Latest News",
-                style: Theme.of(context).textTheme.headlineMedium,
+      body: Hero(
+        tag: 'Dashboard',
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const Header(),
+              const Gap(20),
+              const searchBar(),
+              const Gap(10),
+              Row(children: [
+                Text(
+                  "Latest News",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+              ]),
+              const Gap(15),
+              SizedBox(
+                height: 50,
+                child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    //   padding: const EdgeInsets.all(16.0),
+                    itemBuilder: (context, index) {
+                      return newsTypeButton(context, newsType[index]);
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 12.0);
+                    },
+                    itemCount: newsType.length),
               ),
-            ]),
-            const Gap(15),
-            SizedBox(
-              height: 50,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  //   padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    return newsTypeButton(context, newsType[index]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 12.0);
-                  },
-                  itemCount: newsType.length),
-            ),
-            const Gap(20),
-            Expanded(
-              child: ScrollConfiguration(
-                behavior: scrollBehaviour(),
-                child: ListView(
-                  physics: const ClampingScrollPhysics(),
-                  // Scroll the NewsCard widgets vertically
-                  children: const [
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                  ],
+              const Gap(20),
+              Expanded(
+                child: ScrollConfiguration(
+                  behavior: scrollBehaviour(),
+                  child: ListView(
+                    physics: const ClampingScrollPhysics(),
+                    // Scroll the NewsCard widgets vertically
+                    children: const [
+                      NewsCard(),
+                      NewsCard(),
+                      NewsCard(),
+                      NewsCard(),
+                      NewsCard(),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const BottomNavBar(),

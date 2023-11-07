@@ -25,9 +25,6 @@ class AuthCubit extends Cubit<AuthState> {
       print("Attempting auto login");
 
       if (active) {
-        emit(state.copyWith(
-          authStatus: const AuthAuthorized(),
-        ));
         print(id);
         print("Attempting auto login success");
         Account account = Account(client);
@@ -40,6 +37,9 @@ class AuthCubit extends Cubit<AuthState> {
             year: response.prefs.data['Year'],
             school: response.prefs.data['School'],
             program: response.prefs.data['Program'],
+          ));
+          emit(state.copyWith(
+            authStatus: const AuthAuthorized(),
           ));
         }).catchError((error) {
           print(error.response);
@@ -68,6 +68,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       result.then((value) {
         clearLocalSession();
+    //   clearUserPrefs();
 
         emit(state.copyWith(
           session: null,

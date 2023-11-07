@@ -18,7 +18,7 @@ void main() async {
   final authCubit = AuthCubit();
 
   // Attempt auto-login
-await authCubit.attemptAutoLogin();
+  await authCubit.attemptAutoLogin();
 //authCubit.logout();
   runApp(
     BlocProvider.value(
@@ -55,7 +55,8 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: Scaffold(
+        home: const Scaffold(body: Dashboard()
+            /*
           body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               if (state.authStatus is AuthAuthorized) {
@@ -66,8 +67,8 @@ class _MyAppState extends State<MyApp> {
                 return const CircularProgressIndicator();
               }
             },
-          ),
-        ),
+          ),*/
+            ),
       ),
     );
   }

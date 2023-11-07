@@ -7,6 +7,7 @@ import 'package:nott_a_student/src/features/auth/presentation/view/account-view.
 import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
+import 'package:nott_a_student/src/features/bus/presentation/views/bus.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
 
@@ -46,6 +47,10 @@ class AppRouter {
       case '/account':
         return MaterialPageRoute(
           builder: (_) => const Account(),
+        );
+      case '/bus':
+        return MaterialPageRoute(
+          builder: (_) => const Bus(),
         );
       default:
         return MaterialPageRoute(

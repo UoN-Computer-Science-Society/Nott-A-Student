@@ -11,10 +11,17 @@ class BottomNavBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        NavItem(label: "Dashboard", icon: Icons.dashboard,route: '/dashboard',),
-        NavItem(label: "Timetable", icon: Icons.calendar_today,route: '/dashboard'),
-        NavItem(label: "Bus", icon: Icons.directions_bus,route: '/dashboard'),
-        NavItem(label: "Account", icon: Icons.person,route: '/account'),
+        NavItem(
+          label: "Dashboard",
+          icon: Icons.dashboard,
+          route: '/dashboard',
+        ),
+        NavItem(
+            label: "Timetable",
+            icon: Icons.calendar_today,
+            route: '/dashboard'),
+        NavItem(label: "Bus", icon: Icons.directions_bus, route: '/bus'),
+        NavItem(label: "Account", icon: Icons.person, route: '/account'),
       ],
     );
   }

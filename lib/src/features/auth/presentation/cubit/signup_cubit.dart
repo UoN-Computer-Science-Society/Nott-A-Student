@@ -115,6 +115,7 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   Future<void> onFormSubmit() async {
+    emit(state.copyWith(status: SignupLoading()));
     print(state.name +
         state.year +
         state.school +
@@ -138,9 +139,18 @@ class SignupCubit extends Cubit<SignupState> {
           name: state.name);
 
       result.then((response) {
-        var test = authRepo.login(email: state.email, password: state.password);
+        final id = authRepo.login(
+            email: state.email,
+            password: state.password,
+            year: state.year,
+            school: state.school,
+            program: state.program);
 
-        test.then((value) {
+        id.then((value) {
+          print(id);
+          emit(state.copyWith(status: SignupSuccess()));
+        });
+        /*      test.then((value) {
           print("Update preferences start");
           // Update user preferences
           var userPrefs = {
@@ -164,12 +174,10 @@ class SignupCubit extends Cubit<SignupState> {
           });
         }).catchError((error) {
           print(error);
-        });
+        }); */
       }).catchError((error) {
         print(error);
       });
-
-      emit(state.copyWith(status: SignupSuccess()));
     } catch (e) {
       emit(state.copyWith(status: SignupFailed(exception: e.toString())));
     }
@@ -193,6 +201,7 @@ class SignupCubit extends Cubit<SignupState> {
         .setProject('6507b9d722fa8ccd95eb');
 
     Account account = Account(client);
+
     print("recognise account start");
     String sessionId = await getData();
     print("update: " + sessionId);

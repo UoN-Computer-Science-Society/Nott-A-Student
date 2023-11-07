@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 
@@ -56,7 +57,6 @@ class _ReadyScreen extends State<ReadyScreen> {
           InkWell(
             onTap: (() {
               context.read<SignupCubit>().onFormSubmit();
-              // context.read<AuthCubit>().attemptAutoLogin();
             }),
             child: Container(
               width: 250,
@@ -87,6 +87,10 @@ class _ReadyScreen extends State<ReadyScreen> {
                     duration: const Duration(seconds: 3),
                   ),
                 );
+              } else if (state.status is SignupLoading) {
+                const Center(
+                  child: CircularProgressIndicator(),
+                );
               } else if (state.status is SignupSuccess) {
                 //context.read<SignupCubit>().updateUserPreferences();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -98,6 +102,7 @@ class _ReadyScreen extends State<ReadyScreen> {
                 Navigator.of(context).pushNamed(
                   '/dashboard',
                 );
+                context.read<AuthCubit>().attemptAutoLogin();
                 print("sign up sucesss");
               } else if (state.status is SignupFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(

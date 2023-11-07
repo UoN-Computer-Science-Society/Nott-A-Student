@@ -57,3 +57,4 @@ Future<bool> checkSessionExpired(String sessionId) async {
     return false; // Assuming an error means the session is expired
   }
 }
+

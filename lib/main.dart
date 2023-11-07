@@ -5,6 +5,7 @@ import 'package:nott_a_student/src/config/themes/app_theme.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
+import 'package:nott_a_student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
@@ -16,16 +17,25 @@ void main() async {
 
   // Create and initialize your AuthCubit
   final authCubit = AuthCubit();
+  final accountCubit = AccountCubit();
 
   // Attempt auto-login
-await authCubit.attemptAutoLogin();
+  await authCubit.attemptAutoLogin();
+  await accountCubit.initializeAccountInfo();
+
 //authCubit.logout();
-  runApp(
-    BlocProvider.value(
-      value: authCubit,
-      child: MyApp(),
-    ),
-  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider.value(
+        value: authCubit,
+      ),
+      BlocProvider.value(
+        value: accountCubit,
+      ),
+      // Add more BlocProvider.value as needed
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
@@ -48,7 +58,10 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (BuildContext context) => BottomNavBarCubit(),
-        )
+        ),
+/*         BlocProvider(
+          create: (BuildContext context) => AccountCubit(),
+        ), */
       ],
       child: MaterialApp(
         title: 'Nott A Student',

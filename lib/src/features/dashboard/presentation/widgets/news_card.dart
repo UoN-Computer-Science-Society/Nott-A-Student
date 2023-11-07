@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 
-class NewsCard extends StatelessWidget {
+class NewsCard extends StatefulWidget {
   const NewsCard({
-    super.key,
+    Key? key,
   });
 
   @override
+  State<NewsCard> createState() => _NewsCardState();
+}
+
+class _NewsCardState extends State<NewsCard> {
+  @override
   Widget build(BuildContext context) {
     return Card(
+      margin: const EdgeInsets.symmetric(vertical: 4),
       elevation: 1,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(2),

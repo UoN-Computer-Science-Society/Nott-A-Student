@@ -8,14 +8,18 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        NavItem(label: "Dashboard", icon: Icons.dashboard),
-        NavItem(label: "Timetable", icon: Icons.calendar_today),
-        NavItem(label: "Bus", icon: Icons.directions_bus),
-        NavItem(label: "Account", icon: Icons.person),
-      ],
+    return Material(
+      color: Colors.white,
+      elevation: 20,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          NavItem(label: "Dashboard", icon: Icons.dashboard),
+          NavItem(label: "Timetable", icon: Icons.calendar_today),
+          NavItem(label: "Bus", icon: Icons.directions_bus),
+          NavItem(label: "Account", icon: Icons.person),
+        ],
+      ),
     );
   }
 }

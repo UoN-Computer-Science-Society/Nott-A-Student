@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/header.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/news_card.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/widgets/searchBar.dart';
 import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
+
+import '../widgets/FeaturedNews.dart';
 
 List newsType = ["ALL", "SA", "FOSE", "FASS", "CAREERS"];
 
@@ -25,34 +29,71 @@ class _DashboardState extends State<Dashboard> {
         toolbarHeight: 0,
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(
+            top: 16,
+            right: 16,
+            left: 16), // remove bottom padding under latest news
         child: Column(
           children: [
             const Header(),
-            const Gap(20),
-            const searchBar(),
-            const Gap(10),
+            // const searchBar(),
+            const Gap(8),
+            const FeaturedNews(),
+            const Gap(8),
             Row(children: [
               Text(
                 "Latest News",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ]),
-            const Gap(15),
-            SizedBox(
-              height: 40,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  //   padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    return newsTypeButton(context, newsType[index]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 12.0);
-                  },
-                  itemCount: newsType.length),
+            const Gap(8),
+            Stack(
+              children: [
+                Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: Container(
+                      width: 80,
+                      decoration:
+                          BlocProvider.of<NewsTypeCubit>(context).state.type ==
+                                  "ALL"
+                              ? const BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          color: Color(0xff005697), width: 2)))
+                              : const BoxDecoration(),
+                      padding: const EdgeInsets.only(bottom: 12),
+                    )),
+                Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom:
+                                BorderSide(color: Colors.black87, width: 0.5))),
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: SizedBox(
+                      height: 40,
+                      child: ScrollConfiguration(
+                        behavior: scrollBehaviour(),
+                        child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              var button =
+                                  newsTypeButton(context, newsType[index]);
+                              if (index < 1) {
+                                BlocProvider.of<NewsTypeCubit>(context)
+                                    .setState("ALL");
+                              }
+                              return button;
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 12.0);
+                            },
+                            itemCount: newsType.length),
+                      ),
+                    ))
+              ],
             ),
-            const Gap(20),
+            const Gap(8),
             Expanded(
               child: ScrollConfiguration(
                 behavior: scrollBehaviour(),

@@ -15,7 +15,7 @@ Widget newsTypeButton(BuildContext context, String text) {
           context.read<NewsTypeCubit>().onNewsTypeChanged(text);
         },
         child: Container(
-          padding: const EdgeInsets.all(8.0), // Add padding
+          padding: const EdgeInsets.all(8), // Add padding
           constraints: const BoxConstraints(minWidth: 80),
           decoration: BoxDecoration(
               color: context.read<NewsTypeCubit>().state.type == text

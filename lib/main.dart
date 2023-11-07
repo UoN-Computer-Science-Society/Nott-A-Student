@@ -38,18 +38,18 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    MultiBlocProvider(
-  providers: [
-       BlocProvider(
-      create: (context) => LoginCubit(authRepo: AuthRepository()),
-    ),
-    BlocProvider(
-      create: (BuildContext context) => NewsTypeCubit(),
-    ),
-    BlocProvider(create:(BuildContext context) => BottomNavBarCubit(), )
-  ],
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LoginCubit(authRepo: AuthRepository()),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => NewsTypeCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => BottomNavBarCubit(),
+        )
+      ],
       child: MaterialApp(
         title: 'Nott A Student',
         theme: AppTheme.style(),
@@ -79,4 +79,3 @@ class _MyAppState extends State<MyApp> {
     _appRouter.dispose();
   }
 }
-

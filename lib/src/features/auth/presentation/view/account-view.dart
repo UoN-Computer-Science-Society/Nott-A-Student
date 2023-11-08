@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
-import 'package:nott_a_student/src/features/auth/domain/session.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/account_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
-import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatelessWidget {

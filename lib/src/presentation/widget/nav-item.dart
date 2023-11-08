@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
+import 'package:Nott_A_Student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
 
 class NavItem extends StatelessWidget {
   final String label;
@@ -26,7 +26,7 @@ class NavItem extends StatelessWidget {
           onTap: () {
             context.read<BottomNavBarCubit>().onSwitch(label);
             Navigator.of(context).pushReplacementNamed(
-             route,
+              route,
             );
           },
           child: Container(

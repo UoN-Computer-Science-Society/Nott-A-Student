@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 
 Widget newsTypeButton(BuildContext context, String text) {
   return BlocBuilder<NewsTypeCubit, NewsTypeState>(

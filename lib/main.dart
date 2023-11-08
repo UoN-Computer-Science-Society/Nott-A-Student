@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:is_first_run/is_first_run.dart';
-import 'package:nott_a_student/src/config/router/app_router.dart';
-import 'package:nott_a_student/src/config/themes/app_theme.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/account_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
-import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
-import 'package:nott_a_student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
+import 'package:Nott_A_Student/src/config/router/app_router.dart';
+import 'package:Nott_A_Student/src/config/themes/app_theme.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/view/intro.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/view/login.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
+import 'package:Nott_A_Student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
 
 bool firstRun = true;
 void main() async {

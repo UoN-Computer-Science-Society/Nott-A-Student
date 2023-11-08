@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
 
 class ReadyScreen extends StatefulWidget {
   const ReadyScreen({super.key});
@@ -53,20 +53,23 @@ class _ReadyScreen extends State<ReadyScreen> {
               context.read<SignupCubit>().onFormSubmit();
             }),
             child: Container(
-                    width: 328, // Width of 328px
-                    height: 48, // Fixed height of 48px
-                    padding: const EdgeInsets.all(10), // Padding of 10px
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: const Color(0xff005697),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "Get Started",
-                        style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
+              width: 328, // Width of 328px
+              height: 48, // Fixed height of 48px
+              padding: const EdgeInsets.all(10), // Padding of 10px
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: const Color(0xff005697),
+              ),
+              child: const Center(
+                child: Text(
+                  "Get Started",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
+                ),
+              ),
+            ),
           ),
           BlocListener<SignupCubit, SignupState>(
             listener: (context, state) {

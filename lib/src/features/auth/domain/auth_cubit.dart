@@ -3,8 +3,8 @@ import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
-import 'package:nott_a_student/src/features/auth/domain/session.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -68,7 +68,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       result.then((value) {
         clearLocalSession();
-    //   clearUserPrefs();
+        //   clearUserPrefs();
 
         emit(state.copyWith(
           session: null,

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/_showLoginButton.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/_showLoginButton.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
 
 class AccountSetup extends StatefulWidget {
   AccountSetup({super.key});

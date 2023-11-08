@@ -1,5 +1,5 @@
-name: nott_a_student
-description: A new Flutter project.
+name: Nott_A_Student
+description: An All-in-One Student Application for the student experience in the University of Nottingham Malaysia.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -47,9 +47,29 @@ dependencies:
   is_first_run: ^1.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/src/utils/resources/nas_logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "lib/src/utils/resources/nas_logo.png"
+    background_color: "#1C3064"
+    theme_color: "#1C3064"
+  windows:
+    generate: true
+    image_path: "lib/src/utils/resources/nas_logo.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "lib/src/utils/resources/nas_logo.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -74,6 +94,7 @@ flutter:
     - lib/src/utils/resources/intro/intro_bus.jpeg
     - lib/src/utils/resources/intro/intro_timetable.jpeg
     - lib/src/utils/resources/intro/intro_end.jpeg
+    - lib/src/utils/resources/nas_logo.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

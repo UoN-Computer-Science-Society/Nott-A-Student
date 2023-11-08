@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/auth/domain/session.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
 
 class AuthRepository {
   Future<String> login({
@@ -34,7 +34,7 @@ class AuthRepository {
           'Program': program,
         };
 
-     //   savePrefs(userPrefs);
+        //   savePrefs(userPrefs);
 
         // Use async/await for cleaner asynchronous code
         try {

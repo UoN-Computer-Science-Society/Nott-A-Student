@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/account_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -193,7 +193,10 @@ class _LoginState extends State<Login> {
                     child: const Center(
                       child: Text(
                         "Login",
-                        style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),

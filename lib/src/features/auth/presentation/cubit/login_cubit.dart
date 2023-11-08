@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
 
 part 'login_state.dart';
 
@@ -35,10 +35,10 @@ class LoginCubit extends Cubit<LoginState> {
 
         userId.then((value) {
           if (value.isNotEmpty) {
-          emit(LoginSuccess(userId: value));
-        } else {
-          emit(LoginFailed(errorMessage: "Username or Password Incorrect"));
-        }
+            emit(LoginSuccess(userId: value));
+          } else {
+            emit(LoginFailed(errorMessage: "Username or Password Incorrect"));
+          }
         });
       } catch (e) {
         emit(LoginFailed(errorMessage: e.toString()));

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/header.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/news_card.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/searchBar.dart';
-import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/header.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/news_card.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/searchBar.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 
 import '../widgets/FeaturedNews.dart';
 

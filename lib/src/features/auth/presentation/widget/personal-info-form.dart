@@ -5,12 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/domain/model/dept.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/_showLoginButton.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
-import 'package:nott_a_student/src/utils/constants/program.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/model/dept.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/_showLoginButton.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/utils/constants/program.dart';
 
 List<DropdownMenuEntry<String>> deptList = [];
 
@@ -199,7 +199,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
 
     return DropdownMenu(
       width: inputWidth,
-      menuHeight: screenHeight /3,
+      menuHeight: screenHeight / 3,
       dropdownMenuEntries: createDropdownItems(selectedKey, selectedData),
       initialSelection: context.read<SignupCubit>().state.program,
       onSelected: (value) {

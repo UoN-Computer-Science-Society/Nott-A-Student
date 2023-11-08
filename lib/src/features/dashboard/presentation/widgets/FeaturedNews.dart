@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
 import 'FeaturedNewsCard.dart';
 
 class FeaturedNews extends StatelessWidget {

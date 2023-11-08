@@ -10,6 +10,7 @@ import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit
 import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/_showLoginButton.dart';
 import 'package:nott_a_student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:nott_a_student/src/utils/constants/program.dart';
 
 List<DropdownMenuEntry<String>> deptList = [];
 
@@ -19,8 +20,10 @@ Future<List<DeptItem>> loadDropdownItems() async {
   final Map<String, dynamic> jsonMap = json.decode(jsonString);
 
   return jsonMap.entries
-      .map((entry) =>
-          DeptItem.fromJson({'label': entry.key,'value': entry.value, }))
+      .map((entry) => DeptItem.fromJson({
+            'label': entry.key,
+            'value': entry.value,
+          }))
       .toList();
 }
 
@@ -54,12 +57,11 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     super.initState();
     _initializeName();
     dropdownMenuEntries().then((_) {
-    // After the dropdown entries are loaded, rebuild the widget
-    if (mounted) {
-      setState(() {});
-    }
-  });
-
+      // After the dropdown entries are loaded, rebuild the widget
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   void _initializeName() {
@@ -91,20 +93,22 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                   )
                 ],
               ),
-              const Gap(20),
-              const InputLabel(label: "Name"),
               const Gap(10),
+              const InputLabel(label: "Name"),
               _nameField(controller: _namecontroller),
-              const Gap(20),
+              const Gap(10),
+              const InputLabel(label: "Year"),
               _yearSelect(context),
-              const Gap(20),
-              _schoolSelect(context, state.school),
-              const Gap(20),
+              const Gap(10),
+              const InputLabel(label: "School"),
+              _schoolSelect(context),
+              const Gap(10),
+              const InputLabel(label: "Program"),
               _programSelect(context),
               const Gap(10),
               const ShowLoginButton(),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   BlocListener<SignupCubit, SignupState>(
                     listenWhen: (previous, current) =>
@@ -155,8 +159,6 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
       builder: (context, state) {
         return DropdownMenu(
           width: inputWidth,
-          label: Text("Select Your Year",
-              style: Theme.of(context).textTheme.labelLarge),
           dropdownMenuEntries: const [
             DropdownMenuEntry(value: "Year 1", label: "Year 1"),
             DropdownMenuEntry(value: "Year 2", label: "Year 2"),
@@ -172,13 +174,13 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     );
   }
 
-  Widget _schoolSelect(BuildContext context, String storedSchool) {
+  Widget _schoolSelect(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double inputWidth = screenWidth - 48;
     return DropdownMenu(
       width: inputWidth,
-      label: Text("Select Your School",
-          style: Theme.of(context).textTheme.labelLarge),
+      menuHeight: screenHeight / 3,
       dropdownMenuEntries: deptList,
       initialSelection: context.read<SignupCubit>().state.school,
       onSelected: (value) {
@@ -190,16 +192,15 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
 
   Widget _programSelect(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double inputWidth = screenWidth - 48;
+    String selectedKey = context.read<SignupCubit>().state.school;
+    Map<String, String> selectedData = data[selectedKey] ?? {};
+
     return DropdownMenu(
       width: inputWidth,
-      label: Text("Select Your Program",
-          style: Theme.of(context).textTheme.labelLarge),
-      dropdownMenuEntries: const [
-        DropdownMenuEntry(value: "Year 1", label: "Year 1"),
-        DropdownMenuEntry(value: "Year 2", label: "Year 2"),
-        DropdownMenuEntry(value: "Year 3", label: "Year 3"),
-      ],
+      menuHeight: screenHeight /3,
+      dropdownMenuEntries: createDropdownItems(selectedKey, selectedData),
       initialSelection: context.read<SignupCubit>().state.program,
       onSelected: (value) {
         program = value!;

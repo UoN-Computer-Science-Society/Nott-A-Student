@@ -32,10 +32,6 @@ class _ReadyScreen extends State<ReadyScreen> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Image.network(
-              "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-              height: 175.0),
-          const Gap(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -47,33 +43,30 @@ class _ReadyScreen extends State<ReadyScreen> {
           ),
           const Gap(10),
           Text(
-            "Your journey with Nott a Student begins now,and we're excited to  be part of it",
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium
-                ?.copyWith(fontWeight: FontWeight.normal),
-          ),
-          const Gap(20),
+              "Your journey with Nott a Student begins now,and we're excited to  be part of it",
+              style: Theme.of(context).textTheme.titleSmall),
+          const Gap(10),
+          Image.asset('lib/src/utils/resources/SignUpSuccess.jpeg'),
+          const Gap(10),
           InkWell(
             onTap: (() {
               context.read<SignupCubit>().onFormSubmit();
             }),
             child: Container(
-              width: 250,
-              height: 55,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).primaryColor,
-              ),
-              child: const Center(
-                child: Text(
-                  "Get started",
-                  style: TextStyle(
-                    color: Colors.white,
+                    width: 328, // Width of 328px
+                    height: 48, // Fixed height of 48px
+                    padding: const EdgeInsets.all(10), // Padding of 10px
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: const Color(0xff005697),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Get Started",
+                        style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.w700),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
           ),
           BlocListener<SignupCubit, SignupState>(
             listener: (context, state) {

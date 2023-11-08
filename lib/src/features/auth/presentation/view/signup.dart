@@ -28,16 +28,6 @@ class _SignupState extends State<Signup> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Create Account",
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  )
-                ],
-              ),
-              const Gap(30),
               BlocBuilder<SignupCubit, SignupState>(
                 builder: (context, state) {
                   return EasyStepper(
@@ -104,7 +94,7 @@ class _SignupState extends State<Signup> {
                   );
                 },
               ),
-              const Gap(30),
+              const Gap(10),
               BlocBuilder<SignupCubit, SignupState>(builder: (context, state) {
                 if (state.step == 0) {
                   return const PersonalInfoForm();
@@ -119,7 +109,7 @@ class _SignupState extends State<Signup> {
                       : (activeStep == 1
                           ? const AccountSetup()
                           : const ReadyScreen()), */
-              const Gap(20),
+            //  const Gap(20),
             ],
           ),
         ),

@@ -60,10 +60,10 @@ class AuthCubit extends Cubit<AuthState> {
     print('attempting logout');
 
     try {
-      getData();
+      var sessionId = await getData();
       final account = Account(client);
       Future result = account.deleteSession(
-        sessionId: await getData(),
+        sessionId: sessionId,
       );
 
       result.then((value) {

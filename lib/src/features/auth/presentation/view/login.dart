@@ -21,10 +21,13 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-   String email = '';
-    String password = ''; 
+    String email = '';
+    String password = '';
     return Scaffold(
-        appBar: AppBar(backgroundColor: Colors.white,toolbarHeight: 0,),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        toolbarHeight: 0,
+      ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -102,7 +105,7 @@ class _LoginState extends State<Login> {
                   onChanged: (value) => {
                         BlocProvider.of<LoginCubit>(context)
                             .onPasswordChanged(value),
-                       password = value
+                        password = value
                       }),
               const Gap(10),
               Row(
@@ -134,14 +137,14 @@ class _LoginState extends State<Login> {
                 listener: (context, state) async {
                   if (state is LoginSuccess) {
                     await context.read<AuthCubit>().attemptAutoLogin();
-                  context.read<AccountCubit>().initializeAccountInfo();
+                    context.read<AccountCubit>().initializeAccountInfo();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Login success: Welcome ${state.userId}'),
                         duration: Duration(seconds: 3),
                       ),
                     );
-                      Navigator.of(context).pushNamed(
+                    Navigator.of(context).pushNamed(
                       '/dashboard',
                     );
                   } else if (state is LoginFailed) {
@@ -165,7 +168,7 @@ class _LoginState extends State<Login> {
                       print("Not Validated");
                     }
                   }),
-                  child: Container(
+                  child: /* Container(
                     width: 250,
                     height: 55,
                     decoration: BoxDecoration(
@@ -176,6 +179,21 @@ class _LoginState extends State<Login> {
                       child: Text(
                         "Login",
                         style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ), */
+                      Container(
+                    width: 328, // Width of 328px
+                    height: 48, // Fixed height of 48px
+                    padding: const EdgeInsets.all(10), // Padding of 10px
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: const Color(0xff005697),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "Login",
+                        style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.w700),
                       ),
                     ),
                   ),

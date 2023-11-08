@@ -14,122 +14,113 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: 0,
       ),
-      body: BlocBuilder<AccountCubit, AccountState>(
-        buildWhen: (previous, current) => previous.email != current.email,
-        builder: (context, state) {
-          return Hero(
-            tag: 'Acccount',
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(children: [
+      body: Hero(
+        tag: 'Acccount',
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Account",
+                      "Profile",
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ],
                 ),
-                const Gap(15),
-                const InputLabel(label: "Name"),
-                const Gap(15),
-                TextFormField(
-                  initialValue: context.read<AccountCubit>().state.name,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    // hintText: 'Enter your email',
-                  ),
-                  readOnly: true,
-                ),
-                const Gap(15),
-                const InputLabel(label: "Email"),
-                const Gap(15),
-                TextFormField(
-                  initialValue: context.read<AccountCubit>().state.email,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    // hintText: 'Enter your email',
-                  ),
-                  readOnly: true,
-                ),
-                const Gap(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                const Divider(),
+                Column(
                   children: [
-                    Text(
-                      "Personal Details",
-                      style: Theme.of(context).textTheme.headlineMedium,
+                    const InputLabel(label: "Name"),
+                    const Gap(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.read<AccountCubit>().state.name,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const Gap(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
                   children: [
-                    Text(
-                      context.read<AccountCubit>().state.year,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const Icon(Icons.arrow_forward_ios, size: 20),
-                  ],
-                ),
-                const Gap(25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      context.read<AccountCubit>().state.school,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const Icon(Icons.arrow_forward_ios, size: 20),
-                  ],
-                ),
-                const Gap(25),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      context.read<AccountCubit>().state.program,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
+                    const InputLabel(label: "Email"),
+                    const Gap(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.read<AccountCubit>().state.email,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                const Gap(35),
-                InkWell(
-                  onTap: (() {
-                    context.read<AuthCubit>().logout();
-                  }),
-                  child: Container(
-                    width: 250,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xff005697),
+                Column(
+                  children: [
+                    const InputLabel(label: "Year"),
+                    const Gap(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context.read<AccountCubit>().state.year,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const Icon(Icons.arrow_forward_ios, size: 20),
+                      ],
                     ),
-                    child: const Center(
-                      child: Text(
-                        "Manage Account",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ),
-                  ),
+                  ],
                 ),
-                const Gap(15),
+                Column(
+                  children: [
+                    const InputLabel(label: "School"),
+                    const Gap(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context.read<AccountCubit>().state.school,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const Icon(Icons.arrow_forward_ios, size: 20),
+                      ],
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const InputLabel(label: "Program"),
+                    const Gap(5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context.read<AccountCubit>().state.program,
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const Divider(),
                 BlocListener<AuthCubit, AuthState>(
                   listener: (context, state) {
                     if (state.authStatus is AuthUnauthorized) {
-                      Navigator.of(context).pushNamed(
+                      Navigator.of(context).popAndPushNamed(
                         '/login',
                       );
                     }
@@ -139,28 +130,31 @@ class Account extends StatelessWidget {
                       context.read<AuthCubit>().logout();
                     }),
                     child: Container(
-                      width: 250,
-                      height: 55,
+                      width: 328, // Width of 328px
+                      height: 48, // Fixed height of 48px
+                      padding: const EdgeInsets.all(10), // Padding of 10px
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xff005697),
+                        borderRadius:
+                            BorderRadius.circular(50), // Border-radius of 50px
+                        border: Border.all(
+                          color: Color(0xFFC50243), // Border color
+                          width: 2, // Border width of 2px
+                        ),
                       ),
                       child: const Center(
                         child: Text(
                           "Logout",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(
+                            color: Color(0xFFC50243), // Text color
+                            fontSize: 16, // Text font size
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                Text(context.read<AccountCubit>().state.year),
-                Text(context.read<AccountCubit>().state.school),
-                Text(context.read<AccountCubit>().state.program),
               ]),
-            ),
-          );
-        },
+        ),
       ),
       bottomNavigationBar: const BottomNavBar(),
     );

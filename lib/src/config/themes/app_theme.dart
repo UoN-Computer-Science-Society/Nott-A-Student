@@ -24,15 +24,19 @@ class AppTheme {
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
+            //usage:
+            //label in account-view
             titleMedium: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xff000000),
+              color: Color(0xFF3F3F3F),
             ),
+            //usage:
+            //text in account-view
             titleSmall: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff005697),
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              color: Color(0xFF3F3F3F),
             ),
             bodyMedium: TextStyle(
                 fontSize: 13,

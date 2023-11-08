@@ -25,9 +25,7 @@ class _IntroState extends State<Intro> {
         pages: [
           PageViewModel(
             image: Center(
-              child: Image.network(
-                  "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                  height: 175.0),
+              child: Image.asset('lib/src/utils/resources/intro/intro_start.jpeg'),
             ),
             title: 'Welcome to Nott A student (NAS)',
             bodyWidget: const Column(
@@ -39,9 +37,7 @@ class _IntroState extends State<Intro> {
           ),
           PageViewModel(
             image: Center(
-              child: Image.network(
-                  "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                  height: 175.0),
+              child: Image.asset('lib/src/utils/resources/intro/intro_news.jpeg'),
             ),
             title: 'Dashboard Feature',
             bodyWidget: const Column(
@@ -53,9 +49,7 @@ class _IntroState extends State<Intro> {
           ),
           PageViewModel(
             image: Center(
-              child: Image.network(
-                  "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                  height: 175.0),
+              child: Image.asset('lib/src/utils/resources/intro/intro_bus.jpeg'),
             ),
             title: 'Bus Schedule Feature',
             bodyWidget: const Column(
@@ -67,9 +61,7 @@ class _IntroState extends State<Intro> {
           ),
           PageViewModel(
             image: Center(
-              child: Image.network(
-                  "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                  height: 175.0),
+              child: Image.asset('lib/src/utils/resources/intro/intro_timetable.jpeg'),
             ),
             title: 'Timetable feature',
             bodyWidget: const Column(
@@ -81,9 +73,7 @@ class _IntroState extends State<Intro> {
           ),
           PageViewModel(
             image: Center(
-              child: Image.network(
-                  "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                  height: 175.0),
+              child: Image.asset('lib/src/utils/resources/intro/intro_end.jpeg'),
             ),
             title: 'You are ready to go!',
             bodyWidget: Column(

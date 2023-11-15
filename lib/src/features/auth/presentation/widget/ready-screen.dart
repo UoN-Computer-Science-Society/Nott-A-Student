@@ -50,7 +50,7 @@ class _ReadyScreen extends State<ReadyScreen> {
           const Gap(10),
           InkWell(
             onTap: (() {
-              context.read<SignupCubit>().onFormSubmit();
+              context.read<SignupCubit>().onFormSubmit(context);
             }),
             child: Container(
               width: 328, // Width of 328px

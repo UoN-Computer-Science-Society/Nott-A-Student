@@ -7,6 +7,7 @@ import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:logging/logging.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -16,6 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final log = Logger('Login');
   bool passwordVisible = false;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
@@ -162,10 +164,10 @@ class _LoginState extends State<Login> {
                     if (formkey.currentState!.validate()) {
                       context.read<LoginCubit>().onUserNameChanged(email);
                       context.read<LoginCubit>().onPasswordChanged(password);
-                      context.read<LoginCubit>().onFormSubmit();
-                      print("Validated");
+                      context.read<LoginCubit>().onFormSubmit(context);
+                      log.info("Validated Information");
                     } else {
-                      print("Not Validated");
+                      log.info("Not Validated");
                     }
                   }),
                   child: /* Container(

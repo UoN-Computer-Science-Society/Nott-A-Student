@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
@@ -114,7 +115,7 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  Future<void> onFormSubmit() async {
+  Future<void> onFormSubmit(BuildContext ctx) async {
     emit(state.copyWith(status: SignupLoading()));
     print(state.name +
         state.year +
@@ -140,6 +141,7 @@ class SignupCubit extends Cubit<SignupState> {
 
       result.then((response) {
         final id = authRepo.login(
+            context: ctx,
             email: state.email,
             password: state.password,
             year: state.year,

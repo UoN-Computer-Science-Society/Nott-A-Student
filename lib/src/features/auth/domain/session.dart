@@ -17,7 +17,7 @@ Future<String> getData() async {
   String id = storage.getItem('id') ?? ''; */
 
   String id = prefs.getString('id') ?? '';
-  print('getdata:' + id);
+  print('getdata:$id');
 
   return id;
 }
@@ -57,4 +57,3 @@ Future<bool> checkSessionExpired(String sessionId) async {
     return false; // Assuming an error means the session is expired
   }
 }
-

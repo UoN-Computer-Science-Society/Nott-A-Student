@@ -2,11 +2,16 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class AuthRepository {
+  final dialogKey = GlobalKey();
+
   Future<String> login({
     required String email,
     required String password,
+    required BuildContext context,
     String? year,
     String? program,
     String? school,
@@ -14,6 +19,8 @@ class AuthRepository {
     final client = Client()
         .setEndpoint('https://cloud.appwrite.io/v1')
         .setProject('6507b9d722fa8ccd95eb');
+
+    showLoadingDialogBar(context, "Logging you in");
 
     print('attempting login');
     print(email);
@@ -47,9 +54,35 @@ class AuthRepository {
           print('Preference update error');
         }
       }
+      Navigator.of(dialogKey.currentContext!).pop();
       return session.userId;
     } else {
       throw Exception('Login failed');
     }
+  }
+
+  Future<void> showLoadingDialogBar(
+      BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: SimpleDialog(
+          key: dialogKey,
+          children: [
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [const CircularProgressIndicator(), Text(message)],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+    await Future.delayed(
+        const Duration(milliseconds: 2000)); // Simulate a long-running process
   }
 }

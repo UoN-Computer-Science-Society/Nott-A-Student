@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:ffi';
+
+import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:is_first_run/is_first_run.dart';
@@ -13,19 +17,20 @@ import 'package:Nott_A_Student/src/features/auth/presentation/view/login.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
 import 'package:Nott_A_Student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
+import 'package:logging/logging.dart';
 
 bool firstRun = true;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Logger.root.level = Level.ALL;
   // Create and initialize your AuthCubit
   final authCubit = AuthCubit();
   final accountCubit = AccountCubit();
-
   // Attempt auto-login
   await authCubit.attemptAutoLogin();
-  await accountCubit.initializeAccountInfo();
   firstRun = await IsFirstRun.isFirstRun();
+  final log = Logger("Main");
+  if (firstRun) log.info("First Run detected.");
 
 //authCubit.logout();
   runApp(MultiBlocProvider(
@@ -69,25 +74,7 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: Scaffold(
-          body: BlocBuilder<AuthCubit, AuthState>(
-            builder: (context, state) {
-              if (firstRun) {
-                print("first run");
-                return const Intro();
-              } else {
-                print("second run");
-                if (state.authStatus is AuthAuthorized) {
-                  return const Dashboard();
-                } else if (state.authStatus is AuthUnauthorized) {
-                  return const Login();
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              }
-            },
-          ),
-        ),
+        home: Scaffold(body: firstRun ? const Intro() : const SplashScreen()),
       ),
     );
   }

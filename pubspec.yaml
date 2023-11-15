@@ -45,6 +45,8 @@ dependencies:
   shared_preferences: ^2.2.1
   intl: ^0.18.1
   is_first_run: ^1.0.0
+  logging: ^1.2.0
+
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
@@ -95,6 +97,7 @@ flutter:
     - lib/src/utils/resources/intro/intro_timetable.jpeg
     - lib/src/utils/resources/intro/intro_end.jpeg
     - lib/src/utils/resources/nas_logo.png
+    - lib/src/utils/resources/CSS_dark.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

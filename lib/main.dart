@@ -26,12 +26,7 @@ void main() async {
   // Create and initialize your AuthCubit
   final authCubit = AuthCubit();
   final accountCubit = AccountCubit();
-  // Attempt auto-login
-  await authCubit.attemptAutoLogin();
   firstRun = await IsFirstRun.isFirstRun();
-  final log = Logger("Main");
-  if (firstRun) log.info("First Run detected.");
-
 //authCubit.logout();
   runApp(MultiBlocProvider(
     providers: [
@@ -45,6 +40,11 @@ void main() async {
     ],
     child: MyApp(),
   ));
+  final log = Logger("Main");
+  if (firstRun) log.info("First Run detected.");
+  // Attempt auto-login
+  await authCubit.attemptAutoLogin();
+  await accountCubit.initializeAccountInfo();
 }
 
 class MyApp extends StatefulWidget {
@@ -74,7 +74,28 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: Scaffold(body: firstRun ? const Intro() : const SplashScreen()),
+        home: Scaffold(
+          body: BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              final log = Logger('MainAccount');
+              if (firstRun) {
+                log.info("First Run");
+                return const Intro();
+              } else {
+                log.info("Second Run");
+                if (state.authStatus is AuthAuthorized) {
+                  return const Dashboard();
+                } else if (state.authStatus is AuthUnauthorized) {
+                  return const Login();
+                } else if (state.authStatus is AuthInitial) {
+                  return const SplashScreen();
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              }
+            },
+          ),
+        ),
       ),
     );
   }

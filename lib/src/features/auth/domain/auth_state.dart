@@ -16,7 +16,7 @@ class AuthState extends Equatable {
     this.school = '',
     this.program = '',
     this.session,
-    this.authStatus = const AuthUnauthorized(),
+    this.authStatus = const AuthInitial(),
   });
 
   AuthState copyWith({

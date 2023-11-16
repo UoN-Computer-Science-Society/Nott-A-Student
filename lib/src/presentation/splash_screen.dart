@@ -18,29 +18,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(const Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => BlocBuilder<AuthCubit, AuthState>(
-          builder: (context, state) {
-            final log = Logger('MainAuth');
-            {
-              if (state.authStatus is AuthAuthorized) {
-                log.info('Authorized Session. Going Dashboard...');
-                final accountCubit = AccountCubit();
-                accountCubit.initializeAccountInfo();
-                return const Dashboard();
-              } else if (state.authStatus is AuthUnauthorized) {
-                log.info('Unauthorized Session. Going Login Page....');
-                return const Login();
-              } else {
-                return const CircularProgressIndicator();
-              }
-            }
-          },
-        ),
-      ));
-    });
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/route_detail_row.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/single_day_route_detail_row.dart';
 
@@ -12,57 +13,68 @@ class SingleDayRouteDetailTable extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<SingleDayRouteDetailTable> createState() => _SingleDayRouteDetailTableState();
+  State<SingleDayRouteDetailTable> createState() =>
+      _SingleDayRouteDetailTableState();
 }
 
 class _SingleDayRouteDetailTableState extends State<SingleDayRouteDetailTable> {
+  DateTime currentDate = DateTime.now();
+  String currentDay = DateFormat('EEEE').format(DateTime.now());
+
+  DateTime currentDateReference = DateTime.now();
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+
+          Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFBFBFB),
+              border: Border.all(
+                color: Colors.black, // Set the border color
+                width: 2.0, // Set the border width
+              ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(8.0),
+                topRight: Radius.circular(8.0),
+              ), // Set border radius for top-left and top-right corners
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  widget.route,
-                  style: Theme.of(context).textTheme.titleLarge,
+                IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: () => {decrementDate()},
+                ),
+                Column(
+                  children: [
+                    DateFormat('dd/MM/yyyy').format(currentDateReference) ==
+                            DateFormat('dd/MM/yyyy').format(currentDate)
+                        ? const Text("Today")
+                        : Text(DateFormat('EEEE').format(currentDate),
+                            style: Theme.of(context).textTheme.bodyMedium),
+                    Text(DateFormat('dd/MM/yyyy').format(currentDate),
+                        style: Theme.of(context).textTheme.bodyMedium)
+                  ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.arrow_forward_ios),
+                  onPressed: () => {incrementDate()},
                 ),
               ],
             ),
-             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                 "Route Details",
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-              ],
-            ),
-            const Gap(20),
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: Color(0xFFFBFBFB),
-                border: Border.all(
-                  color: Colors.black, // Set the border color
-                  width: 2.0, // Set the border width
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(8.0),
-                ), // Set border radius for top-left and top-right corners
-              ),
-              child:  Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("Day", style: Theme.of(context).textTheme.titleMedium,), Text("Time", style: Theme.of(context).textTheme.titleMedium,)],
-              ),
-            ),
-    
-            Container(
-           decoration: const BoxDecoration(
+          ),
+          Container(
+            height: 300,
+            decoration: const BoxDecoration(
               border: Border(
                 left: BorderSide(
                   color: Colors.black, // Set the left border color
@@ -78,20 +90,31 @@ class _SingleDayRouteDetailTableState extends State<SingleDayRouteDetailTable> {
                 ),
               ),
             ),
-              padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
+            child: SingleChildScrollView(
               child: Column(children: [
-                  Column(
-                    children: [
-                      SingleDayRouteDetailRow(
-                          timetableData: widget.timetableData["Monday"]!, day: "Monday"),
-                      const Divider(),
-                    ],
-                  ),
+                SingleDayRouteDetailRow(
+                    timetableData: widget.timetableData[currentDay]!,
+                    day: currentDay),
               ]),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  void incrementDate() {
+    setState(() {
+      currentDate = currentDate.add(const Duration(days: 1));
+      currentDay = DateFormat('EEEE').format(currentDate);
+    });
+  }
+
+  void decrementDate() {
+    setState(() {
+      currentDate = currentDate.subtract(const Duration(days: 1));
+      currentDay = DateFormat('EEEE').format(currentDate);
+    });
   }
 }

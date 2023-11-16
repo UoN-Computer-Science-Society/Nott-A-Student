@@ -18,10 +18,9 @@ class _BusState extends State<Bus> {
   Future<Map<String, List<String>>> _timetableData =
       getTimeTable("KTM to Campus");
 
+  String viewType = "single";
   @override
   Widget build(BuildContext context) {
-    Widget timetableWidget = Text('Invalid timetable data type');
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -36,20 +35,72 @@ class _BusState extends State<Bus> {
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
-                    return Text('Press button to start.');
+                    return const Text('Press button to start.');
                   case ConnectionState.active:
                   case ConnectionState.waiting:
-                    return Text('Awaiting result...');
+                    return const Text('Awaiting result...');
                   case ConnectionState.done:
                     if (snapshot.hasError)
                       return Text('Error: ${snapshot.error}');
                     return ListView(
                       scrollDirection: Axis.vertical,
                       children: [
-                    //    const favouriteRouteCard(),
-                    //    const BusDepartureCard(),
-                      SingleDayRouteDetailTable(timetableData: snapshot.data!,route: "KTM to Campus"),
-                        RouteDetailTable(timetableData: snapshot.data!,route: "KTM to Campus"),
+                        //    const favouriteRouteCard(),
+                        //    const BusDepartureCard(),
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "KTM to Campus",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleLarge,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Route Details",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    viewType =
+                                        viewType == "single" ? "all" : "single";
+                                  });
+                                },
+                                icon: viewType == "single"
+                                    ? const Icon(Icons.grid_view)
+                                    : const Icon(Icons.view_column_outlined),
+                              ),
+                            ],
+                          ),
+                        ),
+                        viewType == "single"
+                            ? SingleDayRouteDetailTable(
+                                timetableData: snapshot.data!,
+                                route: "KTM to Campus")
+                            : RouteDetailTable(
+                                timetableData: snapshot.data!,
+                                route: "KTM to Campus"),
                       ],
                     );
                 }

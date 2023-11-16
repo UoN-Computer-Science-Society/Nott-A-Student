@@ -9,14 +9,16 @@ Future<Map<String, List<String>>> getTimeTable(String route) async {
       break;
     default:
   }
+  print("test");
   var url = Uri.https('whereismybus.nottingham.edu.my',
       '/mobile/www/api/get_schedule_new.php', {'q': num.toString()});
-
+  print("test1");
   var response = await http.get(url);
-
+  print("test2");
   var data;
   if (response.statusCode == 200) {
     // Remove BOM if present and then parse the JSON data
+      print("test4");
     var jsonResponse =
         convert.jsonDecode(response.body.replaceAll('\uFEFF', ''))
             as Map<String, dynamic>;
@@ -53,7 +55,7 @@ Future<Map<String, List<String>>> getTimeTable(String route) async {
   for (var entry in data['timetable']) {
     entry.forEach((day, time) {
       var fullDay = getFullDayName(day);
-      
+
       if (!timetableMap.containsKey(fullDay)) {
         timetableMap[fullDay] = [];
       }

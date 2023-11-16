@@ -22,7 +22,7 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Row(
+           /*  Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
@@ -31,16 +31,15 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
                 ),
               ],
             ),
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                 "Route Details",
+                  "Route Details",
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
               ],
-            ),
-            const Gap(20),
+            ), */
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -54,32 +53,39 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
                   topRight: Radius.circular(8.0),
                 ), // Set border radius for top-left and top-right corners
               ),
-              child:  Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [Text("Day", style: Theme.of(context).textTheme.titleMedium,), Text("Time", style: Theme.of(context).textTheme.titleMedium,)],
+                children: [
+                  Text(
+                    "Day",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Text(
+                    "Time",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  )
+                ],
               ),
             ),
-    
             Container(
-           decoration: const BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: Colors.black, // Set the left border color
-                  width: 2.0, // Set the left border width
-                ),
-                right: BorderSide(
-                  color: Colors.black, // Set the right border color
-                  width: 2.0, // Set the right border width
-                ),
-                bottom: BorderSide(
-                  color: Colors.black, // Set the bottom border color
-                  width: 2.0, // Set the bottom border width
+              decoration: const BoxDecoration(
+                border: Border(
+                  left: BorderSide(
+                    color: Colors.black, // Set the left border color
+                    width: 2.0, // Set the left border width
+                  ),
+                  right: BorderSide(
+                    color: Colors.black, // Set the right border color
+                    width: 2.0, // Set the right border width
+                  ),
+                  bottom: BorderSide(
+                    color: Colors.black, // Set the bottom border color
+                    width: 2.0, // Set the bottom border width
+                  ),
                 ),
               ),
-            ),
               padding: const EdgeInsets.all(24),
               child: Column(children: [
-
                 for (var day in widget.timetableData.keys)
                   Column(
                     children: [

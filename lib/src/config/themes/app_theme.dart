@@ -15,14 +15,14 @@ class AppTheme {
         fontFamily: 'Poppins',
         textTheme: const TextTheme(
             headlineLarge: TextStyle(
-              fontSize: 24,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Color(0xFF3F3F3F),
             ),
             headlineMedium: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Color(0xFF3F3F3F),
             ),
             //usage:
             //label in account-view
@@ -38,8 +38,12 @@ class AppTheme {
               fontWeight: FontWeight.normal,
               color: Color(0xFF3F3F3F),
             ),
+            bodyLarge: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: Color(0xff324553)),
             bodyMedium: TextStyle(
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: FontWeight.normal,
                 color: Color(0xff324553))));
   }

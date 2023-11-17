@@ -22,16 +22,16 @@ class _SingleDayRouteDetailRowState extends State<SingleDayRouteDetailRow> {
         for (var time in widget.timetableData)
           Column(
             children: [
-              const Gap(5),
+              const Gap(10),
               Text(
                 time.toString(),
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal),
               ),
-              const Gap(5),
+              const Gap(10),
               const Divider(),
              
             ],
-          )
+          ),
       ],
     );
   }

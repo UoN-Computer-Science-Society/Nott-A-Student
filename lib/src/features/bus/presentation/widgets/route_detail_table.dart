@@ -91,7 +91,8 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
                     children: [
                       RouteDetailRow(
                           timetableData: widget.timetableData[day]!, day: day),
-                      const Divider(),
+                      const Divider(color: Colors.black,),
+                      const Gap(10),
                     ],
                   ),
               ]),

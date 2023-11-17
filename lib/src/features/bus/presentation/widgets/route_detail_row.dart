@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class RouteDetailRow extends StatefulWidget {
   final String day;
@@ -17,16 +18,31 @@ class _RouteDetailRowState extends State<RouteDetailRow> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Text(widget.day),
+            Text(widget.day, style: Theme.of(context).textTheme.titleMedium),
           ],
         ),
         Column(
           children: [
-            for (var time in widget.timetableData) Text(time.toString(),style: Theme.of(context).textTheme.titleSmall,)
+            for (var time in widget.timetableData)
+              Column(
+                children: [
+                  Text(
+                    time.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium
+                        ?.copyWith(fontWeight: FontWeight.normal),
+                  ),
+                  const Gap(10),
+                ],
+              ),
+
+              
           ],
         ),
       ],

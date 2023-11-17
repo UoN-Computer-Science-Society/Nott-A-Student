@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class Intro extends StatefulWidget {
@@ -18,64 +19,115 @@ class _IntroState extends State<Intro> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: 0,
       ),
       body: IntroductionScreen(
+        bodyPadding: const EdgeInsets.only(top: 25),
         key: introKey,
         pages: [
           PageViewModel(
-            image: Center(
-              child: Image.asset('lib/src/utils/resources/intro/intro_start.jpeg'),
-            ),
-            title: 'Welcome to Nott A student (NAS)',
-            bodyWidget: const Column(
+            titleWidget: const Text('Welcome to Nott-A-Student',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF3F3F3F),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold)),
+            bodyWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                    'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.'),
+                Center(
+                  child: SvgPicture.asset(
+                      'lib/src/utils/resources/intro/intro_start.svg'),
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: const Text(
+                        'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.')),
+              ],
+            ),
+          ),
+          PageViewModel(
+            titleWidget: const Text('News Feature',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF3F3F3F),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold)),
+            bodyWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                      'lib/src/utils/resources/intro/intro_news.svg'),
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: const Text(
+                        'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.')),
+              ],
+            ),
+          ),
+          PageViewModel(
+            titleWidget: const Text('Bus Schedule Feature',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF3F3F3F),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold)),
+            bodyWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                      'lib/src/utils/resources/intro/intro_bus.svg'),
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: const Text(
+                        'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.')),
+              ],
+            ),
+          ),
+          PageViewModel(
+            titleWidget: const Text('Timetable Feature',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF3F3F3F),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold)),
+            bodyWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                      'lib/src/utils/resources/intro/intro_timetable.svg'),
+                ),
+                Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: const Text(
+                        'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.')),
               ],
             ),
           ),
           PageViewModel(
             image: Center(
-              child: Image.asset('lib/src/utils/resources/intro/intro_news.jpeg'),
+              child: SvgPicture.asset(
+                  'lib/src/utils/resources/intro/intro_end.svg'),
             ),
-            title: 'Dashboard Feature',
-            bodyWidget: const Column(
-              children: [
-                Text(
-                    'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.'),
-              ],
-            ),
-          ),
-          PageViewModel(
-            image: Center(
-              child: Image.asset('lib/src/utils/resources/intro/intro_bus.jpeg'),
-            ),
-            title: 'Bus Schedule Feature',
-            bodyWidget: const Column(
-              children: [
-                Text(
-                    'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.'),
-              ],
-            ),
-          ),
-          PageViewModel(
-            image: Center(
-              child: Image.asset('lib/src/utils/resources/intro/intro_timetable.jpeg'),
-            ),
-            title: 'Timetable feature',
-            bodyWidget: const Column(
-              children: [
-                Text(
-                    'This is an all in one application that serve to solve problems of student in University of Nottingham Malaysia. This app is developed by a group of enthusiastic computer science student which come from Computer Science Society.'),
-              ],
-            ),
-          ),
-          PageViewModel(
-            image: Center(
-              child: Image.asset('lib/src/utils/resources/intro/intro_end.jpeg'),
-            ),
-            title: 'You are ready to go!',
+            titleWidget: const Text('You are ready to go!',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Color(0xFF3F3F3F),
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold)),
             bodyWidget: Column(
               children: [
                 const Text(
@@ -143,15 +195,15 @@ class _IntroState extends State<Intro> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  child: Text("Skip",
+                  child: Text("Skip >>",
                       style: TextStyle(color: Theme.of(context).primaryColor)),
                   onPressed: () {
                     /* Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const Login()),
-                    ); */
+                    MaterialPageRoute(builder: (context) => const Login()),
+                  ); */
                     /*       setState(() {
-                      showSkipButton = false;
-                    }); */
+                    showSkipButton = false;
+                  }); */
                     introKey.currentState?.skipToEnd();
                   },
                 )
@@ -160,8 +212,9 @@ class _IntroState extends State<Intro> {
           ),
         ),
         dotsDecorator: DotsDecorator(
-          activeColor: Theme.of(context).primaryColor,
-        ),
+            activeColor: Theme.of(context).primaryColor,
+            spacing: EdgeInsets.only(
+                right: MediaQuery.of(context).size.width * 0.02)),
         controlsMargin: EdgeInsets.all(16),
         showNextButton: true,
         showBackButton: true,

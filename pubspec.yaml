@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.18.1
   is_first_run: ^1.0.0
   logging: ^1.2.0
+  flutter_svg: ^2.0.9
 
 
 dev_dependencies:
@@ -84,18 +85,27 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: NimbusSansL
+    - family: Poppins
       fonts:
-        - asset: fonts/Nimbus-Sans-L.ttf
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Thin.ttf
+        - asset: fonts/Poppins-ExtraLight.ttf
+        - asset: fonts/Poppins-Light.ttf
+        - asset: fonts/Poppins-Medium.ttf
+        - asset: fonts/Poppins-SemiBold.ttf
+        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Poppins-ExtraBold.ttf
+        - asset: fonts/Poppins-Black.ttf
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/src/utils/constants/dept.json
     - lib/src/utils/resources/SignUpSuccess.jpeg
-    - lib/src/utils/resources/intro/intro_start.jpeg
-    - lib/src/utils/resources/intro/intro_news.jpeg
-    - lib/src/utils/resources/intro/intro_bus.jpeg
-    - lib/src/utils/resources/intro/intro_timetable.jpeg
-    - lib/src/utils/resources/intro/intro_end.jpeg
+    - lib/src/utils/resources/intro/intro_start.svg
+    - lib/src/utils/resources/intro/intro_news.svg
+    - lib/src/utils/resources/intro/intro_bus.svg
+    - lib/src/utils/resources/intro/intro_timetable.svg
+    - lib/src/utils/resources/intro/intro_end.svg
     - lib/src/utils/resources/nas_logo.png
     - lib/src/utils/resources/CSS_dark.png
   #   - images/a_dot_ham.jpeg

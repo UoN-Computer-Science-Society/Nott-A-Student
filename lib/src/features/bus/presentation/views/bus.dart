@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nott_a_student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:nott_a_student/src/features/bus/presentation/views/route_details_page.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCard.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteRouteCard.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/headerContainer.dart';
@@ -17,7 +19,7 @@ class Bus extends StatefulWidget {
 class _BusState extends State<Bus> {
   Future<Map<String, List<String>>> _timetableData =
       getTimeTable("KTM to Campus");
-
+  String currentDay = DateFormat('EEEE').format(DateTime.now());
   String viewType = "single";
   @override
   Widget build(BuildContext context) {
@@ -70,11 +72,24 @@ class _BusState extends State<Bus> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "Route Details",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall,
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                            builder: (context) =>
+                                                RouteDetailsPage(
+                                                  departure: "KTM",
+                                                  destination: "Campus",
+                                                    timetableData:
+                                                        snapshot.data![currentDay]!),
+                                          ));
+                                        },
+                                        child: Text(
+                                          "Route Details",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall,
+                                        ),
                                       ),
                                     ],
                                   ),

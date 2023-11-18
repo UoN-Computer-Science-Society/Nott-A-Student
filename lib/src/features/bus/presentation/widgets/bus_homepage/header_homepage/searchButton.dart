@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 
 // ignore: camel_case_types
 class searchButton extends StatelessWidget {
@@ -24,6 +26,11 @@ class searchButton extends StatelessWidget {
         onPressed: () {
           // TODO: Add your onPressed code here
           print('Search button pressed');
+/*           context.read<LocationCubit>().selectedDepature();
+          context.read<LocationCubit>().selectedDestination(); */
+          context.read<LocationCubit>().onClickSearchBus();
+
+          
         },
         child: const Text(
           'Search',

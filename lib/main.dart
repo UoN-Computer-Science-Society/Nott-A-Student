@@ -7,6 +7,7 @@ import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
+import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
 import 'package:nott_a_student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
@@ -43,6 +44,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => LoginCubit(authRepo: AuthRepository()),
         ),
+        BlocProvider(create: (context) => LocationCubit()),
         BlocProvider(
           create: (BuildContext context) => NewsTypeCubit(),
         ),

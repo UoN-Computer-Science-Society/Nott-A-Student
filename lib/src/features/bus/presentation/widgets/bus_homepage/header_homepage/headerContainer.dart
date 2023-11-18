@@ -28,92 +28,88 @@ class _HeaderContainerState extends State<HeaderContainer> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Header(),
-            const Gap(5),
-            !isCollapsed
-                ? Column(
-                    children: [
-                      Row(children: [
-                        Text(
-                          'From:',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                        ),
-                      ]),
-                      const Gap(5),
-                      const searchBarDeparture(),
-                      const Gap(5),
-                      Row(children: [
-                        Text(
-                          'To:',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelLarge
-                              ?.copyWith(color: Colors.white),
-                        ),
-                      ]),
-                      const Gap(5),
-                      const searchBarDestination(),
-                      const Gap(15),
-                      const searchButton(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_up_rounded,
-                              color: Colors.white,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Header(),
+                  const Gap(5),
+                  !isCollapsed
+                      ? Column(
+                          children: [
+                            Row(children: [
+                              Text(
+                                'From:',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(color: Colors.white),
+                              ),
+                            ]),
+                            const Gap(5),
+                            const searchBarDeparture(),
+                            const Gap(5),
+                            Row(children: [
+                              Text(
+                                'To:',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelLarge
+                                    ?.copyWith(color: Colors.white),
+                              ),
+                            ]),
+                            const Gap(5),
+                            const searchBarDestination(),
+                            const Gap(15),
+                            const searchButton(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.keyboard_arrow_up_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isCollapsed = !isCollapsed;
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
-                            onPressed: () {
-                              setState(() {
-                                isCollapsed = !isCollapsed;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: Colors.white,
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.keyboard_arrow_down_rounded,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isCollapsed = !isCollapsed;
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
-                            onPressed: () {
-                              setState(() {
-                                isCollapsed = !isCollapsed;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "Dropdown to search for other route",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelSmall
-                            ?.copyWith(color: Colors.white),
-                      ),
-                    ],
-                  ),
-          ],
-        ),
-              Text(state.route,
-                  style: const TextStyle(color: Colors.white, fontSize: 16)),
+                            Text(
+                              "Dropdown to search for other route",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                ],
+              ),
             ],
           );
         },
-
-        
       ),
     );
   }

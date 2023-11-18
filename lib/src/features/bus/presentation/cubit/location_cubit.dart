@@ -24,7 +24,7 @@ class LocationCubit extends Cubit<LocationState> {
   Future<void> onClickSearchBus() async {
     print('Departure: ${state.depature}, Destination: ${state.destination}');
 
-    String route = '${state.depature} To ${state.destination}';
+    String route = '${state.depature} to ${state.destination}';
     emit(state.copyWith(route: route));
     print(state.route);
   }
@@ -32,12 +32,10 @@ class LocationCubit extends Cubit<LocationState> {
   // ignore: non_constant_identifier_names
   Future<void> filterLocation_Campus() async {
     // depature != Campus, destination == Campus
-    if (state.depature != "Campus") {
+    if (state.depature != "Campus" && state.depature != "Your depature") {
       emit(state.copyWith(destination: "Campus"));
-    } /* else if (state.depature == state.destination){
-      emit(const InvalidLocation(errorMessage: "Do not choose same location"));
-    }else {
-      emit(const InvalidLocation(errorMessage: "Invalid Location"));
-    }  */
+    } else if (state.depature == "Campus" && state.destination == "Campus" ) {
+       emit(state.copyWith(destination: "Your destination"));
+    }
   }
 }

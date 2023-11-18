@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nott_a_student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/bus/presentation/views/route_details_page.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCard.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteRouteCard.dart';
@@ -17,8 +19,6 @@ class Bus extends StatefulWidget {
 }
 
 class _BusState extends State<Bus> {
-  Future<Map<String, List<String>>> _timetableData =
-      getTimeTable("KTM to Campus");
   String currentDay = DateFormat('EEEE').format(DateTime.now());
   String viewType = "single";
   @override
@@ -28,101 +28,132 @@ class _BusState extends State<Bus> {
         backgroundColor: Colors.white,
         toolbarHeight: 0,
       ),
-      body: Column(
-        children: [
-          const HeaderContainer(),
-          Expanded(
-            child: FutureBuilder<Map<String, List<String>>>(
-              future: getTimeTable("KTM to Campus"),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.none:
-                    return const Text('Press button to start.');
-                  case ConnectionState.active:
-                  case ConnectionState.waiting:
-                    return const Text('Awaiting result...');
-                  case ConnectionState.done:
-                    if (snapshot.hasError)
-                      return Text('Error: ${snapshot.error}');
-                    return ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        //    const favouriteRouteCard(),
-                        //    const BusDepartureCard(),
-
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+      body: BlocBuilder<LocationCubit, LocationState>(
+        builder: (context, state) {
+          return Column(
+            children: [
+              const HeaderContainer(),
+              context.read<LocationCubit>().state.route == ""
+                  ?  Expanded(
+                      child: ListView(
+                        children: [const favouriteRouteCard(), const BusDepartureCard()],
+                      ),
+                    )
+                  : Expanded(
+                      child: FutureBuilder<Map<String, List<String>>>(
+                        future: getTimeTable(
+                            context.read<LocationCubit>().state.route),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                              return const Text('Press button to start.');
+                            case ConnectionState.active:
+                            case ConnectionState.waiting:
+                              return const Text('Awaiting result...');
+                            case ConnectionState.done:
+                              if (snapshot.hasError)
+                                return Text('Error: ${snapshot.error}');
+                              return ListView(
+                                scrollDirection: Axis.vertical,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "KTM to Campus",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge,
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(
-                                            builder: (context) =>
-                                                RouteDetailsPage(
-                                                  departure: "KTM",
-                                                  destination: "Campus",
-                                                    timetableData:
-                                                        snapshot.data![currentDay]!),
-                                          ));
-                                        },
-                                        child: Text(
-                                          "Route Details",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleSmall,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  context
+                                                      .read<LocationCubit>()
+                                                      .state
+                                                      .route,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleLarge,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) => RouteDetailsPage(
+                                                          departure: context
+                                                              .read<
+                                                                  LocationCubit>()
+                                                              .state
+                                                              .depature,
+                                                          destination: context
+                                                              .read<
+                                                                  LocationCubit>()
+                                                              .state
+                                                              .destination,
+                                                          timetableData:
+                                                              snapshot.data![
+                                                                  currentDay]!),
+                                                    ));
+                                                  },
+                                                  child: Text(
+                                                    "Route Details",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .titleSmall,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
+                                        IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              viewType = viewType == "single"
+                                                  ? "all"
+                                                  : "single";
+                                            });
+                                          },
+                                          icon: viewType == "single"
+                                              ? const Icon(Icons.grid_view)
+                                              : const Icon(
+                                                  Icons.view_column_outlined),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                  viewType == "single"
+                                      ? SingleDayRouteDetailTable(
+                                          timetableData: snapshot.data!,
+                                          route: context
+                                              .read<LocationCubit>()
+                                              .state
+                                              .route)
+                                      : RouteDetailTable(
+                                          timetableData: snapshot.data!,
+                                          route: context
+                                              .read<LocationCubit>()
+                                              .state
+                                              .route),
                                 ],
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    viewType =
-                                        viewType == "single" ? "all" : "single";
-                                  });
-                                },
-                                icon: viewType == "single"
-                                    ? const Icon(Icons.grid_view)
-                                    : const Icon(Icons.view_column_outlined),
-                              ),
-                            ],
-                          ),
-                        ),
-                        viewType == "single"
-                            ? SingleDayRouteDetailTable(
-                                timetableData: snapshot.data!,
-                                route: "KTM to Campus")
-                            : RouteDetailTable(
-                                timetableData: snapshot.data!,
-                                route: "KTM to Campus"),
-                      ],
-                    );
-                }
-              },
-            ),
-          ),
-        ],
+                              );
+                          }
+                        },
+                      ),
+                    ),
+            ],
+          );
+        },
       ),
       bottomNavigationBar: const BottomNavBar(),
     );

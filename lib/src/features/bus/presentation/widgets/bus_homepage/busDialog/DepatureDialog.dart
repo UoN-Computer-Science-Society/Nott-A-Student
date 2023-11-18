@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDialog/DepartureSearchItem.dart';
 
 // ignore: non_constant_identifier_names
@@ -9,7 +11,8 @@ List<String> DepatureLocationlist = [
   'LOTUS',
   'IOI City Mall Putrajaya',
   'Mosque',
-  'TBS'
+  'TBS',
+  'KLTC'
 ];
 
 class DepatureDialog extends StatelessWidget {
@@ -38,6 +41,7 @@ class DepatureDialog extends StatelessWidget {
         ),
         children: <Widget>[
           for (var location in DepatureLocationlist)
+            //if(location != context.read<LocationCubit>().state.destination)
             DepatureSearchItem(location: location)
         ]);
   }

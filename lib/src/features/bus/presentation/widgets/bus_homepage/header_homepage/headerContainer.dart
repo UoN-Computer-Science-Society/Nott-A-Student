@@ -7,12 +7,18 @@ import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepag
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchButton.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchBarDeparture.dart';
 
-class HeaderContainer extends StatelessWidget {
-  const HeaderContainer({super.key});
+class HeaderContainer extends StatefulWidget {
+  const HeaderContainer({Key? key}) : super(key: key);
+
+  @override
+  _HeaderContainerState createState() => _HeaderContainerState();
+}
+
+class _HeaderContainerState extends State<HeaderContainer> {
+  bool isCollapsed = false;
 
   @override
   Widget build(BuildContext context) {
-    //final Size screenSize = MediaQuery.of(context).size;
     return Container(
       color: const Color(0xFF1C3064), // Set the color of the Container
       padding: const EdgeInsets.all(16.0),
@@ -21,38 +27,93 @@ class HeaderContainer extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Header(),
-              const Gap(5),
-              Row(children: [
-                Text(
-                  'From:',
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge
-                      ?.copyWith(color: Colors.white),
-                ),
-              ]),
-              const Gap(5),
-              const searchBarDeparture(),
-              const Gap(5),
-              Row(children: [
-                Text(
-                  'To:',
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge
-                      ?.copyWith(color: Colors.white),
-                ),
-              ]),
-              const Gap(5),
-              const searchBarDestination(),
-              const Gap(15),
-              const searchButton(),
+              Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Header(),
+            const Gap(5),
+            !isCollapsed
+                ? Column(
+                    children: [
+                      Row(children: [
+                        Text(
+                          'From:',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ]),
+                      const Gap(5),
+                      const searchBarDeparture(),
+                      const Gap(5),
+                      Row(children: [
+                        Text(
+                          'To:',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(color: Colors.white),
+                        ),
+                      ]),
+                      const Gap(5),
+                      const searchBarDestination(),
+                      const Gap(15),
+                      const searchButton(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_up_rounded,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isCollapsed = !isCollapsed;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isCollapsed = !isCollapsed;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "Dropdown to search for other route",
+                        style: Theme.of(context)
+                            .textTheme
+                            .labelSmall
+                            ?.copyWith(color: Colors.white),
+                      ),
+                    ],
+                  ),
+          ],
+        ),
               Text(state.route,
                   style: const TextStyle(color: Colors.white, fontSize: 16)),
             ],
           );
         },
+
+        
       ),
     );
   }

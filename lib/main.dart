@@ -19,7 +19,7 @@ void main() async {
   final authCubit = AuthCubit();
 
   // Attempt auto-login
-  await authCubit.attemptAutoLogin();
+
 //authCubit.logout();
   runApp(
     BlocProvider.value(
@@ -27,6 +27,7 @@ void main() async {
       child: MyApp(),
     ),
   );
+    await authCubit.attemptAutoLogin();
 }
 
 class MyApp extends StatefulWidget {

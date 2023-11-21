@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
@@ -53,6 +55,12 @@ class AuthCubit extends Cubit<AuthState> {
         log.severe("Auto Login Failed.");
       }
     } else {
+      // Show splash screen for just 3 seconds
+      final timer = Timer(const Duration(seconds: 3), () {
+        emit(state.copyWith(
+          authStatus: const AuthUnauthorized(),
+        ));
+      });
       log.severe("Auto Login Failed.");
     }
   }

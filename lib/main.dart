@@ -23,7 +23,7 @@ import 'package:logging/logging.dart';
 bool firstRun = true;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Logger.root.level = Level.ALL;
+  Logger.root.level = Level.INFO;
   // Create and initialize your AuthCubit
   final authCubit = AuthCubit();
   final accountCubit = AccountCubit();
@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
           body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               final log = Logger('MainAccount');
-              if (true) {
+              if (firstRun) {
                 log.info("First Run");
                 const cacheIntroImages = [
                   'lib/src/utils/resources/intro/intro_start.svg',
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
                 }
                 return const Intro();
               } else {
-                log.info("Second Run");
+                log.info("First Run not detected");
                 if (state.authStatus is AuthAuthorized) {
                   context.read<AccountCubit>().initializeAccountInfo();
                   return const Dashboard();

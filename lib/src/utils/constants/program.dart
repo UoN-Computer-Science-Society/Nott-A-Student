@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-List<DropdownMenuEntry<String>> createDropdownItems(String selectedKey, Map<String, String> data) {
+List<DropdownMenuEntry<String>> createDropdownItems(
+    String selectedKey, Map<String, String> data) {
   List<DropdownMenuEntry<String>> items = [];
 
   data.forEach((label, value) {
@@ -14,7 +15,6 @@ List<DropdownMenuEntry<String>> createDropdownItems(String selectedKey, Map<Stri
 
   return items;
 }
-
 
 Map<String, Map<String, String>> data = {
   "Unknown": {"#SPLUS019416 - ": "NULL"},

@@ -24,7 +24,6 @@ class _SignupState extends State<Signup> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        toolbarHeight: 0,
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -57,7 +56,7 @@ class _SignupState extends State<Signup> {
                             backgroundColor:
                                 context.read<SignupCubit>().state.step >= 0
                                     ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                    : const Color(0xDD3F3F3F),
                           ),
                         ),
                         title: 'Personal Information',
@@ -71,7 +70,7 @@ class _SignupState extends State<Signup> {
                             backgroundColor:
                                 context.read<SignupCubit>().state.step >= 1
                                     ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                    : const Color(0xDD3F3F3F),
                           ),
                         ),
                         title: 'Account Setup',
@@ -80,13 +79,13 @@ class _SignupState extends State<Signup> {
                       EasyStep(
                         customStep: CircleAvatar(
                           radius: 8,
-                          backgroundColor: Colors.white,
+                          backgroundColor: const Color(0xDD3F3F3F),
                           child: CircleAvatar(
                             radius: 7,
                             backgroundColor:
                                 context.read<SignupCubit>().state.step >= 2
                                     ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                    : const Color(0xDD3F3F3F),
                           ),
                         ),
                         title: 'Ready to Go',

@@ -12,8 +12,6 @@ import 'package:Nott_A_Student/src/features/auth/presentation/widget/_showLoginB
 import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
 import 'package:Nott_A_Student/src/utils/constants/program.dart';
 
-List<DropdownMenuEntry<String>> deptList = [];
-
 Future<List<DeptItem>> loadDropdownItems() async {
   final String jsonString =
       await rootBundle.loadString('lib/src/utils/constants/dept.json');
@@ -25,15 +23,6 @@ Future<List<DeptItem>> loadDropdownItems() async {
             'value': entry.value,
           }))
       .toList();
-}
-
-Future<List<DropdownMenuEntry<String>>> dropdownMenuEntries() async {
-  final List<DeptItem> items = await loadDropdownItems();
-  deptList = items.map((item) {
-    return DropdownMenuEntry(value: item.value, label: item.label);
-  }).toList();
-
-  return deptList;
 }
 
 class PersonalInfoForm extends StatefulWidget {
@@ -51,17 +40,29 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
   String school = '';
   String program = '';
 
+  List<DropdownMenuEntry<String>> deptList = [];
+  List<DropdownMenuEntry<String>> programList = [];
+
+  Future<List<DropdownMenuEntry<String>>> dropdownMenuEntries() async {
+    final List<DeptItem> items = await loadDropdownItems();
+    deptList = items.map((item) {
+      return DropdownMenuEntry(value: item.value, label: item.label);
+    }).toList();
+
+    return deptList;
+  }
+
   TextEditingController _namecontroller = TextEditingController();
   @override
   void initState() {
     super.initState();
     _initializeName();
-    dropdownMenuEntries().then((_) {
-      // After the dropdown entries are loaded, rebuild the widget
-      if (mounted) {
-        setState(() {});
-      }
-    });
+    // dropdownMenuEntries().then((_) {
+    //   // After the dropdown entries are loaded, rebuild the widget
+    //   if (mounted) {
+    //     setState(() {});
+    //   }
+    // });
   }
 
   void _initializeName() {
@@ -78,6 +79,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
         return Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
@@ -97,14 +99,14 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
               const InputLabel(label: "Name"),
               _nameField(controller: _namecontroller),
               const Gap(10),
-              const InputLabel(label: "Year"),
-              _yearSelect(context),
-              const Gap(10),
               const InputLabel(label: "School"),
               _schoolSelect(context),
               const Gap(10),
               const InputLabel(label: "Program"),
               _programSelect(context),
+              const Gap(10),
+              const InputLabel(label: "Year"),
+              _yearSelect(context),
               const Gap(10),
               const ShowLoginButton(),
               Row(
@@ -120,7 +122,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                         // Show an error message to the user.
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('Login failed: ${state.status}'),
+                            content: Text('${state.status}'),
                             duration: const Duration(seconds: 3),
                           ),
                         );
@@ -131,6 +133,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                             context.read<SignupCubit>().onNextStep(0),
                           }),
                       child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 24),
                         child: Row(children: [
                           Text("Next",
                               style: TextStyle(
@@ -158,11 +161,18 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
         return DropdownMenu(
+          inputDecorationTheme: InputDecorationTheme(
+              contentPadding: const EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 2))),
           width: inputWidth,
           dropdownMenuEntries: const [
             DropdownMenuEntry(value: "Year 1", label: "Year 1"),
             DropdownMenuEntry(value: "Year 2", label: "Year 2"),
-            DropdownMenuEntry(value: "Year 3", label: "Year 3")
+            DropdownMenuEntry(value: "Year 3", label: "Year 3"),
+            DropdownMenuEntry(value: "Year 4", label: "Year 4"),
           ],
           initialSelection: context.read<SignupCubit>().state.year,
           onSelected: (value) {
@@ -178,16 +188,30 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double inputWidth = screenWidth - 48;
-    return DropdownMenu(
-      width: inputWidth,
-      menuHeight: screenHeight / 3,
-      dropdownMenuEntries: deptList,
-      initialSelection: context.read<SignupCubit>().state.school,
-      onSelected: (value) {
-        school = value!;
-        context.read<SignupCubit>().onSchoolChanged(value);
-      },
-    );
+    return FutureBuilder(
+        future: dropdownMenuEntries(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            deptList = snapshot.data!;
+            return DropdownMenu(
+                inputDecorationTheme: InputDecorationTheme(
+                    contentPadding: const EdgeInsets.all(12),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Color(0xFF3F3F3F), width: 2))),
+                width: inputWidth,
+                menuHeight: screenHeight / 4,
+                dropdownMenuEntries: deptList,
+                initialSelection: context.read<SignupCubit>().state.school,
+                onSelected: (value) {
+                  school = value!;
+                  context.read<SignupCubit>().onSchoolChanged(value);
+                });
+          } else {
+            return const CircularProgressIndicator();
+          }
+        });
   }
 
   Widget _programSelect(BuildContext context) {
@@ -197,16 +221,42 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     String selectedKey = context.read<SignupCubit>().state.school;
     Map<String, String> selectedData = data[selectedKey] ?? {};
 
-    return DropdownMenu(
-      width: inputWidth,
-      menuHeight: screenHeight / 3,
-      dropdownMenuEntries: createDropdownItems(selectedKey, selectedData),
-      initialSelection: context.read<SignupCubit>().state.program,
-      onSelected: (value) {
-        program = value!;
-        context.read<SignupCubit>().onProgramChanged(value);
-      },
-    );
+    return FutureBuilder(
+        future: getProgramsForSchool(school),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            programList = snapshot.data!;
+            print(programList);
+            return DropdownMenu(
+              inputDecorationTheme: InputDecorationTheme(
+                  contentPadding: const EdgeInsets.all(12),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                          color: Color(0xFF3F3F3F), width: 2))),
+              width: inputWidth,
+              menuHeight: screenHeight / 4,
+              dropdownMenuEntries: snapshot.data!,
+              initialSelection: context.read<SignupCubit>().state.program,
+              onSelected: (value) {
+                program = value!;
+                context.read<SignupCubit>().onProgramChanged(value);
+              },
+            );
+          } else {
+            programList = [];
+            return const CircularProgressIndicator();
+          }
+        });
+  }
+
+  Future<List<DropdownMenuEntry<String>>> getProgramsForSchool(
+      String school) async {
+    // Load programs for school
+    String selectedKey = context.read<SignupCubit>().state.school;
+    Map<String, String> selectedData = data[selectedKey] ?? {};
+
+    return createDropdownItems(selectedKey, selectedData);
   }
 }
 
@@ -224,8 +274,13 @@ class _nameField extends StatelessWidget {
       builder: (context, state) {
         return TextFormField(
             controller: _controller,
+            style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              contentPadding: const EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
               hintStyle: Theme.of(context).textTheme.labelLarge,
               hintText: 'Enter your name',
             ),

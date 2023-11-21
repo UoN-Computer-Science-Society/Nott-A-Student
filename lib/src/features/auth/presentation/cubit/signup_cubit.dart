@@ -31,6 +31,7 @@ class SignupCubit extends Cubit<SignupState> {
     print(school);
     if (school != state.school) {
       emit(state.copyWith(school: school));
+      emit(state.copyWith(program: null));
     }
   }
 

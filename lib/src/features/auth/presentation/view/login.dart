@@ -119,17 +119,17 @@ class _LoginState extends State<Login> {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: 'Not your account ? ',
+                        text: 'Don\'t have an account? ',
                         style: Theme.of(context).textTheme.labelLarge,
                         children: <TextSpan>[
                           TextSpan(
-                              text: 'Sign In',
+                              text: 'Sign Up',
                               style: const TextStyle(
                                 decoration: TextDecoration.underline,
                               ),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  Navigator.of(context).pushNamed(
+                                  Navigator.of(context).pushReplacementNamed(
                                     '/signup',
                                   );
                                 }),

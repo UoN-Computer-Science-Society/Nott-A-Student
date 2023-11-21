@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
@@ -29,6 +30,7 @@ class _ReadyScreen extends State<ReadyScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
@@ -36,17 +38,20 @@ class _ReadyScreen extends State<ReadyScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Welcome Aboard! $_username",
-                style: Theme.of(context).textTheme.headlineLarge,
+                "Welcome Aboard, $_username!",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge
+                    ?.copyWith(fontSize: 20),
               )
             ],
           ),
           const Gap(10),
           Text(
-              "Your journey with Nott a Student begins now,and we're excited to  be part of it",
+              "We hope you enjoy using Nott-A-Student, and we're excited for you to be part of this.",
               style: Theme.of(context).textTheme.titleSmall),
           const Gap(10),
-          Image.asset('lib/src/utils/resources/SignUpSuccess.jpeg'),
+          Image.asset('lib/src/utils/resources/SignUpSuccess.png'),
           const Gap(10),
           InkWell(
             onTap: (() {
@@ -122,15 +127,18 @@ class _ReadyScreen extends State<ReadyScreen> {
                             .onStatusChanged(ProceedInitial()), */
                         context.read<SignupCubit>().onStepChanged(1),
                       }),
-                  child: Row(children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    Text("Back",
-                        style:
-                            TextStyle(color: Theme.of(context).primaryColor)),
-                  ]),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 24),
+                    child: Row(children: [
+                      Icon(
+                        Icons.arrow_back,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      Text("Back",
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor)),
+                    ]),
+                  ),
                 ),
               ],
             ),

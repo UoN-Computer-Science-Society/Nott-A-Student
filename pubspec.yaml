@@ -100,7 +100,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/src/utils/constants/dept.json
-    - lib/src/utils/resources/SignUpSuccess.jpeg
+    - lib/src/utils/resources/SignUpSuccess.png
     - lib/src/utils/resources/intro/intro_start.svg
     - lib/src/utils/resources/intro/intro_news.svg
     - lib/src/utils/resources/intro/intro_bus.svg

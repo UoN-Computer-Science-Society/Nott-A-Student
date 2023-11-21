@@ -15,10 +15,9 @@ class InputLabel extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleSmall,
         ),
       ],
     );
   }
 }
-

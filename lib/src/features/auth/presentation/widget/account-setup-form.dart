@@ -51,6 +51,7 @@ class _AccountSetupState extends State<AccountSetup> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(8.0),
       child: Form(
         key: formkey,
@@ -61,21 +62,21 @@ class _AccountSetupState extends State<AccountSetup> {
               children: [
                 Text(
                   "Step 2: Account Setup",
-                  style: Theme.of(context).textTheme.headlineMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineLarge
+                      ?.copyWith(fontSize: 20),
                 )
               ],
             ),
-            const Gap(20),
+            const Gap(10),
             const InputLabel(label: "Email"),
-            const Gap(10),
             _emailField(emailcontroller: _emailcontroller),
-            const Gap(20),
+            const Gap(10),
             const InputLabel(label: "Password"),
-            const Gap(10),
             _passwordField(passwordcontroller: _passwordcontroller),
-            const Gap(20),
-            const InputLabel(label: "Confirm Password"),
             const Gap(10),
+            const InputLabel(label: "Confirm Password"),
             _confirmPasswordField(
                 confirmPasswordcontroller: _confirmPasswordcontroller),
             const Gap(10),
@@ -93,15 +94,18 @@ class _AccountSetupState extends State<AccountSetup> {
                                 .onStatusChanged(ProceedInitial()),
                             context.read<SignupCubit>().onStepChanged(0),
                           }),
-                      child: Row(children: [
-                        Icon(
-                          Icons.arrow_back,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        Text("Back",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor)),
-                      ]),
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 24),
+                        child: Row(children: [
+                          Icon(
+                            Icons.arrow_back,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          Text("Back",
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor)),
+                        ]),
+                      ),
                     ),
                   ],
                 ),
@@ -217,10 +221,14 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
     return TextFormField(
       obscureText: !confirmPasswordVisible,
       controller: widget._confirmPasswordcontroller,
+      style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.all(12),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
         hintText: 'Confirm your password',
-        hintStyle: Theme.of(context).textTheme.labelLarge,
+        hintStyle: Theme.of(context).textTheme.bodyMedium,
         suffixIcon: IconButton(
           icon: Icon(
               confirmPasswordVisible ? Icons.visibility : Icons.visibility_off),
@@ -269,10 +277,14 @@ class _passwordFieldState extends State<_passwordField> {
     return TextFormField(
       obscureText: !passwordVisible,
       controller: widget._passwordcontroller,
+      style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        contentPadding: const EdgeInsets.all(12),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
         hintText: 'Enter your Password',
-        hintStyle: Theme.of(context).textTheme.labelLarge,
+        hintStyle: Theme.of(context).textTheme.bodyMedium,
         suffixIcon: IconButton(
           icon: Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
           onPressed: () {
@@ -313,10 +325,14 @@ class _emailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
         controller: _emailcontroller,
+        style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
-          border: const OutlineInputBorder(),
+          contentPadding: const EdgeInsets.all(12),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
           hintText: 'Enter your email',
-          hintStyle: Theme.of(context).textTheme.labelLarge,
+          hintStyle: Theme.of(context).textTheme.bodyMedium,
         ),
         onChanged: (value) {
           context.read<SignupCubit>().onEmailChanged(value);

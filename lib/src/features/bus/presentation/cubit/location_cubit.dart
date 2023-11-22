@@ -20,6 +20,11 @@ class LocationCubit extends Cubit<LocationState> {
     print(state.destination);
   }
 
+  Future<void> swaplocations() async {
+    emit(state.copyWith(depature: state.destination ));
+    emit(state.copyWith(destination: state.depature));
+  }
+
   // ignore: non_constant_identifier_names
   Future<void> onClickSearchBus() async {
     print('Departure: ${state.depature}, Destination: ${state.destination}');
@@ -34,8 +39,10 @@ class LocationCubit extends Cubit<LocationState> {
     // depature != Campus, destination == Campus
     if (state.depature != "Campus" && state.depature != "Your depature") {
       emit(state.copyWith(destination: "Campus"));
-    } else if (state.depature == "Campus" && state.destination == "Campus" ) {
-       emit(state.copyWith(destination: "Your destination"));
+    } else if (state.depature == "Campus" && state.destination == "Campus") {
+      emit(state.copyWith(
+          destination:
+              "Your destination")); // need to clear the route or they can't press the search button.
     }
   }
 }

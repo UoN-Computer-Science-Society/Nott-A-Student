@@ -20,14 +20,14 @@ void main() async {
 
   // Attempt auto-login
 
-//authCubit.logout();
+  //authCubit.logout();
   runApp(
     BlocProvider.value(
       value: authCubit,
       child: MyApp(),
     ),
   );
-    await authCubit.attemptAutoLogin();
+  await authCubit.attemptAutoLogin();
 }
 
 class MyApp extends StatefulWidget {
@@ -59,8 +59,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
         home: const Scaffold(body: Dashboard()
-            /*
-          body: BlocBuilder<AuthCubit, AuthState>(
+            /* body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               if (state.authStatus is AuthAuthorized) {
                 return const Dashboard();
@@ -70,7 +69,7 @@ class _MyAppState extends State<MyApp> {
                 return const CircularProgressIndicator();
               }
             },
-          ),*/
+          ), */
             ),
       ),
     );

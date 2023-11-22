@@ -70,6 +70,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/src/utils/constants/dept.json
+    - lib/src/utils/constants/location.json
     - lib/src/utils/resources/bus_image/UNM_Campus.jpg
     - lib/src/utils/resources/bus_image/UNM_Campus2.jpg
   

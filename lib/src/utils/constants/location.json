@@ -1,0 +1,106 @@
+{
+    "Campus": {
+        "locationDescription": "A description about the Campus.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Education",
+            "Institution",
+            "Facilities"
+        ],
+        "mapsLink": "https://www.google.com/maps?cid=912336641389830545"
+    },
+    "KTM": {
+        "locationDescription": "A description about KTM.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Mall",
+            "Shopping",
+            "Food"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/XisDFuDRUU5iNbVv6"
+    },
+    "TTS": {
+        "locationDescription": "A description about TTS.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Shopping",
+            "Mall",
+            "Entertainment"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/Kg88jHnuPmNGgio47"
+    },
+    "LOTUS": {
+        "locationDescription": "A description about LOTUS.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Shopping",
+            "Mall",
+            "Entertainment"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/GRaKZywCnmS9uqfi6"
+    },
+    "IOI City Mall Putrajaya": {
+        "locationDescription": "A description about IOI City Mall Putrajaya.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Mall",
+            "Shopping",
+            "Food"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/7Q66Ht2nVGQis47NA"
+    },
+    "Mosque": {
+        "locationDescription": "A description about Mosque.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Mall",
+            "Shopping",
+            "Food"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/xiKTPShbRbMHtLwZ8"
+    },
+    "TBS": {
+        "locationDescription": "A description about Terminal Bersepadu Selatan (TBS).",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Mall",
+            "Shopping",
+            "Food"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/FtXQ2TS3LX1Zttv6A"
+    },
+    "KLTC": {
+        "locationDescription": "A description about KLTC.",
+        "imageUrls": [
+            "lib/src/utils/resources/bus_image/UNM_Campus.jpg",
+            "lib/src/utils/resources/bus_image/UNM_Campus2.jpg"
+        ],
+        "labels": [
+            "Mall",
+            "Shopping",
+            "Food"
+        ],
+        "mapsLink": "https://maps.app.goo.gl/jRi1nAND5AHc32eh8"
+    }
+}

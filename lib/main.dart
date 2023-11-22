@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:ffi';
-
 import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +16,7 @@ import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_ty
 import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
 import 'package:Nott_A_Student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
 import 'package:logging/logging.dart';
+import 'dart:developer' as dev;
 
 bool firstRun = true;
 void main() async {
@@ -80,7 +78,7 @@ class _MyAppState extends State<MyApp> {
             builder: (context, state) {
               final log = Logger('MainAccount');
               if (firstRun) {
-                log.info("First Run");
+                dev.log("First Run");
                 const cacheIntroImages = [
                   'lib/src/utils/resources/intro/intro_start.svg',
                   'lib/src/utils/resources/intro/intro_news.svg',
@@ -96,7 +94,7 @@ class _MyAppState extends State<MyApp> {
                 }
                 return const Intro();
               } else {
-                log.info("First Run not detected");
+                dev.log("First Run not detected");
                 if (state.authStatus is AuthAuthorized) {
                   context.read<AccountCubit>().initializeAccountInfo();
                   return const Dashboard();

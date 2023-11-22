@@ -1,20 +1,16 @@
-import 'dart:developer';
-
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-part 'news_type_state.dart';
+part 'dashboard_state.dart';
 
-class NewsTypeCubit extends Cubit<NewsTypeState> {
-  NewsTypeCubit() : super(NewsTypeState());
+class DashboardCubit extends Cubit<DashboardState> {
+  DashboardCubit() : super(DashboardState());
 
   void setState(String type) {
-    log("State set");
     emit(state.copyWith(type: type));
   }
 
   void onNewsTypeChanged(String type) {
-    log(type);
     if (type != state.type) {
       emit(state.copyWith(type: type));
     }

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
 import 'package:logging/logging.dart';
+import 'dart:developer';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
@@ -14,7 +15,7 @@ class AuthCubit extends Cubit<AuthState> {
       : super(const AuthState(
           authStatus: AuthInitial(),
         ));
-  final log = Logger('AuthCubit');
+  // final log = Logger('AuthCubit');
 
   final client = Client()
       .setEndpoint('https://cloud.appwrite.io/v1')
@@ -25,11 +26,11 @@ class AuthCubit extends Cubit<AuthState> {
 
     if (id != '') {
       bool active = await checkSessionExpired(id);
-      log.info("Attempting auto login...");
+      log("Attempting auto login...");
 
       if (active) {
-        log.info("User session logged in. User Id: $id");
-        log.info("Auto Login success");
+        log("User session logged in. User Id: $id");
+        log("Auto Login success");
         Account account = Account(client);
         Future result = account.get();
 
@@ -45,23 +46,29 @@ class AuthCubit extends Cubit<AuthState> {
             authStatus: const AuthAuthorized(),
           ));
         }).catchError((error) {
-          log.severe(error.response);
+          emit(state.copyWith(
+            authStatus: const AuthUnauthorized(),
+          ));
+          log(error.response);
         });
       } else {
         // The user is not logged in
         emit(state.copyWith(
           authStatus: const AuthUnauthorized(),
         ));
-        log.severe("Auto Login Failed.");
+        log("Auto Login Failed.");
       }
     } else {
       // Show splash screen for just 3 seconds
-      final timer = Timer(const Duration(seconds: 3), () {
-        emit(state.copyWith(
-          authStatus: const AuthUnauthorized(),
-        ));
-      });
-      log.severe("Auto Login Failed.");
+      // final timer = Timer(const Duration(seconds: 1), () {
+      //   emit(state.copyWith(
+      //     authStatus: const AuthUnauthorized(),
+      //   ));
+      // });
+      emit(state.copyWith(
+        authStatus: const AuthUnauthorized(),
+      ));
+      log("Auto Login Failed.");
     }
   }
 
@@ -69,7 +76,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       var sessionId = await getData();
       final account = Account(client);
-      log.info('Logging out... User Id: $sessionId');
+      log('Logging out... User Id: $sessionId');
       Future result = account.deleteSession(
         sessionId: sessionId,
       );
@@ -81,10 +88,10 @@ class AuthCubit extends Cubit<AuthState> {
           session: null,
           authStatus: const AuthUnauthorized(),
         ));
-        log.info('Logout Success');
+        log('Logout Success');
       });
     } catch (e) {
-      log.info(e.toString());
+      log(e.toString());
     }
   }
 }

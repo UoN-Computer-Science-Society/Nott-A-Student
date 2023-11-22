@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,11 +51,12 @@ Future<bool> checkSessionExpired(String sessionId) async {
     Session session = await getSession(sessionId);
     DateTime now = DateTime.now();
     DateTime sessionExpiredDate = DateTime.parse(session.expire);
+    log("Session found. Expiry date: $sessionExpiredDate");
 
     return now.isBefore(sessionExpiredDate);
   } catch (error) {
     // Handle the error here if needed
-    print(error);
+    log("Error: ", error: error);
     return false; // Assuming an error means the session is expired
   }
 }

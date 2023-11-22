@@ -8,7 +8,7 @@ class NavItem extends StatelessWidget {
   final IconData icon;
   final String route;
 
-  NavItem({
+  const NavItem({
     Key? key,
     required this.label,
     required this.icon,
@@ -39,7 +39,7 @@ class NavItem extends StatelessWidget {
                   color: context.read<BottomNavBarCubit>().state.label == label
                       ? const Color(0xFF005697)
                       : Colors.white, // Specify the border color
-                  width: 2.0, // Specify the border width
+                  width: 2.5, // Specify the border width
                 ),
               ),
             ),
@@ -50,10 +50,13 @@ class NavItem extends StatelessWidget {
                       ? const Color(0xFF005697)
                       : const Color(0xFF3B7DB0),
                   icon,
-                  size: 25, // Adjust the icon size as needed
+                  size: MediaQuery.of(context).size.width *
+                      0.065, // Adjust the icon size as needed
                 ),
                 const Gap(5),
-                Text(label),
+                Text(label,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.029)),
               ],
             ),
           ),

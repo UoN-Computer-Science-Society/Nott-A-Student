@@ -101,6 +101,7 @@ flutter:
   assets:
     - lib/src/utils/constants/dept.json
     - lib/src/utils/resources/SignUpSuccess.png
+    - lib/src/utils/resources/NoNewsVector.png
     - lib/src/utils/resources/intro/intro_start.svg
     - lib/src/utils/resources/intro/intro_news.svg
     - lib/src/utils/resources/intro/intro_bus.svg

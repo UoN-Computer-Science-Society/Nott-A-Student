@@ -8,7 +8,7 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return const Material(
       color: Colors.white,
       elevation: 20,
       child: Row(

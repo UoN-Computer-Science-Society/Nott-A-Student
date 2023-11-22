@@ -24,6 +24,11 @@ class AppTheme {
               fontWeight: FontWeight.bold,
               color: Color(0xFF3F3F3F),
             ),
+            headlineSmall: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              color: Color(0xFF3F3F3F),
+            ),
             //usage:
             //label in account-view
             titleMedium: TextStyle(
@@ -44,6 +49,10 @@ class AppTheme {
                 color: Color(0xff324553)),
             bodyMedium: TextStyle(
                 fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Color(0xff324553)),
+            bodySmall: TextStyle(
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
                 color: Color(0xff324553))));
   }

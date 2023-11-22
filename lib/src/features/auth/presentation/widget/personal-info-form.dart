@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -218,42 +219,37 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double inputWidth = screenWidth - 48;
-    String selectedKey = context.read<SignupCubit>().state.school;
-    Map<String, String> selectedData = data[selectedKey] ?? {};
 
-    return FutureBuilder(
-        future: getProgramsForSchool(school),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            programList = snapshot.data!;
-            print(programList);
-            return DropdownMenu(
-              inputDecorationTheme: InputDecorationTheme(
-                  contentPadding: const EdgeInsets.all(12),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          color: Color(0xFF3F3F3F), width: 2))),
-              width: inputWidth,
-              menuHeight: screenHeight / 4,
-              dropdownMenuEntries: snapshot.data!,
-              initialSelection: context.read<SignupCubit>().state.program,
-              onSelected: (value) {
-                program = value!;
-                context.read<SignupCubit>().onProgramChanged(value);
-              },
-            );
-          } else {
-            programList = [];
-            return const CircularProgressIndicator();
-          }
-        });
+    return BlocBuilder<SignupCubit, SignupState>(
+      buildWhen: (previous, current) => previous.school != current.school,
+      builder: (context, state) {
+        log("${state.school} test");
+        programList = getProgramsForSchool(state.school);
+        log("$programList");
+        return DropdownMenu(
+          key: Key(state.school),
+          inputDecorationTheme: InputDecorationTheme(
+              contentPadding: const EdgeInsets.all(12),
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 2))),
+          width: inputWidth,
+          menuHeight: screenHeight / 4,
+          dropdownMenuEntries: programList.toList(),
+          initialSelection: context.read<SignupCubit>().state.program,
+          onSelected: (value) {
+            program = value!;
+            context.read<SignupCubit>().onProgramChanged(value);
+          },
+        );
+      },
+    );
   }
 
-  Future<List<DropdownMenuEntry<String>>> getProgramsForSchool(
-      String school) async {
+  List<DropdownMenuEntry<String>> getProgramsForSchool(String school) {
     // Load programs for school
-    String selectedKey = context.read<SignupCubit>().state.school;
+    String selectedKey = school;
     Map<String, String> selectedData = data[selectedKey] ?? {};
 
     return createDropdownItems(selectedKey, selectedData);

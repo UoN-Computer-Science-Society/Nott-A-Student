@@ -6,13 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 
-Widget newsTypeButton(BuildContext context, String text) {
+Widget newsTypeButton(GlobalKey key, BuildContext context, String text) {
   return BlocBuilder<NewsTypeCubit, NewsTypeState>(
     buildWhen: (previous, current) {
       return previous.type != current.type;
     },
     builder: (context, state) {
       return GestureDetector(
+        key: key,
         onTap: () {
           context.read<NewsTypeCubit>().setState(text);
           context.read<NewsTypeCubit>().onNewsTypeChanged(text);

@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/NewsModel.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -27,6 +29,32 @@ class _DashboardState extends State<Dashboard> {
   List<NewsCard> news = [];
   List<NewsModel> featuredNews = [];
   String chosenType = "ALL";
+  double linePositionAnimation = 0;
+  double lineWidthAnimation = 65;
+  int pageCounter = 0;
+  bool isSwiping = false;
+
+  Map<String, GlobalKey> _newsTypeKeys = {};
+
+  RenderBox _getWidgetRenderBox(GlobalKey key) {
+    Offset position = Offset.zero;
+    RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+
+    // setState(() {});
+    return renderBox;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < newsType.length; i++) {
+      final key = GlobalKey();
+      dev.log(newsType[i] + key.toString());
+      _newsTypeKeys[newsType[i]] = key;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+  }
+
   @override
   Widget build(BuildContext context) {
     chosenType = context.read<NewsTypeCubit>().state.type;
@@ -53,21 +81,34 @@ class _DashboardState extends State<Dashboard> {
             const Gap(8),
             Stack(
               children: [
-                Positioned(
-                    bottom: 0,
-                    left: 0,
-                    child: Container(
-                      width: 80,
-                      decoration:
-                          BlocProvider.of<NewsTypeCubit>(context).state.type ==
-                                  "ALL"
-                              ? const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xff005697), width: 2)))
-                              : const BoxDecoration(),
-                      padding: const EdgeInsets.only(bottom: 12),
-                    )),
+                BlocListener<NewsTypeCubit, NewsTypeState>(
+                  listener: (context, state) {
+                    final newsTypebtnRenderBox =
+                        _getWidgetRenderBox(_newsTypeKeys[state.type]!);
+                    final _lineWidthAnimation = newsTypebtnRenderBox.size.width;
+
+                    Offset position =
+                        newsTypebtnRenderBox.localToGlobal(Offset.zero);
+                    dev.log(position.dx.toString());
+                    setState(() {
+                      chosenType = state.type;
+                      linePositionAnimation = position.dx - 16;
+                      lineWidthAnimation = _lineWidthAnimation;
+                    });
+                  },
+                  child: AnimatedPositioned(
+                      bottom: 0,
+                      left: chosenType == "ALL" ? 0 : linePositionAnimation,
+                      duration: const Duration(milliseconds: 250),
+                      child: Container(
+                        width: lineWidthAnimation,
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Color(0xff005697), width: 3))),
+                        padding: const EdgeInsets.only(bottom: 12),
+                      )),
+                ),
                 Container(
                     decoration: const BoxDecoration(
                         border: Border(
@@ -81,8 +122,11 @@ class _DashboardState extends State<Dashboard> {
                         child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              var button =
-                                  newsTypeButton(context, newsType[index]);
+                              // dev.log(newsType[index]);
+                              var button = newsTypeButton(
+                                  _newsTypeKeys[newsType[index]]!,
+                                  context,
+                                  newsType[index]);
                               return button;
                             },
                             separatorBuilder: (context, index) {
@@ -105,60 +149,117 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Widget _generateNews() {
-    return RefreshIndicator(
-      onRefresh: () async {
-        var num = Random().nextInt(10) + 1;
-        dev.log(num.toString());
-        List<NewsCard> _news = List.generate(
-            num,
-            (index) => NewsCard(
-                  news: NewsModel(
-                      author: "",
-                      cat: [
-                        NewsCategory.sa,
-                        NewsCategory.careers,
-                        NewsCategory.fose,
-                        NewsCategory.fass,
-                      ][Random().nextInt(4)],
-                      title:
-                          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id est sed elit volutpat mollis.",
-                      description: "",
-                      url: "",
-                      urlToImage:
-                          "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                      publishedAt: DateTime.now()),
-                ));
-        await Future.delayed(const Duration(seconds: 1));
-        setState(() {
-          news.clear();
-          news = _news;
-        });
-        dev.log('Refreshed');
-      },
-      child: ListView.builder(
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: news.length != 0 ? news.length : 1,
-        // Scroll the NewsCard widgets vertically
-        itemBuilder: (context, index) {
-          if (news.isNotEmpty) {
-            return BlocListener<NewsTypeCubit, NewsTypeState>(
-              listener: (context, state) {
-                dev.log(state.type);
-                setState(() {
-                  chosenType = state.type;
-                });
-              },
-              child: Visibility(
-                  visible: chosenType == "ALL"
-                      ? true
-                      : (chosenType ==
-                          news[index].GetNewsInfo().GetCategoryString()),
-                  child: news[index]),
-            );
-          } else {
-            return noNewsShowing();
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      dragStartBehavior: DragStartBehavior.down,
+      onHorizontalDragUpdate: (details) {
+        switch (chosenType) {
+          case "ALL":
+            pageCounter = 0;
+            break;
+          case "SA":
+            pageCounter = 1;
+            break;
+          case "FOSE":
+            pageCounter = 2;
+            break;
+          case "FASS":
+            pageCounter = 3;
+            break;
+          case "CAREERS":
+            pageCounter = 4;
+            break;
+          default:
+            pageCounter = 0;
+        }
+
+        if (!isSwiping) {
+          isSwiping = true;
+          dev.log("Swiping");
+          int sensitivity = 8;
+          if (details.delta.dx > sensitivity) {
+            // Right Swipe
+            if (pageCounter > 0) {
+              dev.log('Right Swipe on Dashbooard');
+              pageCounter--;
+              if (pageCounter >= 0 && pageCounter < newsType.length) {
+                final text = newsType[pageCounter];
+                context.read<NewsTypeCubit>().setState(text);
+                context.read<NewsTypeCubit>().onNewsTypeChanged(text);
+              }
+            }
+          } else if (details.delta.dx < -sensitivity) {
+            //Left Swipe
+            if (pageCounter >= 0 && pageCounter < newsType.length - 1) {
+              dev.log('Left Swipe on Dashbooard');
+              pageCounter++;
+              if (pageCounter >= 0 && pageCounter < newsType.length) {
+                final text = newsType[pageCounter];
+                context.read<NewsTypeCubit>().setState(text);
+                context.read<NewsTypeCubit>().onNewsTypeChanged(text);
+              }
+            }
           }
+          Timer(Duration(milliseconds: 200), () {
+            isSwiping = false;
+          });
+        }
+      },
+      child: RefreshIndicator(
+        onRefresh: () async {
+          var num = Random().nextInt(10) + 1;
+          dev.log(num.toString());
+          List<NewsCard> _news = List.generate(
+              num,
+              (index) => NewsCard(
+                    news: NewsModel(
+                        author: "",
+                        cat: [
+                          NewsCategory.sa,
+                          NewsCategory.careers,
+                          NewsCategory.fose,
+                          NewsCategory.fass,
+                        ][Random().nextInt(4)],
+                        title:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id est sed elit volutpat mollis.",
+                        description: "",
+                        url: "",
+                        urlToImage:
+                            "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
+                        publishedAt: DateTime.now()),
+                  ));
+          await Future.delayed(const Duration(seconds: 1));
+          setState(() {
+            news.clear();
+            news = _news;
+          });
+          dev.log('Refreshed');
         },
+        child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: news.length != 0 ? news.length : 1,
+          // Scroll the NewsCard widgets vertically
+          itemBuilder: (context, index) {
+            if (news.isNotEmpty) {
+              return BlocListener<NewsTypeCubit, NewsTypeState>(
+                listener: (context, state) {
+                  dev.log(state.type);
+                  setState(() {
+                    chosenType = state.type;
+                  });
+                },
+                child: Visibility(
+                    visible: chosenType == "ALL"
+                        ? true
+                        : (chosenType ==
+                            news[index].GetNewsInfo().GetCategoryString()),
+                    child: news[index]),
+              );
+            } else {
+              return noNewsShowing();
+            }
+          },
+        ),
       ),
     );
   }

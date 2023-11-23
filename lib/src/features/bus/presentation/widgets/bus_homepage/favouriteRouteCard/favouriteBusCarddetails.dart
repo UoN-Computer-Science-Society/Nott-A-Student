@@ -1,7 +1,34 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-class FavouriteBusCardDetails extends StatelessWidget {
-  const FavouriteBusCardDetails({super.key});
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:nott_a_student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+
+class FavouriteBusCardDetails extends StatefulWidget {
+  final String route;
+
+  const FavouriteBusCardDetails({super.key, required this.route});
+
+  @override
+  State<FavouriteBusCardDetails> createState() =>
+      _FavouriteBusCardDetailsState();
+}
+
+class _FavouriteBusCardDetailsState extends State<FavouriteBusCardDetails> {
+  late String departure;
+  late String destination;
+  String currentDay = DateFormat('EEEE').format(DateTime.now());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    List<String> parts = widget.route.split(' to ');
+
+    if (parts.length == 2) {
+      departure = parts[0];
+      destination = parts[1];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +50,40 @@ class FavouriteBusCardDetails extends StatelessWidget {
           ),
         ],
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           LocationInfo(
               title: 'From',
-              location: 'Campus',
+              location: departure,
               icon: const Icon(Icons.star, color: Colors.yellow)),
-          SizedBox(height: 20),
-          LocationInfo(title: 'To', location: 'Lotus'),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
+          LocationInfo(
+            title: 'To',
+            location: destination,
+          ),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BusInfo(busId: 'VCK2020'),
-              ArrivalInfo(arrivalTime: '5 mins'),
+              const BusInfo(busId: 'VCK2020'),
+              FutureBuilder<Map<String, List<String>>>(
+                  future: getTimeTable(widget.route),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        return const Text('Press button to start.');
+                      case ConnectionState.active:
+                      case ConnectionState.waiting:
+                        return const Text('Awaiting result...');
+                      case ConnectionState.done:
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+                        return ArrivalInfo(
+                            timetableData: snapshot.data![currentDay]!);
+                    }
+                  }),
             ],
           ),
         ],
@@ -119,16 +165,50 @@ class BusInfo extends StatelessWidget {
   }
 }
 
+String findNearestArrivalTime(List<String> arrivalTimes) {
+  DateTime currentTime = DateTime.now();
+  DateTime nearestBusTime = DateTime(2100); // Initialize with the current time
+
+  for (String arrivalTime in arrivalTimes) {
+    if (arrivalTime == "No BusM") {
+      return "No bus today";
+    }
+
+    try {
+      DateTime busTime = DateFormat('h.mm a').parse(arrivalTime);
+      busTime = DateTime(currentTime.year, currentTime.month, currentTime.day,
+          busTime.hour, busTime.minute);
+      if (busTime.compareTo(currentTime) >= 0 &&
+          busTime.compareTo(nearestBusTime) < 0) {
+        nearestBusTime = busTime;
+       }
+    } catch (e) {
+      // Handle invalid time format or other exceptions
+      print('Invalid time format: $arrivalTime');
+    }
+  }
+
+  return DateFormat('h:mm a').format(nearestBusTime);
+}
+
 class ArrivalInfo extends StatelessWidget {
-  final String arrivalTime;
+  final List<String> timetableData;
 
   const ArrivalInfo({
     Key? key,
-    required this.arrivalTime,
+    required this.timetableData,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    String nearestArrivalTime = findNearestArrivalTime(timetableData);
+    String remainingMinutes;
+    if (nearestArrivalTime == "No bus today") {
+      remainingMinutes = "No bus today";
+    } else {
+      remainingMinutes = nearestArrivalTime;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -141,7 +221,7 @@ class ArrivalInfo extends StatelessWidget {
           ),
         ),
         Text(
-          arrivalTime,
+          remainingMinutes,
           style: const TextStyle(
             color: Color(0xFFC50243),
             fontSize: 16,

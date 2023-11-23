@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
+import 'package:nott_a_student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
+import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCarddetails.dart';
 import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
 
@@ -8,13 +12,43 @@ class RouteDetailsPage extends StatefulWidget {
   final List<String> timetableData;
   final String departure;
   final String destination;
-  RouteDetailsPage({super.key, required this.timetableData, required this.departure, required this.destination});
+
+  RouteDetailsPage(
+      {super.key,
+      required this.timetableData,
+      required this.departure,
+      required this.destination});
 
   @override
   State<RouteDetailsPage> createState() => _RouteDetailsPageState();
 }
 
 class _RouteDetailsPageState extends State<RouteDetailsPage> {
+  bool routeExists = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeIcons();
+  }
+
+  Future<void> _initializeIcons() async {
+    bool exists = await checkIsRouteExists(
+      context.read<LocationCubit>().state.route,
+    );
+    setState(() {
+      routeExists = exists;
+    });
+  }
+
+  Future<void> _updateIcons() async {
+    setState(() {
+      // Assuming addToFavourite returns a Future<void>
+      context.read<LocationCubit>().addToFavourite();
+      routeExists = !routeExists;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -35,7 +69,14 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                     Navigator.of(context).pop();
                   }),
                   icon: const Icon(Icons.arrow_back)),
-              const Icon(Icons.star_border, color: Colors.yellow),
+              IconButton(
+                onPressed: (() {
+                  _updateIcons();
+                }),
+                icon: (routeExists)
+                    ? const Icon(Icons.star, color: Colors.yellow)
+                    : const Icon(Icons.star_border, color: Colors.yellow),
+              ),
             ],
           ),
         ),
@@ -43,7 +84,7 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
           padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
           child: Column(
             children: [
-               Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
@@ -71,22 +112,22 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                 ],
               ),
               const Gap(20),
-               Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                         "From", 
+                        "From",
                         style: TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                       Text(
-                       widget.destination,
+                      Text(
+                        widget.destination,
                         style: const TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 18,
@@ -189,7 +230,10 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
     List<Widget> rows = [];
     for (int i = 0; i < widget.timetableData.length; i += 4) {
       List<String> rowTimes = widget.timetableData.sublist(
-          i, i + 4 < widget.timetableData.length ? i + 4 : widget.timetableData.length);
+          i,
+          i + 4 < widget.timetableData.length
+              ? i + 4
+              : widget.timetableData.length);
       rows.add(buildRow(rowTimes, context));
     }
 

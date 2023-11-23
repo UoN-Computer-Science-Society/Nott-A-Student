@@ -58,8 +58,7 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: const Scaffold(body: Dashboard()
-            /*
+        home:  Scaffold(
           body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               if (state.authStatus is AuthAuthorized) {
@@ -70,7 +69,7 @@ class _MyAppState extends State<MyApp> {
                 return const CircularProgressIndicator();
               }
             },
-          ),*/
+          ),
             ),
       ),
     );

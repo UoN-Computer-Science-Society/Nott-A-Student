@@ -7,6 +7,7 @@ import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
 import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
 import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
+import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
 import 'package:nott_a_student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
@@ -18,14 +19,15 @@ void main() async {
   final authCubit = AuthCubit();
 
   // Attempt auto-login
-  await authCubit.attemptAutoLogin();
-//authCubit.logout();
+
+  //authCubit.logout();
   runApp(
     BlocProvider.value(
       value: authCubit,
       child: MyApp(),
     ),
   );
+  await authCubit.attemptAutoLogin();
 }
 
 class MyApp extends StatefulWidget {
@@ -38,25 +40,26 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return 
-    MultiBlocProvider(
-  providers: [
-       BlocProvider(
-      create: (context) => LoginCubit(authRepo: AuthRepository()),
-    ),
-    BlocProvider(
-      create: (BuildContext context) => NewsTypeCubit(),
-    ),
-    BlocProvider(create:(BuildContext context) => BottomNavBarCubit(), )
-  ],
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LoginCubit(authRepo: AuthRepository()),
+        ),
+        BlocProvider(create: (context) => LocationCubit()),
+        BlocProvider(
+          create: (BuildContext context) => NewsTypeCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => BottomNavBarCubit(),
+        )
+      ],
       child: MaterialApp(
         title: 'Nott A Student',
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: Scaffold(
-          body: BlocBuilder<AuthCubit, AuthState>(
+        home: const Scaffold(body: Dashboard()
+            /* body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               if (state.authStatus is AuthAuthorized) {
                 return const Dashboard();
@@ -66,8 +69,8 @@ class _MyAppState extends State<MyApp> {
                 return const CircularProgressIndicator();
               }
             },
-          ),
-        ),
+          ), */
+            ),
       ),
     );
   }
@@ -79,4 +82,3 @@ class _MyAppState extends State<MyApp> {
     _appRouter.dispose();
   }
 }
-

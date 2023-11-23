@@ -44,11 +44,14 @@ dependencies:
   localstorage: ^4.0.1+4
   shared_preferences: ^2.2.1
   intl: ^0.18.1
+  bloc: ^8.1.2
+  http: ^1.0.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  url_launcher: ^6.0.9 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -67,6 +70,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/src/utils/constants/dept.json
+    - lib/src/utils/constants/location.json
+    - lib/src/utils/resources/bus_image/UNM_Campus.jpg
+    - lib/src/utils/resources/bus_image/UNM_Campus2.jpg
+  
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

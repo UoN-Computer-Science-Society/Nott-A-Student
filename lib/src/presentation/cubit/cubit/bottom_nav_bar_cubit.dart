@@ -6,14 +6,10 @@ part 'bottom_nav_bar_state.dart';
 class BottomNavBarCubit extends Cubit<BottomNavBarState> {
   BottomNavBarCubit() : super(BottomNavBarState());
 
-    void onSwitch(String label) {
+  void onSwitch(String label) {
     print(label);
     if (label != state.label) {
       emit(state.copyWith(label: label));
     }
   }
-
-  
 }
-
-

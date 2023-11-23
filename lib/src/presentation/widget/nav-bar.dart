@@ -24,7 +24,7 @@ class BottomNavBar extends StatelessWidget {
               icon: Icons.calendar_today,
               route: '/dashboard'),
           NavItem(
-              label: "Bus", icon: Icons.directions_bus, route: '/dashboard'),
+              label: "Bus", icon: Icons.directions_bus, route: '/bus'),
           NavItem(label: "Account", icon: Icons.person, route: '/account'),
         ],
       ),

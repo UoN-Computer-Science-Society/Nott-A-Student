@@ -43,17 +43,18 @@ dependencies:
   form_field_validator: ^1.1.0
   localstorage: ^4.0.1+4
   shared_preferences: ^2.2.1
-  intl: ^0.18.1
   is_first_run: ^1.0.0
   logging: ^1.2.0
   flutter_svg: ^2.0.9
-
+  bloc: ^8.1.2
+  http: ^1.0.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  url_launcher: ^6.0.9 
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -109,6 +110,11 @@ flutter:
     - lib/src/utils/resources/intro/intro_end.svg
     - lib/src/utils/resources/nas_logo.png
     - lib/src/utils/resources/CSS_dark.png
+    - lib/src/utils/constants/location.json
+    - lib/src/utils/resources/bus_image/UNM_Campus.jpg
+    - lib/src/utils/resources/bus_image/UNM_Campus2.jpg
+  
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

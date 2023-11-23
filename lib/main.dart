@@ -61,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => LoginCubit(authRepo: AuthRepository()),
         ),
+        BlocProvider(create: (context) => LocationCubit()),
         BlocProvider(
           create: (BuildContext context) => NewsTypeCubit(),
         ),
@@ -73,8 +74,8 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: Scaffold(
-          body: BlocBuilder<AuthCubit, AuthState>(
+        home: const Scaffold(body: Dashboard()
+            /* body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               final log = Logger('MainAccount');
               if (firstRun) {
@@ -107,8 +108,8 @@ class _MyAppState extends State<MyApp> {
                 }
               }
             },
-          ),
-        ),
+          ), */
+            ),
       ),
     );
   }

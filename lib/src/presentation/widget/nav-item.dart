@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
+import 'package:Nott_A_Student/src/presentation/cubit/cubit/bottom_nav_bar_cubit.dart';
 
 class NavItem extends StatelessWidget {
   final String label;
   final IconData icon;
   final String route;
 
-  NavItem({
+  const NavItem({
     Key? key,
     required this.label,
     required this.icon,
@@ -25,8 +25,8 @@ class NavItem extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             context.read<BottomNavBarCubit>().onSwitch(label);
-            Navigator.of(context).pushNamed(
-             route,
+            Navigator.of(context).pushReplacementNamed(
+              route,
             );
           },
           child: Container(
@@ -39,7 +39,7 @@ class NavItem extends StatelessWidget {
                   color: context.read<BottomNavBarCubit>().state.label == label
                       ? const Color(0xFF005697)
                       : Colors.white, // Specify the border color
-                  width: 2.0, // Specify the border width
+                  width: 2.5, // Specify the border width
                 ),
               ),
             ),
@@ -50,10 +50,13 @@ class NavItem extends StatelessWidget {
                       ? const Color(0xFF005697)
                       : const Color(0xFF3B7DB0),
                   icon,
-                  size: 25, // Adjust the icon size as needed
+                  size: MediaQuery.of(context).size.width *
+                      0.065, // Adjust the icon size as needed
                 ),
                 const Gap(5),
-                Text(label),
+                Text(label,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width * 0.029)),
               ],
             ),
           ),

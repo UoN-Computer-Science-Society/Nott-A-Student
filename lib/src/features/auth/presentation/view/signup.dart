@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:easy_stepper/easy_stepper.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/account-setup-form.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/personal-info-form.dart';
-import 'package:nott_a_student/src/features/auth/presentation/widget/ready-screen.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/account-setup-form.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/personal-info-form.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/ready-screen.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -22,22 +22,14 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.white,toolbarHeight: 0,),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Create Account",
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  )
-                ],
-              ),
-              const Gap(30),
               BlocBuilder<SignupCubit, SignupState>(
                 builder: (context, state) {
                   return EasyStepper(
@@ -64,7 +56,7 @@ class _SignupState extends State<Signup> {
                             backgroundColor:
                                 context.read<SignupCubit>().state.step >= 0
                                     ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                    : const Color(0xDD3F3F3F),
                           ),
                         ),
                         title: 'Personal Information',
@@ -78,7 +70,7 @@ class _SignupState extends State<Signup> {
                             backgroundColor:
                                 context.read<SignupCubit>().state.step >= 1
                                     ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                    : const Color(0xDD3F3F3F),
                           ),
                         ),
                         title: 'Account Setup',
@@ -87,13 +79,13 @@ class _SignupState extends State<Signup> {
                       EasyStep(
                         customStep: CircleAvatar(
                           radius: 8,
-                          backgroundColor: Colors.white,
+                          backgroundColor: const Color(0xDD3F3F3F),
                           child: CircleAvatar(
                             radius: 7,
                             backgroundColor:
                                 context.read<SignupCubit>().state.step >= 2
                                     ? Theme.of(context).primaryColor
-                                    : Colors.white,
+                                    : const Color(0xDD3F3F3F),
                           ),
                         ),
                         title: 'Ready to Go',
@@ -104,7 +96,7 @@ class _SignupState extends State<Signup> {
                   );
                 },
               ),
-              const Gap(30),
+              const Gap(10),
               BlocBuilder<SignupCubit, SignupState>(builder: (context, state) {
                 if (state.step == 0) {
                   return const PersonalInfoForm();
@@ -119,7 +111,7 @@ class _SignupState extends State<Signup> {
                       : (activeStep == 1
                           ? const AccountSetup()
                           : const ReadyScreen()), */
-              const Gap(20),
+              //  const Gap(20),
             ],
           ),
         ),

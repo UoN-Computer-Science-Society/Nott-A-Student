@@ -1,17 +1,21 @@
+import 'dart:async';
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:form_field_validator/form_field_validator.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_status.dart';
-import 'package:nott_a_student/src/features/auth/domain/session.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
+import 'package:logging/logging.dart';
+import 'dart:developer';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit()
       : super(const AuthState(
-          authStatus: AuthUnauthorized(),
+          authStatus: AuthInitial(),
         ));
+  // final log = Logger('AuthCubit');
 
   final client = Client()
       .setEndpoint('https://cloud.appwrite.io/v1')
@@ -22,14 +26,11 @@ class AuthCubit extends Cubit<AuthState> {
 
     if (id != '') {
       bool active = await checkSessionExpired(id);
-      print("Attempting auto login");
+      log("Attempting auto login...");
 
       if (active) {
-        emit(state.copyWith(
-          authStatus: const AuthAuthorized(),
-        ));
-        print(id);
-        print("Attempting auto login success");
+        log("User session logged in. User Id: $id");
+        log("Auto Login success");
         Account account = Account(client);
         Future result = account.get();
 
@@ -41,42 +42,56 @@ class AuthCubit extends Cubit<AuthState> {
             school: response.prefs.data['School'],
             program: response.prefs.data['Program'],
           ));
+          emit(state.copyWith(
+            authStatus: const AuthAuthorized(),
+          ));
         }).catchError((error) {
-          print(error.response);
+          emit(state.copyWith(
+            authStatus: const AuthUnauthorized(),
+          ));
+          log(error.response);
         });
       } else {
         // The user is not logged in
         emit(state.copyWith(
           authStatus: const AuthUnauthorized(),
         ));
-        print("Attempting auto login fail: ");
+        log("Auto Login Failed.");
       }
     } else {
-      print("Attempting auto login fail");
+      // Show splash screen for just 3 seconds
+      // final timer = Timer(const Duration(seconds: 1), () {
+      //   emit(state.copyWith(
+      //     authStatus: const AuthUnauthorized(),
+      //   ));
+      // });
+      emit(state.copyWith(
+        authStatus: const AuthUnauthorized(),
+      ));
+      log("Auto Login Failed.");
     }
   }
 
   void logout() async {
-    print('attempting logout');
-
     try {
-      getData();
+      var sessionId = await getData();
       final account = Account(client);
+      log('Logging out... User Id: $sessionId');
       Future result = account.deleteSession(
-        sessionId: await getData(),
+        sessionId: sessionId,
       );
 
       result.then((value) {
         clearLocalSession();
-
+        //   clearUserPrefs();
         emit(state.copyWith(
           session: null,
           authStatus: const AuthUnauthorized(),
         ));
-        print('attempting logout success');
+        log('Logout Success');
       });
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
     }
   }
 }

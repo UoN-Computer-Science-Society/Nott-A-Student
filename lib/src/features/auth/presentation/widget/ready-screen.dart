@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
 
 class ReadyScreen extends StatefulWidget {
   const ReadyScreen({super.key});
@@ -28,49 +30,48 @@ class _ReadyScreen extends State<ReadyScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Image.network(
-              "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-              height: 175.0),
-          const Gap(20),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                "Welcome Aboard! $_username",
-                style: Theme.of(context).textTheme.headlineLarge,
+                "Welcome Aboard, $_username!",
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineLarge
+                    ?.copyWith(fontSize: 20),
               )
             ],
           ),
           const Gap(10),
           Text(
-            "Your journey with Nott a Student begins now,and we're excited to  be part of it",
-            style: Theme.of(context)
-                .textTheme
-                .headlineMedium
-                ?.copyWith(fontWeight: FontWeight.normal),
-          ),
-          const Gap(20),
+              "We hope you enjoy using Nott-A-Student, and we're excited for you to be part of this.",
+              style: Theme.of(context).textTheme.titleSmall),
+          const Gap(10),
+          Image.asset('lib/src/utils/resources/SignUpSuccess.png'),
+          const Gap(10),
           InkWell(
             onTap: (() {
-              context.read<SignupCubit>().onFormSubmit();
-              // context.read<AuthCubit>().attemptAutoLogin();
+              context.read<SignupCubit>().onFormSubmit(context);
             }),
             child: Container(
-              width: 250,
-              height: 55,
+              width: 328, // Width of 328px
+              height: 48, // Fixed height of 48px
+              padding: const EdgeInsets.all(10), // Padding of 10px
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(50),
+                color: const Color(0xff005697),
               ),
               child: const Center(
                 child: Text(
-                  "Get started",
+                  "Get Started",
                   style: TextStyle(
-                    color: Colors.white,
-                  ),
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
                 ),
               ),
             ),
@@ -87,6 +88,10 @@ class _ReadyScreen extends State<ReadyScreen> {
                     duration: const Duration(seconds: 3),
                   ),
                 );
+              } else if (state.status is SignupLoading) {
+                const Center(
+                  child: CircularProgressIndicator(),
+                );
               } else if (state.status is SignupSuccess) {
                 //context.read<SignupCubit>().updateUserPreferences();
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -98,6 +103,7 @@ class _ReadyScreen extends State<ReadyScreen> {
                 Navigator.of(context).pushNamed(
                   '/dashboard',
                 );
+                context.read<AuthCubit>().attemptAutoLogin();
                 print("sign up sucesss");
               } else if (state.status is SignupFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -121,15 +127,18 @@ class _ReadyScreen extends State<ReadyScreen> {
                             .onStatusChanged(ProceedInitial()), */
                         context.read<SignupCubit>().onStepChanged(1),
                       }),
-                  child: Row(children: [
-                    Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    Text("Back",
-                        style:
-                            TextStyle(color: Theme.of(context).primaryColor)),
-                  ]),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 24),
+                    child: Row(children: [
+                      Icon(
+                        Icons.arrow_back,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                      Text("Back",
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor)),
+                    ]),
+                  ),
                 ),
               ],
             ),

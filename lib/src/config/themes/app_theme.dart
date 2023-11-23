@@ -12,31 +12,47 @@ class AppTheme {
         primaryColor: const Color(0xff005697),
         splashColor: Colors.transparent,
         colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black),
-        fontFamily: 'Nimbus Sans L',
+        fontFamily: 'Poppins',
         textTheme: const TextTheme(
             headlineLarge: TextStyle(
-              fontSize: 28,
+              fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Color(0xFF3F3F3F),
             ),
             headlineMedium: TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.black,
+              color: Color(0xFF3F3F3F),
             ),
-            titleMedium: TextStyle(
+            headlineSmall: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff000000),
+              fontWeight: FontWeight.normal,
+              color: Color(0xFF3F3F3F),
             ),
+            //usage:
+            //label in account-view
+            titleMedium: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Color(0xFF3F3F3F),
+            ),
+            //usage:
+            //text in account-view
             titleSmall: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Color(0xff005697),
+              fontSize: 16,
+              fontWeight: FontWeight.normal,
+              color: Color(0xFF3F3F3F),
             ),
+            bodyLarge: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                color: Color(0xff324553)),
             bodyMedium: TextStyle(
-                fontFamily: 'Work Sans',
-                fontSize: 13,
+                fontSize: 14,
+                fontWeight: FontWeight.normal,
+                color: Color(0xff324553)),
+            bodySmall: TextStyle(
+                fontSize: 12,
                 fontWeight: FontWeight.normal,
                 color: Color(0xff324553))));
   }

@@ -4,7 +4,7 @@ class NewsTypeState extends Equatable {
   final String type;
 
   const NewsTypeState({
-    this.type = "All",
+    this.type = "ALL",
   });
 
   NewsTypeState copyWith({
@@ -18,5 +18,3 @@ class NewsTypeState extends Equatable {
   @override
   List<Object> get props => [type];
 }
-
-

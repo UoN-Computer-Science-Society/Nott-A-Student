@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nott_a_student/src/presentation/widget/nav-item.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-item.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
@@ -8,21 +8,26 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        NavItem(
-          label: "Dashboard",
-          icon: Icons.dashboard,
-          route: '/dashboard',
-        ),
-        NavItem(
-            label: "Timetable",
-            icon: Icons.calendar_today,
-            route: '/dashboard'),
-        NavItem(label: "Bus", icon: Icons.directions_bus, route: '/bus'),
-        NavItem(label: "Account", icon: Icons.person, route: '/account'),
-      ],
+    return const Material(
+      color: Colors.white,
+      elevation: 20,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          NavItem(
+            label: "Dashboard",
+            icon: Icons.dashboard,
+            route: '/dashboard',
+          ),
+          NavItem(
+              label: "Timetable",
+              icon: Icons.calendar_today,
+              route: '/dashboard'),
+          NavItem(
+              label: "Bus", icon: Icons.directions_bus, route: '/bus'),
+          NavItem(label: "Account", icon: Icons.person, route: '/account'),
+        ],
+      ),
     );
   }
 }

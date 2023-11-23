@@ -1,11 +1,20 @@
+import 'dart:async';
+import 'dart:developer' as dev;
+import 'dart:math';
+
+import 'package:Nott_A_Student/src/features/dashboard/domain/models/NewsModel.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/header.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/news_card.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/widgets/searchBar.dart';
-import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/header.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/news_card.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
+
+import '../widgets/FeaturedNews.dart';
 
 List newsType = ["ALL", "SA", "FOSE", "FASS", "CAREERS"];
 
@@ -17,62 +26,268 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  List<NewsCard> news = [];
+  List<NewsModel> featuredNews = [];
+  String chosenType = "ALL";
+  double linePositionAnimation = 0;
+  double lineWidthAnimation = 65;
+  int pageCounter = 0;
+  bool isSwiping = false;
+
+  Map<String, GlobalKey> _newsTypeKeys = {};
+
+  RenderBox _getWidgetRenderBox(GlobalKey key) {
+    Offset position = Offset.zero;
+    RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+
+    // setState(() {});
+    return renderBox;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < newsType.length; i++) {
+      final key = GlobalKey();
+      dev.log(newsType[i] + key.toString());
+      _newsTypeKeys[newsType[i]] = key;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
+  }
+
   @override
   Widget build(BuildContext context) {
+    chosenType = context.read<NewsTypeCubit>().state.type;
+    // dev.log(chosenType);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: 0,
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(top: 16, right: 16, left: 16),
         child: Column(
           children: [
             const Header(),
-            const Gap(20),
-            const searchBar(),
-            const Gap(10),
+            const Gap(8),
+            if (featuredNews.isNotEmpty) const FeaturedNews(),
+            const Gap(8),
             Row(children: [
               Text(
                 "Latest News",
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ]),
-            const Gap(15),
-            SizedBox(
-              height: 50,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  //   padding: const EdgeInsets.all(16.0),
-                  itemBuilder: (context, index) {
-                    return newsTypeButton(context, newsType[index]);
+            const Gap(8),
+            Stack(
+              children: [
+                BlocListener<NewsTypeCubit, NewsTypeState>(
+                  listener: (context, state) {
+                    final newsTypebtnRenderBox =
+                        _getWidgetRenderBox(_newsTypeKeys[state.type]!);
+                    final _lineWidthAnimation = newsTypebtnRenderBox.size.width;
+
+                    Offset position =
+                        newsTypebtnRenderBox.localToGlobal(Offset.zero);
+                    dev.log(position.dx.toString());
+                    setState(() {
+                      chosenType = state.type;
+                      linePositionAnimation = position.dx - 16;
+                      lineWidthAnimation = _lineWidthAnimation;
+                    });
                   },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 12.0);
-                  },
-                  itemCount: newsType.length),
-            ),
-            const Gap(20),
-            Expanded(
-              child: ScrollConfiguration(
-                behavior: scrollBehaviour(),
-                child: ListView(
-                  physics: const ClampingScrollPhysics(),
-                  // Scroll the NewsCard widgets vertically
-                  children: const [
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                    NewsCard(),
-                  ],
+                  child: AnimatedPositioned(
+                      bottom: 0,
+                      left: chosenType == "ALL" ? 0 : linePositionAnimation,
+                      duration: const Duration(milliseconds: 250),
+                      child: Container(
+                        width: lineWidthAnimation,
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                    color: Color(0xff005697), width: 3))),
+                        padding: const EdgeInsets.only(bottom: 12),
+                      )),
                 ),
-              ),
+                Container(
+                    decoration: const BoxDecoration(
+                        border: Border(
+                            bottom:
+                                BorderSide(color: Colors.black87, width: 0.5))),
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: SizedBox(
+                      height: 40,
+                      child: ScrollConfiguration(
+                        behavior: scrollBehaviour(),
+                        child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              // dev.log(newsType[index]);
+                              var button = newsTypeButton(
+                                  _newsTypeKeys[newsType[index]]!,
+                                  context,
+                                  newsType[index]);
+                              return button;
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 12.0);
+                            },
+                            itemCount: newsType.length),
+                      ),
+                    ))
+              ],
             ),
+            const Gap(8),
+            Expanded(
+                child: ScrollConfiguration(
+                    behavior: scrollBehaviour(), child: _generateNews())),
           ],
         ),
       ),
       bottomNavigationBar: const BottomNavBar(),
+    );
+  }
+
+  Widget _generateNews() {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      dragStartBehavior: DragStartBehavior.down,
+      onHorizontalDragUpdate: (details) {
+        switch (chosenType) {
+          case "ALL":
+            pageCounter = 0;
+            break;
+          case "SA":
+            pageCounter = 1;
+            break;
+          case "FOSE":
+            pageCounter = 2;
+            break;
+          case "FASS":
+            pageCounter = 3;
+            break;
+          case "CAREERS":
+            pageCounter = 4;
+            break;
+          default:
+            pageCounter = 0;
+        }
+
+        if (!isSwiping) {
+          isSwiping = true;
+          dev.log("Swiping");
+          int sensitivity = 8;
+          if (details.delta.dx > sensitivity) {
+            // Right Swipe
+            if (pageCounter > 0) {
+              dev.log('Right Swipe on Dashbooard');
+              pageCounter--;
+              if (pageCounter >= 0 && pageCounter < newsType.length) {
+                final text = newsType[pageCounter];
+                context.read<NewsTypeCubit>().setState(text);
+                context.read<NewsTypeCubit>().onNewsTypeChanged(text);
+              }
+            }
+          } else if (details.delta.dx < -sensitivity) {
+            //Left Swipe
+            if (pageCounter >= 0 && pageCounter < newsType.length - 1) {
+              dev.log('Left Swipe on Dashbooard');
+              pageCounter++;
+              if (pageCounter >= 0 && pageCounter < newsType.length) {
+                final text = newsType[pageCounter];
+                context.read<NewsTypeCubit>().setState(text);
+                context.read<NewsTypeCubit>().onNewsTypeChanged(text);
+              }
+            }
+          }
+          Timer(Duration(milliseconds: 200), () {
+            isSwiping = false;
+          });
+        }
+      },
+      child: RefreshIndicator(
+        onRefresh: () async {
+          var num = Random().nextInt(10) + 1;
+          dev.log(num.toString());
+          List<NewsCard> _news = List.generate(
+              num,
+              (index) => NewsCard(
+                    news: NewsModel(
+                        author: "",
+                        cat: [
+                          NewsCategory.sa,
+                          NewsCategory.careers,
+                          NewsCategory.fose,
+                          NewsCategory.fass,
+                        ][Random().nextInt(4)],
+                        title:
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id est sed elit volutpat mollis.",
+                        description: "",
+                        url: "",
+                        urlToImage:
+                            "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
+                        publishedAt: DateTime.now()),
+                  ));
+          await Future.delayed(const Duration(seconds: 1));
+          setState(() {
+            news.clear();
+            news = _news;
+          });
+          dev.log('Refreshed');
+        },
+        child: ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
+          itemCount: news.length != 0 ? news.length : 1,
+          // Scroll the NewsCard widgets vertically
+          itemBuilder: (context, index) {
+            if (news.isNotEmpty) {
+              return BlocListener<NewsTypeCubit, NewsTypeState>(
+                listener: (context, state) {
+                  dev.log(state.type);
+                  setState(() {
+                    chosenType = state.type;
+                  });
+                },
+                child: Visibility(
+                    visible: chosenType == "ALL"
+                        ? true
+                        : (chosenType ==
+                            news[index].GetNewsInfo().GetCategoryString()),
+                    child: news[index]),
+              );
+            } else {
+              return noNewsShowing();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  SizedBox noNewsShowing() {
+    return
+        //TODO: NOTE THAT IT SHOULD BE MORE FLEX
+        SizedBox(
+      height: MediaQuery.of(context).size.height * 0.6,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            //TODO: Update to use sv
+            'lib/src/utils/resources/NoNewsVector.png',
+            height: 225,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            child: Text(
+              "There are no updates right now. Check back later.",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

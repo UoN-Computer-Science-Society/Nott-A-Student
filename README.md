@@ -1,4 +1,4 @@
-# nott_a_student
+# Nott_A_Student
 
 - An all-in-one mobile application for the Nottingham Malaysia students, that encompasses class timetabling; bus timetabling; Online DX Forms submission along with navigation within the application right at their fingertips.
 

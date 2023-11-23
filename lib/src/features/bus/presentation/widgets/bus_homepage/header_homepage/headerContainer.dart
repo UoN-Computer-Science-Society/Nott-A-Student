@@ -6,6 +6,7 @@ import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepag
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchBarDestination.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchButton.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchBarDeparture.dart';
+import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/swapButton.dart';
 
 class HeaderContainer extends StatefulWidget {
   const HeaderContainer({Key? key}) : super(key: key);
@@ -24,89 +25,94 @@ class _HeaderContainerState extends State<HeaderContainer> {
       padding: const EdgeInsets.all(16.0),
       child: BlocBuilder<LocationCubit, LocationState>(
         builder: (context, state) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          return Stack(
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Header(),
-                  const Gap(5),
-                  !isCollapsed
-                      ? Column(
-                          children: [
-                            Row(children: [
-                              Text(
-                                'From:',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(color: Colors.white),
-                              ),
-                            ]),
-                            const Gap(5),
-                            const searchBarDeparture(),
-                            const Gap(5),
-                            Row(children: [
-                              Text(
-                                'To:',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(color: Colors.white),
-                              ),
-                            ]),
-                            const Gap(5),
-                            const searchBarDestination(),
-                            const Gap(15),
-                            const searchButton(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Header(),
+                      const Gap(5),
+                      !isCollapsed
+                          ? Column(
                               children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_up_rounded,
-                                    color: Colors.white,
+                                Row(children: [
+                                  Text(
+                                    'From:',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(color: Colors.white),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      isCollapsed = !isCollapsed;
-                                    });
-                                  },
+                                ]),
+                                const Gap(5),
+                                const searchBarDeparture(),
+                                const Gap(5),
+                                Row(children: [
+                                  Text(
+                                    'To:',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge
+                                        ?.copyWith(color: Colors.white),
+                                  ),
+                                ]),
+                                const Gap(5),
+                                const searchBarDestination(),
+                                const Gap(15),
+                                const searchButton(),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.keyboard_arrow_up_rounded,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          isCollapsed = !isCollapsed;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            )
+                          : Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          isCollapsed = !isCollapsed;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  "Dropdown to search for other route",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(color: Colors.white),
                                 ),
                               ],
                             ),
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.keyboard_arrow_down_rounded,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      isCollapsed = !isCollapsed;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            Text(
-                              "Dropdown to search for other route",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelSmall
-                                  ?.copyWith(color: Colors.white),
-                            ),
-                          ],
-                        ),
+                    ],
+                  ),
                 ],
               ),
+              const swapButton(),
             ],
           );
         },

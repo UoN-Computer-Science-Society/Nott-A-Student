@@ -17,7 +17,7 @@ class _DestinationSearchItemState extends State<DestinationSearchItem> {
     return InkWell(
       onTap: () {
         context.read<LocationCubit>().selectedDestination(widget.location);
-        Navigator.pop(context, widget.location);        
+        Navigator.pop(context, widget.location);
       },
       child: Row(
         children: [
@@ -38,19 +38,7 @@ class _DestinationSearchItemState extends State<DestinationSearchItem> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => LocationView(
-                      locationTitle: widget.location,
-                      locationDescription: "Description fors",
-                      imageUrls: const [
-                        'lib/src/utils/resources/bus_image/UNM_Campus.jpg',
-                        'lib/src/utils/resources/bus_image/UNM_Campus2.jpg',
-                      ],
-                      labels: const [
-                        "Supermarket",
-                        "Mall",
-                        "Groceries",
-                        "Any",
-                        "Academic"
-                      ],
+                      locationKey: widget.location,
                     ),
                   ),
                 );

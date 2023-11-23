@@ -22,6 +22,11 @@ class LocationCubit extends Cubit<LocationState> {
     print(state.destination);
   }
 
+  Future<void> swaplocations() async {
+    emit(state.copyWith(depature: state.destination ));
+    emit(state.copyWith(destination: state.depature));
+  }
+
   // ignore: non_constant_identifier_names
   Future<void> onClickSearchBus() async {
     print('Departure: ${state.depature}, Destination: ${state.destination}');

@@ -167,7 +167,8 @@ class BusInfo extends StatelessWidget {
 
 String findNearestArrivalTime(List<String> arrivalTimes) {
   DateTime currentTime = DateTime.now();
-  DateTime nearestBusTime = DateTime(2100); // Initialize with the current time
+  DateTime nearestBusTime = DateTime(2100);
+  bool found = false;
 
   for (String arrivalTime in arrivalTimes) {
     if (arrivalTime == "No BusM") {
@@ -181,11 +182,15 @@ String findNearestArrivalTime(List<String> arrivalTimes) {
       if (busTime.compareTo(currentTime) >= 0 &&
           busTime.compareTo(nearestBusTime) < 0) {
         nearestBusTime = busTime;
-       }
+        found = true;
+      }
     } catch (e) {
       // Handle invalid time format or other exceptions
       print('Invalid time format: $arrivalTime');
     }
+  }
+  if (!found) {
+    return "Last bus has gone";
   }
 
   return DateFormat('h:mm a').format(nearestBusTime);
@@ -202,13 +207,6 @@ class ArrivalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String nearestArrivalTime = findNearestArrivalTime(timetableData);
-    String remainingMinutes;
-    if (nearestArrivalTime == "No bus today") {
-      remainingMinutes = "No bus today";
-    } else {
-      remainingMinutes = nearestArrivalTime;
-    }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
@@ -221,7 +219,7 @@ class ArrivalInfo extends StatelessWidget {
           ),
         ),
         Text(
-          remainingMinutes,
+          nearestArrivalTime,
           style: const TextStyle(
             color: Color(0xFFC50243),
             fontSize: 16,

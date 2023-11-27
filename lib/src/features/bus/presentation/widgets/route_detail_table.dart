@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/route_detail_row.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/route_detail_row.dart';
 
 class RouteDetailTable extends StatefulWidget {
   final Map<String, List<String>> timetableData;
@@ -22,7 +22,7 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-           /*  Row(
+            /*  Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
@@ -91,7 +91,9 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
                     children: [
                       RouteDetailRow(
                           timetableData: widget.timetableData[day]!, day: day),
-                      const Divider(color: Colors.black,),
+                      const Divider(
+                        color: Colors.black,
+                      ),
                       const Gap(10),
                     ],
                   ),

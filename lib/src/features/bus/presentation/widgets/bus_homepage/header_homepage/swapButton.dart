@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 
 class swapButton extends StatelessWidget {
   const swapButton({super.key});

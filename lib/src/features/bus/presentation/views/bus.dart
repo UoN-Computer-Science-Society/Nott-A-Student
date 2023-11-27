@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:nott_a_student/src/features/bus/data/data%20source/retrieveTimetable.dart';
-import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
-import 'package:nott_a_student/src/features/bus/presentation/views/route_details_page.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCard.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteRouteCard.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/headerContainer.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/route_detail_table.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/single_day_route_detail_table.dart';
-import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/views/route_details_page.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCard.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteRouteCard.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/headerContainer.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/route_detail_table.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/single_day_route_detail_table.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 
 class Bus extends StatefulWidget {
   const Bus({super.key});
@@ -34,9 +34,12 @@ class _BusState extends State<Bus> {
             children: [
               const HeaderContainer(),
               context.read<LocationCubit>().state.route == ""
-                  ?  Expanded(
+                  ? Expanded(
                       child: ListView(
-                        children: [const favouriteRouteCard(), const BusDepartureCard()],
+                        children: [
+                          const favouriteRouteCard(),
+                          const BusDepartureCard()
+                        ],
                       ),
                     )
                   : Expanded(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_cubit.dart';
-import 'package:nott_a_student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
-import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCarddetails.dart';
-import 'package:nott_a_student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCarddetails.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 
 class RouteDetailsPage extends StatefulWidget {
   final List<String> timetableData;

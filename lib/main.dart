@@ -1,3 +1,4 @@
+import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,8 +75,8 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.style(),
         debugShowCheckedModeBanner: false,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: const Scaffold(body: Dashboard()
-            /* body: BlocBuilder<AuthCubit, AuthState>(
+        home: Scaffold(
+          body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
               final log = Logger('MainAccount');
               if (firstRun) {
@@ -108,8 +109,8 @@ class _MyAppState extends State<MyApp> {
                 }
               }
             },
-          ), */
-            ),
+          ),
+        ),
       ),
     );
   }

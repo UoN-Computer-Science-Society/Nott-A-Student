@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/route_detail_row.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/single_day_route_detail_row.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/route_detail_row.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/single_day_route_detail_row.dart';
 
 class SingleDayRouteDetailTable extends StatefulWidget {
   final Map<String, List<String>> timetableData;
@@ -33,7 +33,6 @@ class _SingleDayRouteDetailTableState extends State<SingleDayRouteDetailTable> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-
           Container(
             padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(

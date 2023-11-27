@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCardDetails.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/headerbusDeparturing.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCardDetails.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/headerbusDeparturing.dart';
 
 class BusDepartureCard extends StatelessWidget {
   const BusDepartureCard({super.key});

@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:nott_a_student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
 
 part 'location_state.dart';
 
@@ -23,7 +23,7 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   Future<void> swaplocations() async {
-    emit(state.copyWith(depature: state.destination ));
+    emit(state.copyWith(depature: state.destination));
     emit(state.copyWith(destination: state.depature));
   }
 

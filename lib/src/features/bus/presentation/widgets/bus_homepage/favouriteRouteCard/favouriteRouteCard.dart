@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCardList.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/headerfavouriteRouteCard.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCardList.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/headerfavouriteRouteCard.dart';
 
 // ignore: camel_case_types
 class favouriteRouteCard extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nott_a_student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
 
 class FavouriteBusCardDetails extends StatefulWidget {
   final String route;

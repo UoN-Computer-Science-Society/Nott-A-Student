@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
-import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDialog/DestinationSearchItem.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDialog/DestinationSearchItem.dart';
 
 // ignore: non_constant_identifier_names
 List<String> DestinationLocationlist = [
@@ -41,11 +41,13 @@ class DestinationDialog extends StatelessWidget {
       ),
       children: <Widget>[
         ...DestinationLocationlist.where((location) =>
-                location != context.read<LocationCubit>().state.depature && (context.read<LocationCubit>().state.depature == "Campus" || context.read<LocationCubit>().state.depature == "Your Depature") )
-            .map((filteredLocation) =>
-                DestinationSearchItem(location: filteredLocation)),
-
-        if(context.read<LocationCubit>().state.depature != "Campus" && context.read<LocationCubit>().state.depature != "Your Depature")
+            location != context.read<LocationCubit>().state.depature &&
+            (context.read<LocationCubit>().state.depature == "Campus" ||
+                context.read<LocationCubit>().state.depature ==
+                    "Your Depature")).map((filteredLocation) =>
+            DestinationSearchItem(location: filteredLocation)),
+        if (context.read<LocationCubit>().state.depature != "Campus" &&
+            context.read<LocationCubit>().state.depature != "Your Depature")
           const DestinationSearchItem(location: "Campus")
       ],
     );

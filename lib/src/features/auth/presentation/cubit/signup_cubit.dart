@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
@@ -11,6 +12,7 @@ part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   final AuthRepository authRepo;
+  final signupDialogKey = GlobalKey();
   SignupCubit({required this.authRepo}) : super(const SignupState());
 
   void onNameChanged(String name) {
@@ -117,6 +119,7 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   Future<void> onFormSubmit(BuildContext ctx) async {
+    showLoadingDialogBar(ctx, "Registering your account");
     emit(state.copyWith(status: SignupLoading()));
     print(state.name +
         state.year +
@@ -151,33 +154,9 @@ class SignupCubit extends Cubit<SignupState> {
 
         id.then((value) {
           print(id);
+          Navigator.of(signupDialogKey.currentContext!).pop();
           emit(state.copyWith(status: SignupSuccess()));
         });
-        /*      test.then((value) {
-          print("Update preferences start");
-          // Update user preferences
-          var userPrefs = {
-            'Year': state.year,
-            'School': state.school,
-            'Program': state.program,
-          };
-
-          Future updatePref = account.updatePrefs(
-            prefs: userPrefs,
-          );
-          updatePref.then((value) {
-            Future getPref = account.getPrefs();
-            getPref.then((value) {
-              var prefs = value as Preferences;
-              print(prefs.data);
-            });
-          }).catchError((error) {
-            print(error);
-            print('preference error');
-          });
-        }).catchError((error) {
-          print(error);
-        }); */
       }).catchError((error) {
         print(error);
       });
@@ -193,6 +172,31 @@ class SignupCubit extends Cubit<SignupState> {
     if (userId != "Failed") {
       emit(state.copyWith(status: SignupSuccess()));
     } */
+  }
+
+  Future<void> showLoadingDialogBar(
+      BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: SimpleDialog(
+          key: signupDialogKey,
+          children: [
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [const CircularProgressIndicator(), Text(message)],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+    await Future.delayed(
+        const Duration(milliseconds: 2000)); // Simulate a long-running process
   }
 
   Future<void> updateUserPreferences() async {

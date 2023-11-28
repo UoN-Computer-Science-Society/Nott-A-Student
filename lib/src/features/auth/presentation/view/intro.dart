@@ -215,7 +215,7 @@ class _IntroState extends State<Intro> {
             activeColor: Theme.of(context).primaryColor,
             spacing: EdgeInsets.only(
                 right: MediaQuery.of(context).size.width * 0.02)),
-        controlsMargin: EdgeInsets.all(16),
+        controlsMargin: const EdgeInsets.all(16),
         showNextButton: true,
         showBackButton: true,
         showDoneButton: false,

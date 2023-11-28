@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
@@ -49,7 +50,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(state.copyWith(
             authStatus: const AuthUnauthorized(),
           ));
-          log(error.response);
+          log(error.response.toString());
         });
       } else {
         // The user is not logged in
@@ -72,8 +73,10 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void logout() async {
+  final logoutDialogKey = GlobalKey();
+  void logout(BuildContext ctx) async {
     try {
+      showLoadingDialogBar(ctx, "Logging you out");
       var sessionId = await getData();
       final account = Account(client);
       log('Logging out... User Id: $sessionId');
@@ -84,6 +87,7 @@ class AuthCubit extends Cubit<AuthState> {
       result.then((value) {
         clearLocalSession();
         //   clearUserPrefs();
+        Navigator.of(logoutDialogKey.currentContext!).pop();
         emit(state.copyWith(
           session: null,
           authStatus: const AuthUnauthorized(),
@@ -93,5 +97,30 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  Future<void> showLoadingDialogBar(
+      BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => WillPopScope(
+        onWillPop: () async => false,
+        child: SimpleDialog(
+          key: logoutDialogKey,
+          children: [
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [const CircularProgressIndicator(), Text(message)],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+    await Future.delayed(
+        const Duration(milliseconds: 2000)); // Simulate a long-running process
   }
 }

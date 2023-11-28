@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -84,7 +86,7 @@ class _ReadyScreen extends State<ReadyScreen> {
                 // Show an error message to the user.
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('${state.status}'),
+                    content: Text('Proceed Failed: ${state.status}'),
                     duration: const Duration(seconds: 3),
                   ),
                 );
@@ -96,7 +98,8 @@ class _ReadyScreen extends State<ReadyScreen> {
                 //context.read<SignupCubit>().updateUserPreferences();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Welcome'),
+                    content:
+                        Text('Registration Success! Welcome to Nott-A-Student'),
                     duration: Duration(seconds: 3),
                   ),
                 );
@@ -104,12 +107,13 @@ class _ReadyScreen extends State<ReadyScreen> {
                   '/dashboard',
                 );
                 context.read<AuthCubit>().attemptAutoLogin();
-                print("sign up sucesss");
+                log("sign up sucesss");
               } else if (state.status is SignupFailed) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("signup failed"),
-                    duration: Duration(seconds: 3),
+                  SnackBar(
+                    content: Text(
+                        "Registration Failed ${(state.status as SignupFailed).exception}"),
+                    duration: const Duration(seconds: 3),
                   ),
                 );
                 Navigator.of(context).pushNamed(

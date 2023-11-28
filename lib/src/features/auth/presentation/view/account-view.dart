@@ -127,7 +127,7 @@ class Account extends StatelessWidget {
                   },
                   child: InkWell(
                     onTap: (() {
-                      context.read<AuthCubit>().logout();
+                      context.read<AuthCubit>().logout(context);
                     }),
                     child: Container(
                       width: 328, // Width of 328px

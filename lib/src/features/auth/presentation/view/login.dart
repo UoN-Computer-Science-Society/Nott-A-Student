@@ -151,7 +151,7 @@ class _LoginState extends State<Login> {
                           duration: Duration(seconds: 3),
                         ),
                       );
-                      Navigator.of(context).pushNamed(
+                      Navigator.of(context).pushReplacementNamed(
                         '/dashboard',
                       );
                     } else if (state is LoginFailed) {

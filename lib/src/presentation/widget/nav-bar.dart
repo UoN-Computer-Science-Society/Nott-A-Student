@@ -20,7 +20,7 @@ class BottomNavBar extends StatelessWidget {
             label: "Timetable",
             icon: Icons.calendar_today,
             route: '/dashboard'),
-        NavItem(label: "Bus", icon: Icons.directions_bus, route: '/bus'),
+        NavItem(label: "Bus", icon: Icons.directions_bus, route: '/bus-main'),
         NavItem(label: "Account", icon: Icons.person, route: '/account'),
       ],
     );

@@ -2,12 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nott_a_student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
 import 'package:nott_a_student/src/features/bus/data/data%20source/retrieveTimetable.dart';
 
 class FavouriteBusCardDetails extends StatefulWidget {
   final String route;
+   final VoidCallback onRemove; // Add a callback for card removal
 
-  const FavouriteBusCardDetails({super.key, required this.route});
+  const FavouriteBusCardDetails({super.key, required this.route, required this.onRemove});
 
   @override
   State<FavouriteBusCardDetails> createState() =>
@@ -18,9 +20,10 @@ class _FavouriteBusCardDetailsState extends State<FavouriteBusCardDetails> {
   late String departure;
   late String destination;
   String currentDay = DateFormat('EEEE').format(DateTime.now());
+
+  bool isDisplay = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     List<String> parts = widget.route.split(' to ');
 
@@ -30,64 +33,81 @@ class _FavouriteBusCardDetailsState extends State<FavouriteBusCardDetails> {
     }
   }
 
+  Future<void> _removeFromFavourite() async {
+    setState(() {
+      isDisplay = false;
+    });
+    await removeFavouriteRoute(widget.route);
+    widget.onRemove();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 284,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFFFAFAFA),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xFF4252B1),
-          width: 2,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            blurRadius: 20,
-            offset: const Offset(0, 4),
+    return 
+       Container(
+        width: 284,
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFAFAFA),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: const Color(0xFF4252B1),
+            width: 2,
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          LocationInfo(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LocationInfo(
               title: 'From',
               location: departure,
-              icon: const Icon(Icons.star, color: Colors.yellow)),
-          const SizedBox(height: 20),
-          LocationInfo(
-            title: 'To',
-            location: destination,
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const BusInfo(busId: 'VCK2020'),
-              FutureBuilder<Map<String, List<String>>>(
-                  future: getTimeTable(widget.route),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        return const Text('Press button to start.');
-                      case ConnectionState.active:
-                      case ConnectionState.waiting:
-                        return const Text('Awaiting result...');
-                      case ConnectionState.done:
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        }
-                        return ArrivalInfo(
-                            timetableData: snapshot.data![currentDay]!);
-                    }
-                  }),
-            ],
-          ),
-        ],
-      ),
+              icon: IconButton(
+                onPressed: (() {
+                  _removeFromFavourite();
+                }),
+                icon: (isDisplay)
+                    ? const Icon(Icons.star, color: Colors.yellow)
+                    : const Icon(Icons.star_border, color: Colors.yellow),
+              ),
+            ),
+            const SizedBox(height: 20),
+            LocationInfo(
+              title: 'To',
+              location: destination,
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const BusInfo(busId: 'VCK2020'),
+                FutureBuilder<Map<String, List<String>>>(
+                    future: getTimeTable(widget.route),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                          return const Text('Press button to start.');
+                        case ConnectionState.active:
+                        case ConnectionState.waiting:
+                          return const Text('Awaiting result...');
+                        case ConnectionState.done:
+                          if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          }
+                          return ArrivalInfo(
+                              timetableData: snapshot.data![currentDay]!);
+                      }
+                    }),
+              ],
+            ),
+          ],
+        ),
     );
   }
 }
@@ -95,7 +115,7 @@ class _FavouriteBusCardDetailsState extends State<FavouriteBusCardDetails> {
 class LocationInfo extends StatelessWidget {
   final String title;
   final String location;
-  final Icon? icon; // Optional icon
+  final IconButton? icon; // Optional icon
 
   const LocationInfo({
     Key? key,
@@ -103,6 +123,7 @@ class LocationInfo extends StatelessWidget {
     required this.location,
     this.icon, // Optional icon
   }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +152,8 @@ class LocationInfo extends StatelessWidget {
             ],
           ),
         ),
-        if (icon != null) icon!, // Only display the icon if it's not null
+        if (icon != null) icon!,
+        // Only display the icon if it's not null
       ],
     );
   }

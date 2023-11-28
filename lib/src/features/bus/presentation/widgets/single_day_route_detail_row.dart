@@ -17,22 +17,26 @@ class SingleDayRouteDetailRow extends StatefulWidget {
 class _SingleDayRouteDetailRowState extends State<SingleDayRouteDetailRow> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (var time in widget.timetableData)
-          Column(
-            children: [
-              const Gap(10),
-              Text(
-                time.toString(),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.normal),
-              ),
-              const Gap(10),
-              const Divider(),
-             
-            ],
-          ),
-      ],
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: widget.timetableData.length,
+      itemBuilder: (context, index) {
+        var time = widget.timetableData[index];
+        return Column(
+          children: [
+            const Gap(10),
+            Text(
+              time.toString(),
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.normal),
+            ),
+            const Gap(10),
+            const Divider(),
+          ],
+        );
+      },
     );
   }
 }

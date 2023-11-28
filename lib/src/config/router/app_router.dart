@@ -7,6 +7,7 @@ import 'package:nott_a_student/src/features/auth/presentation/view/account-view.
 import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
 import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
+import 'package:nott_a_student/src/features/bus/presentation/views/bus-main.dart';
 import 'package:nott_a_student/src/features/bus/presentation/views/bus.dart';
 import 'package:nott_a_student/src/features/bus/presentation/views/route_details_page.dart';
 import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
@@ -51,9 +52,13 @@ class AppRouter {
         );
       case '/bus':
         return MaterialPageRoute(
-          builder: (_) =>  const Bus(),
+          builder: (_) => const Bus(),
         );
-      
+      case '/bus-main':
+        return MaterialPageRoute(
+          builder: (_) => const BusMain(),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

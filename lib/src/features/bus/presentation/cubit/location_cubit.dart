@@ -61,4 +61,8 @@ class LocationCubit extends Cubit<LocationState> {
       return false;
     }
   }
+
+  void clearAllField(){
+      emit(state.copyWith(route: "",depature: "",destination: ""));
+  }
 }

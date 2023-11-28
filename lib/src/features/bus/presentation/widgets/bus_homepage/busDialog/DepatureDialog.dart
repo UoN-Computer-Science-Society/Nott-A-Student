@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/bus_homepage/busDialog/DepartureSearchItem.dart';
 
 // ignore: non_constant_identifier_names

@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:nott_a_student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:nott_a_student/src/features/bus/presentation/views/route_details_page.dart';
 import 'package:nott_a_student/src/features/bus/presentation/widgets/route_detail_row.dart';
+import 'package:nott_a_student/src/features/bus/presentation/widgets/single_day_route_detail_table.dart';
 
 class RouteDetailTable extends StatefulWidget {
   final Map<String, List<String>> timetableData;
@@ -21,7 +22,7 @@ class RouteDetailTable extends StatefulWidget {
 class _RouteDetailTableState extends State<RouteDetailTable> {
   DateTime currentDate = DateTime.now();
   String currentDay = DateFormat('EEEE').format(DateTime.now());
-@override
+  @override
   Widget build(BuildContext context) {
     return ListView(
       physics: AlwaysScrollableScrollPhysics(),

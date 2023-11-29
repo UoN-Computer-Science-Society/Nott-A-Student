@@ -23,14 +23,15 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   Future<void> swaplocations() async {
-    emit(state.copyWith(depature: state.destination ));
-    emit(state.copyWith(destination: state.depature));
+    String tmp = state.depature;
+    emit(state.copyWith(depature: state.destination));
+    emit(state.copyWith(destination: tmp));
+
   }
 
   // ignore: non_constant_identifier_names
   Future<void> onClickSearchBus() async {
     print('Departure: ${state.depature}, Destination: ${state.destination}');
-
     String route = '${state.depature} to ${state.destination}';
     emit(state.copyWith(route: route));
     print(state.route);
@@ -41,9 +42,10 @@ class LocationCubit extends Cubit<LocationState> {
     // depature != Campus, destination == Campus
     if (state.depature != "Campus" && state.depature != "Your depature") {
       emit(state.copyWith(destination: "Campus"));
-    } else if (state.depature == "Campus" && state.destination == "Campus") {
-      emit(state.copyWith(destination: "Your destination"));
     }
+    // } else if (state.destination == "Campus") {
+    //   emit(state.copyWith(destination: "Your destination"));
+    // }
   }
 
   Future<void> addToFavourite() async {
@@ -62,7 +64,7 @@ class LocationCubit extends Cubit<LocationState> {
     }
   }
 
-  void clearAllField(){
-      emit(state.copyWith(route: "",depature: "",destination: ""));
+  void clearAllField() {
+    emit(state.copyWith(route: "", depature: "", destination: ""));
   }
 }

@@ -40,9 +40,7 @@ class _RouteDetailRowState extends State<RouteDetailRow> {
                   ),
                   const Gap(10),
                 ],
-              ),
-
-              
+              ),              
           ],
         ),
       ],

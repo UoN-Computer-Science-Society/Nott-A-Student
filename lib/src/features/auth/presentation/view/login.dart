@@ -73,7 +73,7 @@ class _LoginState extends State<Login> {
               TextFormField(
                   obscureText: !passwordVisible,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     hintText: 'Enter your password',
                     suffixIcon: IconButton(
                       icon: Icon(passwordVisible

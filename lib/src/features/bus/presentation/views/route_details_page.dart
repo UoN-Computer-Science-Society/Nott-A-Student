@@ -222,7 +222,7 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
           ),
         ),
       ]),
-      bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 

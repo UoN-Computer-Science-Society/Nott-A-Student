@@ -1,5 +1,8 @@
+import 'package:Nott_A_Student/src/features/auth/presentation/view/account-view.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/views/bus.dart';
 import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,8 +55,16 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
+final List<Widget> _pages = [
+  const Dashboard(),
+  const Dashboard(),
+  const Bus(),
+  const Account()
+];
+
 class _MyAppState extends State<MyApp> {
   final AppRouter _appRouter = AppRouter();
+  int _currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +110,7 @@ class _MyAppState extends State<MyApp> {
                 dev.log("First Run not detected");
                 if (state.authStatus is AuthAuthorized) {
                   context.read<AccountCubit>().initializeAccountInfo();
-                  return const Dashboard();
+                  return _pages[_currentPageIndex];
                 } else if (state.authStatus is AuthUnauthorized) {
                   return const Login();
                 } else if (state.authStatus is AuthInitial) {
@@ -108,6 +119,14 @@ class _MyAppState extends State<MyApp> {
                   return const CircularProgressIndicator();
                 }
               }
+            },
+          ),
+          bottomNavigationBar: BottomNavBar(
+            currentIndex: _currentPageIndex,
+            onTabSelected: (index) {
+              setState(() {
+                _currentPageIndex = index;
+              });
             },
           ),
         ),

@@ -144,7 +144,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 

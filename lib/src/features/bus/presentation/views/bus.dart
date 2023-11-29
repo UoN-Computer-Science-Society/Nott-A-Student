@@ -158,7 +158,7 @@ class _BusState extends State<Bus> {
           );
         },
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      // bottomNavigationBar: const BottomNavBar(),
     );
   }
 }

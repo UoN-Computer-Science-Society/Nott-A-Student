@@ -7,12 +7,16 @@ class NavItem extends StatelessWidget {
   final String label;
   final IconData icon;
   final String route;
+  final bool isSelected;
+  final VoidCallback onTap;
 
   const NavItem({
     Key? key,
     required this.label,
     required this.icon,
     required this.route,
+    required this.isSelected,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -23,12 +27,13 @@ class NavItem extends StatelessWidget {
       },
       builder: (context, state) {
         return GestureDetector(
-          onTap: () {
-            context.read<BottomNavBarCubit>().onSwitch(label);
-            Navigator.of(context).pushReplacementNamed(
-              route,
-            );
-          },
+          onTap: onTap,
+          // onTap: () {
+          //   context.read<BottomNavBarCubit>().onSwitch(label);
+          //   Navigator.of(context).pushReplacementNamed(
+          //     route,
+          //   );
+          // },
           child: Container(
             width: 90, // Specify the width as per your requirements
             height: 80, // Specify the height as per your requirements
@@ -36,7 +41,8 @@ class NavItem extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
-                  color: context.read<BottomNavBarCubit>().state.label == label
+                  // color: context.read<BottomNavBarCubit>().state.label == label
+                  color: isSelected
                       ? const Color(0xFF005697)
                       : Colors.white, // Specify the border color
                   width: 2.5, // Specify the border width
@@ -46,7 +52,8 @@ class NavItem extends StatelessWidget {
             child: Column(
               children: [
                 Icon(
-                  color: context.read<BottomNavBarCubit>().state.label == label
+                  // color: context.read<BottomNavBarCubit>().state.label == label
+                  color: isSelected
                       ? const Color(0xFF005697)
                       : const Color(0xFF3B7DB0),
                   icon,

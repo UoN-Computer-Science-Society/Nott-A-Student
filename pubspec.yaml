@@ -1,5 +1,5 @@
-name: nott_a_student
-description: A new Flutter project.
+name: Nott_A_Student
+description: An All-in-One Student Application for the student experience in the University of Nottingham Malaysia.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -43,12 +43,37 @@ dependencies:
   form_field_validator: ^1.1.0
   localstorage: ^4.0.1+4
   shared_preferences: ^2.2.1
-  intl: ^0.18.1
+  is_first_run: ^1.0.0
+  logging: ^1.2.0
+  flutter_svg: ^2.0.9
+  bloc: ^8.1.2
+  http: ^1.0.0
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  url_launcher: ^6.0.9 
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "lib/src/utils/resources/nas_logo.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "lib/src/utils/resources/nas_logo.png"
+    background_color: "#1C3064"
+    theme_color: "#1C3064"
+  windows:
+    generate: true
+    image_path: "lib/src/utils/resources/nas_logo.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "lib/src/utils/resources/nas_logo.png"
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -61,12 +86,35 @@ flutter:
   uses-material-design: true
 
   fonts:
-    - family: NimbusSansL
+    - family: Poppins
       fonts:
-        - asset: fonts/Nimbus-Sans-L.ttf
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Thin.ttf
+        - asset: fonts/Poppins-ExtraLight.ttf
+        - asset: fonts/Poppins-Light.ttf
+        - asset: fonts/Poppins-Medium.ttf
+        - asset: fonts/Poppins-SemiBold.ttf
+        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Poppins-ExtraBold.ttf
+        - asset: fonts/Poppins-Black.ttf
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/src/utils/constants/dept.json
+    - lib/src/utils/resources/SignUpSuccess.png
+    - lib/src/utils/resources/NoNewsVector.png
+    - lib/src/utils/resources/intro/intro_start.svg
+    - lib/src/utils/resources/intro/intro_news.svg
+    - lib/src/utils/resources/intro/intro_bus.svg
+    - lib/src/utils/resources/intro/intro_timetable.svg
+    - lib/src/utils/resources/intro/intro_end.svg
+    - lib/src/utils/resources/nas_logo.png
+    - lib/src/utils/resources/CSS_dark.png
+    - lib/src/utils/constants/location.json
+    - lib/src/utils/resources/bus_image/UNM_Campus.jpg
+    - lib/src/utils/resources/bus_image/UNM_Campus2.jpg
+  
+
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

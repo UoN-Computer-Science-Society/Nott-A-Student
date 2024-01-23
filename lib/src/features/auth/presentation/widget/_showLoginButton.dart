@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-
 class ShowLoginButton extends StatelessWidget {
   const ShowLoginButton({
     super.key,
@@ -25,7 +24,7 @@ class ShowLoginButton extends StatelessWidget {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      Navigator.of(context).pushNamed(
+                      Navigator.of(context).pushReplacementNamed(
                         '/login',
                       );
                     }),

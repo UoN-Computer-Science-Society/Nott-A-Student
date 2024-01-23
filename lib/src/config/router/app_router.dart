@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:nott_a_student/src/features/auth/presentation/view/intro.dart';
-import 'package:nott_a_student/src/features/auth/presentation/view/login.dart';
-import 'package:nott_a_student/src/features/auth/presentation/view/signup.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
-import 'package:nott_a_student/src/features/dashboard/presentation/views/dashboard.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/view/account-view.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/view/intro.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/view/login.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/view/signup.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/views/bus.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/views/route_details_page.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
 
 class AppRouter {
   final LoginCubit _loginCubit = LoginCubit(authRepo: AuthRepository());
@@ -39,9 +42,18 @@ class AppRouter {
           ),
         );
       case '/dashboard':
-         return MaterialPageRoute(
+        return MaterialPageRoute(
           builder: (_) => const Dashboard(),
         );
+      case '/account':
+        return MaterialPageRoute(
+          builder: (_) => const Account(),
+        );
+      case '/bus':
+        return MaterialPageRoute(
+          builder: (_) => const Bus(),
+        );
+
       default:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

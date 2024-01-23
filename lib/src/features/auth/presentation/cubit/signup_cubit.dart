@@ -1,9 +1,11 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nott_a_student/src/features/auth/domain/auth_repo.dart';
-import 'package:nott_a_student/src/features/auth/presentation/cubit/submission_status.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
 
 part 'signup_state.dart';
 
@@ -29,6 +31,7 @@ class SignupCubit extends Cubit<SignupState> {
     print(school);
     if (school != state.school) {
       emit(state.copyWith(school: school));
+      emit(state.copyWith(program: null));
     }
   }
 
@@ -113,7 +116,8 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
-  void onFormSubmit() {
+  Future<void> onFormSubmit(BuildContext ctx) async {
+    emit(state.copyWith(status: SignupLoading()));
     print(state.name +
         state.year +
         state.school +
@@ -135,31 +139,48 @@ class SignupCubit extends Cubit<SignupState> {
           email: state.email,
           password: state.password,
           name: state.name);
+
       result.then((response) {
-        var user = response as User;
+        final id = authRepo.login(
+            context: ctx,
+            email: state.email,
+            password: state.password,
+            year: state.year,
+            school: state.school,
+            program: state.program);
 
-        // Update user preferences
-        var userPrefs = {
-          'Year': state.year,
-          'School': state.school,
-          'Program': state.program
-        };
+        id.then((value) {
+          print(id);
+          emit(state.copyWith(status: SignupSuccess()));
+        });
+        /*      test.then((value) {
+          print("Update preferences start");
+          // Update user preferences
+          var userPrefs = {
+            'Year': state.year,
+            'School': state.school,
+            'Program': state.program,
+          };
 
-        Future updatePref = account.updatePrefs(prefs: userPrefs);
-        updatePref.then((value) {
-          Future getPref = account.getPrefs();
-          getPref.then((value) {
-            var prefs = value as Preferences;
-            print(prefs.data);
+          Future updatePref = account.updatePrefs(
+            prefs: userPrefs,
+          );
+          updatePref.then((value) {
+            Future getPref = account.getPrefs();
+            getPref.then((value) {
+              var prefs = value as Preferences;
+              print(prefs.data);
+            });
+          }).catchError((error) {
+            print(error);
+            print('preference error');
           });
         }).catchError((error) {
           print(error);
-        });
+        }); */
       }).catchError((error) {
         print(error);
       });
-
-      emit(state.copyWith(status: SignupSuccess()));
     } catch (e) {
       emit(state.copyWith(status: SignupFailed(exception: e.toString())));
     }
@@ -172,5 +193,48 @@ class SignupCubit extends Cubit<SignupState> {
     if (userId != "Failed") {
       emit(state.copyWith(status: SignupSuccess()));
     } */
+  }
+
+  Future<void> updateUserPreferences() async {
+    print("Update preferences function");
+    Client client = Client();
+
+    client
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('6507b9d722fa8ccd95eb');
+
+    Account account = Account(client);
+
+    print("recognise account start");
+    String sessionId = await getData();
+    print("update: " + sessionId);
+    Future updateSession = account.updateSession(sessionId: sessionId);
+
+    updateSession.then((value) {
+      print("Update preferences start");
+      // Update user preferences
+      var userPrefs = {
+        'Year': state.year,
+        'School': state.school,
+        'Program': state.program
+      };
+
+      Future updatePref = account.updatePrefs(
+        prefs: userPrefs,
+      );
+      updatePref.then((value) {
+        Future getPref = account.getPrefs();
+        getPref.then((value) {
+          var prefs = value as Preferences;
+          print(prefs.data);
+        });
+      }).catchError((error) {
+        print(error);
+        print('preference error');
+      });
+    }).catchError((error) {
+      print(error);
+      print('session error');
+    });
   }
 }

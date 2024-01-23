@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "nott_a_student" "\0"
+            VALUE "FileDescription", "Nott_A_Student" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "nott_a_student" "\0"
+            VALUE "InternalName", "Nott_A_Student" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "nott_a_student.exe" "\0"
-            VALUE "ProductName", "nott_a_student" "\0"
+            VALUE "OriginalFilename", "Nott_A_Student.exe" "\0"
+            VALUE "ProductName", "Nott_A_Student" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

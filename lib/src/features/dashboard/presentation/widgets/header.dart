@@ -3,9 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 
 class Header extends StatelessWidget {
-  const Header({
-    super.key,
-  });
+  const Header();
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +13,16 @@ class Header extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Nott-y News",style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Theme.of(context).primaryColor),),
+            Text(
+              "Nott-y News",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge
+                  ?.copyWith(color: Theme.of(context).primaryColor),
+            ),
             const Gap(5),
-           Text(DateFormat('EEEE, d MMMM y').format(DateTime.now())),
+            Text(DateFormat('EEEE, d MMMM y').format(DateTime.now()),
+                style: Theme.of(context).textTheme.bodyMedium)
           ],
         ),
         IconButton(

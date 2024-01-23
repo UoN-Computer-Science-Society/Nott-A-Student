@@ -11,6 +11,7 @@ class searchBar extends StatelessWidget {
       decoration: InputDecoration(
         prefixIcon: Icon(Icons.search_rounded),
         hintText: 'Search all events ...',
+        hintStyle: TextStyle(fontFamily: 'Work Sans'),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(10.0), // Adjust the radius as needed

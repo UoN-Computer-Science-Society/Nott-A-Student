@@ -1,4 +1,5 @@
 // dayView.dart
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart'; // Import your ModuleRequestBloc
@@ -26,9 +27,6 @@ class _dayViewState extends State<dayView> {
     });
   }
 
-
-
-
   bool _isWeekend(DateTime day) {
     return day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
   }
@@ -42,7 +40,20 @@ class _dayViewState extends State<dayView> {
   }
 
   Future<void> fetchTimetableData() async {
-    final data = await bloc.fetchTimetableData();
+    var response;
+    try {
+      final client = Client()
+          .setEndpoint('https://cloud.appwrite.io/v1')
+          .setProject('6507b9d722fa8ccd95eb');
+      Account account = Account(client);
+      response = await account.get();
+    } catch (error) {
+      print('Error while fetching account info: $error');
+      // Handle the error, e.g., show an error message to the user.
+    }
+
+    final data =
+        await bloc.fetchTimetableData(response.prefs.data['Program'], 'spring');
     setState(() {
       timetableData = data;
     });
@@ -51,60 +62,55 @@ class _dayViewState extends State<dayView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Nott-A-Timetable",
-          style: TextStyle(
-            color: Color(0xFF3B7DB0),
-            fontFamily: 'Poppins',
-          ),
-        ),
-        backgroundColor: Colors.white,
-      ),
-      body: Container(
-        padding: const EdgeInsets.only(left: 15),
-        child: Column(
-          children: [
-            Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  selectedDayString,
-                  style: const TextStyle(
-                      fontSize: 30,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.bold),
-                )),
-            TableCalendar(
-              focusedDay: DateTime.now(),
-              firstDay: DateTime.utc(2023, 1, 1),
-              lastDay: DateTime.utc(2050, 1, 1),
-              calendarFormat: CalendarFormat.week,
-              selectedDayPredicate: (day) => isSameDay(day, selectedDay),
-              onDaySelected: _OnDaySelected,
+        appBar: AppBar(
+          title: const Text(
+            "Nott-A-Timetable",
+            style: TextStyle(
+              color: Color(0xFF3B7DB0),
+              fontFamily: 'Poppins',
             ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount: timetableData.length,
-                    itemBuilder: (context, index) {
-                      Activity act = timetableData[index];
-                      if (act.day == selectedDayString) {
-                        return ModuleCard(
-                          courseCode: act.activity ?? 'N/A',
-                          moduleConvener: act.staff ?? 'N/A',
-                          module: act.module ?? 'N/A',
-                          time: '${act.start} - ${act.end}',
-                          room: act.room ?? 'N/A',
-                          day: act.day ?? 'N/A',
-                        );
+          ),
+          backgroundColor: Colors.white,
+        ),
+        body: Container(
+            padding: const EdgeInsets.only(left: 15),
+            child: Column(children: [
+              Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    selectedDayString,
+                    style: const TextStyle(
+                        fontSize: 30,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold),
+                  )),
+              TableCalendar(
+                focusedDay: DateTime.now(),
+                firstDay: DateTime.utc(2023, 1, 1),
+                lastDay: DateTime.utc(2050, 1, 1),
+                calendarFormat: CalendarFormat.week,
+                selectedDayPredicate: (day) => isSameDay(day, selectedDay),
+                onDaySelected: _OnDaySelected,
+              ),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: timetableData.length,
+                      itemBuilder: (context, index) {
+                        Activity act = timetableData[index];
+                        if (act.day == selectedDayString) {
+                          return ModuleCard(
+                            courseCode: act.activity ?? 'N/A',
+                            moduleConvener: act.staff ?? 'N/A',
+                            module: act.module ?? 'N/A',
+                            time: '${act.start} - ${act.end}',
+                            room: act.room ?? 'N/A',
+                            day: act.day ?? 'N/A',
+                          );
                         } else {
                           return Container();
                         }
-                      }
-                )
-                    )]
-                    )
-      ),
-      bottomNavigationBar: const BottomNavBar()
-    );
+                      }))
+            ])),
+        bottomNavigationBar: const BottomNavBar());
   }
 }

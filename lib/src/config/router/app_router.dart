@@ -1,3 +1,5 @@
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/TimeTable.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/dayView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
@@ -8,7 +10,6 @@ import 'package:Nott_A_Student/src/features/auth/presentation/view/intro.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/view/login.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/view/signup.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/views/bus.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/views/route_details_page.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
 
@@ -44,6 +45,10 @@ class AppRouter {
       case '/dashboard':
         return MaterialPageRoute(
           builder: (_) => const Dashboard(),
+        );
+      case '/timetable':
+        return MaterialPageRoute(
+          builder: (_) => const dayView(),
         );
       case '/account':
         return MaterialPageRoute(

@@ -3,9 +3,10 @@ import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dar
 import 'dart:convert';
 
 class ModuleRequestBloc {
-  Future<List<Activity>> fetchTimetableData() async {
+  Future<List<Activity>> fetchTimetableData(
+      String coursecode, String semester) async {
     Client client = Client();
-        client
+    client
             .setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
             .setProject('6507b9d722fa8ccd95eb') // Your project ID
         ;
@@ -17,9 +18,9 @@ class ModuleRequestBloc {
           path: '/timetable',
           method: 'GET',
           headers: {
-            "CourseCode": "UG/M1059/M6UCOMPAI/F/02",
+            "CourseCode": coursecode,
             "Day": "1-5",
-            "Semester": "autumn"
+            "Semester": semester
           });
 
       print(execution.toMap());

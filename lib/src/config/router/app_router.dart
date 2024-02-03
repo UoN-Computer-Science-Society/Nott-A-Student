@@ -1,3 +1,4 @@
+import 'package:Nott_A_Student/src/config/router/no_animation_material_page_route.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/views/TimeTable.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/views/dayView.dart';
 import 'package:flutter/material.dart';
@@ -43,19 +44,19 @@ class AppRouter {
           ),
         );
       case '/dashboard':
-        return MaterialPageRoute(
+        return NoAnimationMaterialPageRoute(
           builder: (_) => const Dashboard(),
         );
       case '/timetable':
-        return MaterialPageRoute(
+        return NoAnimationMaterialPageRoute(
           builder: (_) => const dayView(),
         );
       case '/account':
-        return MaterialPageRoute(
+        return NoAnimationMaterialPageRoute(
           builder: (_) => const Account(),
         );
       case '/bus':
-        return MaterialPageRoute(
+        return NoAnimationMaterialPageRoute(
           builder: (_) => const Bus(),
         );
 

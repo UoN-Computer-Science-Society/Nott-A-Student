@@ -24,6 +24,9 @@ class NavItem extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           onTap: () {
+            if (context.read<BottomNavBarCubit>().state.label == label) {
+              return;
+            }
             context.read<BottomNavBarCubit>().onSwitch(label);
             Navigator.of(context).pushReplacementNamed(
               route,

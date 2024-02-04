@@ -138,12 +138,6 @@ class _SignupState extends State<Signup> {
                           return const ReadyScreen();
                         }
                       }),
-                      /* activeStep == 0
-                          ? const PersonalInfoForm()
-                          : (activeStep == 1
-                              ? const AccountSetup()
-                              : const ReadyScreen()), */
-                      //  const Gap(20),
                     ],
                   ),
                 ),

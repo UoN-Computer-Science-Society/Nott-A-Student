@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
@@ -157,7 +160,8 @@ class SignupCubit extends Cubit<SignupState> {
             program: state.program);
 
         id.then((value) {
-          print(id);
+          log("User has been logged in: $id");
+          ctx.read<AccountCubit>().initializeAccountInfo();
           emit(state.copyWith(status: SignupSuccess()));
         });
         /*      test.then((value) {

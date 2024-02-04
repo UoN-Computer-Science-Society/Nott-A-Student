@@ -119,15 +119,19 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
+  void resetState() {
+    emit(state.copyWith(status: const InitialFormStatus()));
+  }
+
   Future<void> onFormSubmit(BuildContext ctx) async {
     emit(state.copyWith(status: SignupLoading()));
-    print(state.name +
-        state.year +
-        state.school +
-        state.program +
-        state.email +
-        state.password +
-        state.confirmPassword);
+    // print(state.name +
+    //     state.year +
+    //     state.school +
+    //     state.program +
+    //     state.email +
+    //     state.password +
+    //     state.confirmPassword);
 
     try {
       Client client = Client();
@@ -183,9 +187,14 @@ class SignupCubit extends Cubit<SignupState> {
         }); */
       }).catchError((error) {
         print(error);
+        emit(state.copyWith(
+            status: SignupFailed(
+                exception: error, errorMessage: error.toString())));
       });
     } catch (e) {
-      emit(state.copyWith(status: SignupFailed(exception: e.toString())));
+      emit(state.copyWith(
+          status: SignupFailed(
+              exception: AppwriteException(), errorMessage: e.toString())));
     }
 
 /*     final userId = await authRepo.login(

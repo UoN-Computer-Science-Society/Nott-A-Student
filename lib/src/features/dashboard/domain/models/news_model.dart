@@ -7,7 +7,7 @@ class NewsModel {
   final NewsCategory cat;
   final String url;
   final String urlToImage;
-  final DateTime publishedAt;
+  final DateTime eventDate;
 
   NewsModel({
     this.author = "",
@@ -16,9 +16,9 @@ class NewsModel {
     required this.description,
     required this.url,
     required this.urlToImage,
-    required this.publishedAt,
+    required this.eventDate,
   }) {
-    author = _getCategoryString(cat);
+    // author = _getCategoryString(cat);
   }
 
   NewsCategory GetCategory() {
@@ -31,7 +31,7 @@ class NewsModel {
 
   GetPublishedDateFormatted() {
     final DateFormat formatter = DateFormat('d MMM');
-    final String formatted = formatter.format(publishedAt);
+    final String formatted = formatter.format(eventDate);
     return formatted;
   }
 
@@ -41,7 +41,7 @@ class NewsModel {
         description: json['description'],
         url: json['url'],
         urlToImage: json['urlToImage'],
-        publishedAt: json['publishedAt'],
+        eventDate: json['publishedAt'],
         author: json['author'] ?? 'Unknown',
         cat: _getCategory(json['category']));
   }

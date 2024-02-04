@@ -305,10 +305,10 @@ class _passwordFieldState extends State<_passwordField> {
       validator: MultiValidator(
         [
           RequiredValidator(errorText: "* Required"),
-          MinLengthValidator(6,
+          MinLengthValidator(8,
               errorText: "Password should be atleast 8 characters"),
-          MaxLengthValidator(15,
-              errorText: "Password should not be greater than 15 characters")
+          MaxLengthValidator(16,
+              errorText: "Password should not be greater than 16 characters")
         ],
       ),
       onChanged: (value) {

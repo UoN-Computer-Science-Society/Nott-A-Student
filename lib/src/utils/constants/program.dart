@@ -8,7 +8,7 @@ List<DropdownMenuEntry<String>> createDropdownItems(
     items.add(
       DropdownMenuEntry(
         value: value,
-        label: value,
+        label: label,
       ),
     );
   });
@@ -17,7 +17,6 @@ List<DropdownMenuEntry<String>> createDropdownItems(
 }
 
 Map<String, Map<String, String>> data = {
-  "Unknown": {"#SPLUS019416 - ": "NULL"},
   "MSC-ED": {
     "BA Hons Education  (TESOL)/F/01 - XNM4 Education  (TESOL)":
         "UG/M1015/M6UEDUCT/F/01",

@@ -54,10 +54,14 @@ class _LoginState extends State<Login> {
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(12),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Color(0xFF3F3F3F), width: 1)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: const BorderSide(
-                            color: Color(0xFF3F3F3F), width: 2)),
+                            color: Color(0xFF3F3F3F), width: 1)),
                     // hintText: 'Enter your email',
                   ),
                   onChanged: (value) => {
@@ -68,7 +72,7 @@ class _LoginState extends State<Login> {
                   validator: MultiValidator(
                     [
                       RequiredValidator(errorText: "* Required"),
-                      EmailValidator(errorText: "Enter valid email"),
+                      EmailValidator(errorText: "Enter a valid email"),
                     ],
                   ),
                 ),
@@ -79,10 +83,14 @@ class _LoginState extends State<Login> {
                     obscureText: !passwordVisible,
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(12),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: const BorderSide(
+                              color: Color(0xFF3F3F3F), width: 1)),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
-                              color: Color(0xFF3F3F3F), width: 2)),
+                              color: Color(0xFF3F3F3F), width: 1)),
                       // hintText: 'Enter your password',
                       suffixIcon: IconButton(
                         icon: Icon(passwordVisible

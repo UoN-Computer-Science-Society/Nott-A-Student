@@ -86,7 +86,8 @@ class SignupCubit extends Cubit<SignupState> {
           state.school.isEmpty) {
         emit(state.copyWith(
             status: ProceedFailed(
-                errorMessage: "Please fill in all the field before proceed")));
+                errorMessage:
+                    "Please fill in all the field before you proceed. Quack!")));
       } else {
         emit(state.copyWith(status: ProceedSuccess()));
         emit(state.copyWith(status: ProceedInitial()));
@@ -100,13 +101,15 @@ class SignupCubit extends Cubit<SignupState> {
         print("failed empty");
         emit(state.copyWith(
             status: ProceedFailed(
-                errorMessage: "Please fill in all the field before proceed")));
+                errorMessage:
+                    "Please fill in all the field before you proceed. Quack!")));
         emit(state.copyWith(status: ProceedInitial()));
       } else if (state.password != state.confirmPassword) {
         print("failed not match");
         emit(state.copyWith(
             status: ProceedFailed(
-                errorMessage: "Password And Confirm Password does not match")));
+                errorMessage:
+                    "Password and Confirm Password does not match. Quack!")));
         emit(state.copyWith(status: ProceedInitial()));
       } else {
         print("success");

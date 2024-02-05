@@ -31,8 +31,8 @@ class NavItem extends StatelessWidget {
           },
           child: Container(
             width: 90, // Specify the width as per your requirements
-            height: 80, // Specify the height as per your requirements
-            padding: const EdgeInsets.all(8.0),
+            height: 74, // Specify the height as per your requirements
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
             decoration: BoxDecoration(
               border: Border(
                 top: BorderSide(
@@ -56,7 +56,7 @@ class NavItem extends StatelessWidget {
                 const Gap(5),
                 Text(label,
                     style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.width * 0.029)),
+                        fontSize: MediaQuery.of(context).size.width * 0.026)),
               ],
             ),
           ),

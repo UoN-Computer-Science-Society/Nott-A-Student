@@ -147,7 +147,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: const SafeArea(bottom: false, child: BottomNavBar()),
     );
   }
 

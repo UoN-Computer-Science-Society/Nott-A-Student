@@ -7,7 +7,6 @@ class swapButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String temporary = '';
     return Positioned(
       right: 10,
       bottom: 145,

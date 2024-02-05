@@ -1,30 +1,30 @@
 part of 'location_cubit.dart';
 
 class LocationState extends Equatable {
-  final String depature;
+  final String departure;
   final String destination;
   final String route;
 
   const LocationState({
-    this.depature = '',
+    this.departure = '',
     this.destination = '',
     this.route = '',
   });
 
   LocationState copyWith({
-    String? depature,
+    String? departure,
     String? destination,
     String? route,
   }) {
     return LocationState(
-      depature: depature ?? this.depature,
+      departure: departure ?? this.departure,
       destination: destination ?? this.destination,
       route: route ?? this.route,
     );
   }
 
   @override
-  List<Object?> get props => [depature, destination, route];
+  List<Object?> get props => [departure, destination, route];
 }
 
 class InvalidLocation extends LocationState {

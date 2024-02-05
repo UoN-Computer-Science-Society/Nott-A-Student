@@ -16,7 +16,7 @@ class _DepatureSearchItemState extends State<DepatureSearchItem> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<LocationCubit>().selectedDepature(widget.location);
+        context.read<LocationCubit>().selectedDeparture(widget.location);
         Navigator.pop(context, widget.location);
       },
       child: Row(

@@ -48,7 +48,7 @@ class _HeaderContainerState extends State<HeaderContainer> {
                                   ),
                                 ]),
                                 const Gap(5),
-                                const searchBarDeparture(),
+                                const SearchBarDeparture(),
                                 const Gap(5),
                                 Row(children: [
                                   Text(

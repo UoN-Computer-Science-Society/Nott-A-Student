@@ -6,14 +6,12 @@ import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouri
 part 'location_state.dart';
 
 class LocationCubit extends Cubit<LocationState> {
-  String selectedLocation = '';
-
   LocationCubit() : super(const LocationState());
 
-  void selectedDepature(String location) {
-    emit(state.copyWith(depature: location));
+  void selectedDeparture(String location) {
+    emit(state.copyWith(departure: location));
 
-    print(state.depature);
+    print(state.departure);
   }
 
   void selectedDestination(String location) {
@@ -22,35 +20,43 @@ class LocationCubit extends Cubit<LocationState> {
     print(state.destination);
   }
 
+  void onChangedRoute(String route) {
+    emit(state.copyWith(route: route));
+
+    print(state.route);
+  }
+
   Future<void> swaplocations() async {
-    emit(state.copyWith(depature: state.destination));
-    emit(state.copyWith(destination: state.depature));
+    String tempDestination = state.destination;
+    String tempDeparture = state.departure;
+
+    emit(state.copyWith(departure: tempDestination));
+    emit(state.copyWith(destination: tempDeparture));
   }
 
   // ignore: non_constant_identifier_names
   Future<void> onClickSearchBus() async {
-    print('Departure: ${state.depature}, Destination: ${state.destination}');
+    print('Departure: ${state.departure}, Destination: ${state.destination}');
 
-    String route = '${state.depature} to ${state.destination}';
+    String route = '${state.departure} to ${state.destination}';
     emit(state.copyWith(route: route));
     print(state.route);
   }
 
-  // ignore: non_constant_identifier_names
+
   Future<void> filterLocation_Campus() async {
-    // depature != Campus, destination == Campus
-    if (state.depature != "Campus" && state.depature != "Your depature") {
+    if (state.departure != "Campus" && state.departure != "") {
       emit(state.copyWith(destination: "Campus"));
-    } else if (state.depature == "Campus" && state.destination == "Campus") {
-      emit(state.copyWith(destination: "Your destination"));
+    } else if (state.departure == "Campus" && state.destination == "Campus") {
+      emit(state.copyWith(destination: ""));
     }
   }
 
-  Future<void> addToFavourite() async {
-    if (await checkIsRouteExists(state.route)) {
-      await removeFavouriteRoute(state.route);
+  Future<void> addOrRemoveFavourite(String route) async {
+    if (await checkIsRouteExists(route)) {
+      await removeFavouriteRoute(route);
     } else {
-      await saveFavouriteRoute(state.route);
+      await saveFavouriteRoute(route);
     }
   }
 

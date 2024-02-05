@@ -48,6 +48,7 @@ dependencies:
   flutter_svg: ^2.0.9
   bloc: ^8.1.2
   http: ^1.0.0
+  table_calendar: ^3.0.9
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"

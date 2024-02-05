@@ -1,3 +1,4 @@
+import 'package:Nott_A_Student/src/features/bus/presentation/views/search_result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
@@ -52,6 +53,10 @@ class AppRouter {
       case '/bus':
         return MaterialPageRoute(
           builder: (_) => const Bus(),
+        );
+      case '/search_result':
+        return MaterialPageRoute(
+          builder: (_) => const SearchResult(),
         );
 
       default:

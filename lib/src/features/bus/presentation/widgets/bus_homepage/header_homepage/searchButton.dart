@@ -26,9 +26,14 @@ class searchButton extends StatelessWidget {
         onPressed: () {
           // TODO: Add your onPressed code here
           print('Search button pressed');
-/*           context.read<LocationCubit>().selectedDepature();
-          context.read<LocationCubit>().selectedDestination(); */
-          context.read<LocationCubit>().onClickSearchBus();
+
+          if (context.read<LocationCubit>().state.departure != "" &&
+              context.read<LocationCubit>().state.destination != "") {
+            context.read<LocationCubit>().onClickSearchBus();
+            Navigator.pushNamed(context, "/search_result");
+          }else{
+            
+          }
         },
         child: const Text(
           'Search',

@@ -25,71 +25,36 @@ class LocationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
       future: loadLocationData(locationKey),
-      builder:
-          (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
+          return Center(child: Text('Error loading data: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data == null) {
-          return const Text('No data found for this location');
+          return const Center(child: Text('No data found for this location'));
         } else {
           final locationData = snapshot.data!;
-          final String locationDescription =
-              locationData['locationDescription'];
-          final List<String> imageUrls =
-              List<String>.from(locationData['imageUrls']);
+          final String locationDescription = locationData['locationDescription'];
+          final List<String> imageUrls = List<String>.from(locationData['imageUrls']);
           final List<String> labels = List<String>.from(locationData['labels']);
           final String mapsLink = locationData['mapsLink'];
 
           return Scaffold(
             appBar: AppBar(
               title: Text(locationKey),
+              backgroundColor: Colors.white,
             ),
             body: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  SizedBox(
-                    height: 200, // Height of image carousel
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: imageUrls.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(imageUrls[index]),
-                        );
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      locationKey,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(locationDescription),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Wrap(
-                      spacing: 8.0, // Space between labels
-                      children: labels
-                          .map((label) => Chip(label: Text(label)))
-                          .toList(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 16.0),
-                    child: ElevatedButton(
-                      onPressed: () => _launchURL(mapsLink),
-                      child: const Text('Open Maps'),
-                    ),
+                  ImageCarousel(imageUrls: imageUrls),
+                  LocationTitle(title: locationKey),
+                  LocationDescription(description: locationDescription),
+                  LabelsChip(labels: labels),
+                  OpenMapsButton(
+                    mapsLink: mapsLink,
+                    onPressed: () => _launchURL(mapsLink),
                   ),
                 ],
               ),
@@ -97,6 +62,99 @@ class LocationView extends StatelessWidget {
           );
         }
       },
+    );
+  }
+}
+
+class ImageCarousel extends StatelessWidget {
+  final List<String> imageUrls;
+
+  const ImageCarousel({Key? key, required this.imageUrls}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: imageUrls.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(imageUrls[index]),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class LocationTitle extends StatelessWidget {
+  final String title;
+
+  const LocationTitle({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.headline6,
+      ),
+    );
+  }
+}
+
+class LocationDescription extends StatelessWidget {
+  final String description;
+
+  const LocationDescription({Key? key, required this.description}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Text(description),
+    );
+  }
+}
+
+class LabelsChip extends StatelessWidget {
+  final List<String> labels;
+
+  const LabelsChip({Key? key, required this.labels}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Wrap(
+        spacing: 8.0,
+        children: labels.map((label) => Chip(label: Text(label))).toList(),
+      ),
+    );
+  }
+}
+
+class OpenMapsButton extends StatelessWidget {
+  final String mapsLink;
+  final VoidCallback onPressed;
+
+  const OpenMapsButton({
+    Key? key,
+    required this.mapsLink,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        child: const Text('Open Maps'),
+      ),
     );
   }
 }

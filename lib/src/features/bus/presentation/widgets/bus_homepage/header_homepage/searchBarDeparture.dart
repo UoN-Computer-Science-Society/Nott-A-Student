@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDialog/DepatureDialog.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/searchdialog/DepatureDialog.dart';
 
-class searchBarDeparture extends StatelessWidget {
-  const searchBarDeparture({
+class SearchBarDeparture extends StatelessWidget {
+  const SearchBarDeparture({
     super.key,
   });
 
@@ -14,7 +14,7 @@ class searchBarDeparture extends StatelessWidget {
       onTap: (() {
         showDialog(
             context: context,
-            builder: (BuildContext diaglofcontext) {
+            builder: (BuildContext dialogcontext) {
               return const DepatureDialog();
             });
       }),
@@ -30,26 +30,24 @@ class searchBarDeparture extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(Icons.search_rounded, color: Colors.black),
-            SizedBox(width: 8.0),
-            InkWell(
-              child: BlocBuilder<LocationCubit, LocationState>(
-                builder: (context, state) {
-                  return InkWell(
-                    onTap: () => _showDepartureDialog(context),
-                    child: BlocListener<LocationCubit, LocationState>(
-                      listener: (context, state) {
-                        context.read<LocationCubit>().filterLocation_Campus();
-                      },
-                      child: Text(
-                          state.depature.isEmpty
-                              ? 'Your Depature'
-                              : state.depature,
-                          style: const TextStyle(fontSize: 16)),
-                    ),
-                  );
-                },
-              ),
+            const Icon(Icons.search_rounded, color: Colors.black),
+            const SizedBox(width: 8.0),
+            BlocBuilder<LocationCubit, LocationState>(
+              builder: (context, state) {
+                return InkWell(
+                  onTap: () => _showDepartureDialog(context),
+                  child: BlocListener<LocationCubit, LocationState>(
+                    listener: (context, state) {
+                      context.read<LocationCubit>().filterLocation_Campus();
+                    },
+                    child: Text(
+                        state.departure.isEmpty
+                            ? 'Your Departure'
+                            : state.departure,
+                        style: const TextStyle(fontSize: 16)),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -58,7 +56,6 @@ class searchBarDeparture extends StatelessWidget {
   }
 
   void _showDepartureDialog(BuildContext context) {
-    String selectedLocation = "";
-    context.read<LocationCubit>().selectedDepature(selectedLocation);
+    context.read<LocationCubit>().selectedDeparture("");
   }
 }

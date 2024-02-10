@@ -18,7 +18,7 @@ class LocationView extends StatelessWidget {
   const LocationView({Key? key, required this.locationKey}) : super(key: key);
 
   void _launchURL(String url) async {
-    if (!await launch(url)) throw 'Could not launch $url';
+    if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
   }
 
   @override

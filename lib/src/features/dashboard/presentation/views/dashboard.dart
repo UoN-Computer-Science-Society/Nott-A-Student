@@ -232,6 +232,7 @@ class _DashboardState extends State<Dashboard> {
           //               publishedAt: DateTime.now()),
           //         ));
 
+          // TODO: Need to fix up not just SA events
           // Retrieve the SA events information from the web
           final bloc = SAEventsRequestBloc();
           var saEvents = await bloc.retrieveSAEvents();
@@ -247,6 +248,9 @@ class _DashboardState extends State<Dashboard> {
                     url: saEvents[index].signupLink!,
                     urlToImage: saEvents[index].image!,
                     eventDate: format.parseStrict(saEvents[index].date!),
+                    startTime: saEvents[index].startTime!,
+                    endTime: saEvents[index].endTime!,
+                    eventVenue: saEvents[index].venue!,
                   )));
 
           await Future.delayed(const Duration(seconds: 1));

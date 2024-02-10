@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/views/sa_events_details.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -31,7 +33,40 @@ class _NewsCardState extends State<NewsCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Logger("NewsCard").info("TAPPED A NEWS");
+        Logger("NewsCard").info("TAPPED A NEWS CARD: ${_news.cat}");
+        if (_news.cat == NewsCategory.sa) {
+          Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (context, animation, secondaryAnimation) =>
+                    SAEventsDetailsView(
+                  newsModel: _news,
+                ),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  var begin = const Offset(1.0, 0.0);
+                  var end = Offset.zero;
+                  var curve = Curves.ease;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                },
+                transitionDuration: const Duration(milliseconds: 275),
+              ));
+          // MaterialPageRoute(
+          //     builder: (context) => SAEventsDetailsView(newsModel: _news)));
+        } else {
+          // TODO: Create usual email view for the email. For now, just open the SA Events view
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SAEventsDetailsView(newsModel: _news)));
+        }
       },
       child: Container(
         decoration: const BoxDecoration(

@@ -9,6 +9,10 @@ class NewsModel {
   final String urlToImage;
   final DateTime eventDate;
 
+  String eventVenue;
+  String startTime;
+  String endTime;
+
   NewsModel({
     this.author = "",
     required this.cat,
@@ -17,6 +21,9 @@ class NewsModel {
     required this.url,
     required this.urlToImage,
     required this.eventDate,
+    this.eventVenue = "",
+    this.startTime = "",
+    this.endTime = "",
   }) {
     // author = _getCategoryString(cat);
   }
@@ -37,13 +44,17 @@ class NewsModel {
 
   factory NewsModel.fromJson(Map<String, dynamic> json) {
     return NewsModel(
-        title: json['title'],
-        description: json['description'],
-        url: json['url'],
-        urlToImage: json['urlToImage'],
-        eventDate: json['publishedAt'],
-        author: json['author'] ?? 'Unknown',
-        cat: _getCategory(json['category']));
+      title: json['title'],
+      description: json['description'],
+      url: json['url'],
+      urlToImage: json['urlToImage'],
+      eventDate: json['publishedAt'],
+      author: json['author'] ?? 'Unknown',
+      cat: _getCategory(json['category']),
+      eventVenue: json['eventVenue'] ?? '',
+      startTime: json['startTime'] ?? '',
+      endTime: json['endTime'] ?? '',
+    );
   }
 }
 

@@ -2,11 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class AddTaskForm extends StatelessWidget {
-  const AddTaskForm({Key? key}) : super(key: key);
+class AddTaskForm extends StatefulWidget {
+  AddTaskForm({Key? key}) : super(key: key);
+
+  @override
+  State<AddTaskForm> createState() => _AddTaskFormState();
+}
+
+class _AddTaskFormState extends State<AddTaskForm> {
+  Color selectedColour = Colors.blue;
 
   @override
   Widget build(BuildContext context) {
@@ -224,10 +230,36 @@ class AddTaskForm extends StatelessWidget {
                         // Handle color selection logic here
                       },
                       child: CircleAvatar(
-                        backgroundColor:
-                            Colors.blue[200], // You can set the default color
-                        radius: 15.0, // Adjust the size as needed
-                      ),
+                          radius: 15.0,
+                          child: DropdownButton<Color>(
+                            value: selectedColour,
+                            icon: SizedBox.shrink(),
+                            underline: SizedBox.shrink(),
+                            // backgroundColor: Colors.white,
+                            // backgroundRadius: BorderRadius.circular(15.0),
+                            onChanged: (Color? newValue) {
+                              setState(() {
+                                selectedColour = newValue!;
+                              });
+                            },
+                            items: [
+                              Colors.red,
+                              Colors.green,
+                              Colors.blue,
+                              Colors.yellow,
+                              Colors.purple,
+                              Colors.orange,
+                              Colors.pink,
+                              Colors.grey,
+                            ].map<DropdownMenuItem<Color>>((Color value) {
+                              return DropdownMenuItem<Color>(
+                                  value: value,
+                                  child: CircleAvatar(
+                                    backgroundColor: value,
+                                    radius: 15.0,
+                                  ));
+                            }).toList(),
+                          )),
                     ),
                   ],
                 ),

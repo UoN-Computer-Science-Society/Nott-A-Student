@@ -129,7 +129,7 @@ class _TimeTableState extends State<TimeTable> {
           //   description: "Lecture - Dr Radu Muschevici",
           // ),
           // Fetch timetable data and display cards
-
+          
           Expanded(
             child: Align(
               alignment: Alignment.bottomRight,

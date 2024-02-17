@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
 import 'package:logging/logging.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart';
 import 'dart:developer';
 part 'auth_state.dart';
 
@@ -42,6 +43,9 @@ class AuthCubit extends Cubit<AuthState> {
             school: response.prefs.data['School'],
             program: response.prefs.data['Program'],
           ));
+          //added
+          // SharedPreferencesHelper.setProgram(response.prefs.data['Program']);
+          //
           emit(state.copyWith(
             authStatus: const AuthAuthorized(),
           ));
@@ -94,4 +98,13 @@ class AuthCubit extends Cubit<AuthState> {
       log(e.toString());
     }
   }
+
+  //added
+  // void setProgram(String program) {
+  //   emit(state.copyWith(program: program));
+  //   // final authCubit = context.read<AuthCubit>();
+  // //  final authCubit.setProgram(program);
+  // }
+
+
 }

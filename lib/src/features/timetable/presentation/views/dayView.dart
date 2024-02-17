@@ -1,18 +1,21 @@
 // dayView.dart
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart'; // Import your ModuleRequestBloc
 import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
-// import 'package:Nott_A_Student/src/features/timetable/presentation/views/RedLine.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart';
+// import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/Module_state.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/Filter.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/NewTasks.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/ShowEvents.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/widgets/ModuleCard.dart';
+import 'package:appwrite/appwrite.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/ShowEvents.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/NewTasks.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/Filter.dart';
 
 class DayView extends StatefulWidget {
-  const DayView({super.key});
+  // final String program;
+  const DayView({Key? key}) : super(key: key);
 
   @override
   State<DayView> createState() => _dayViewState();
@@ -29,15 +32,16 @@ class _dayViewState extends State<DayView> {
   String currentDate = DateFormat('EEEE, d MMMM y').format(DateTime.now());
   String currentDay = DateFormat('EEEE').format(DateTime.now());
   DateTime selectedDay = DateTime.now();
-  String selectedDayString = "";
+  String selectedDayString = DateFormat('EEEE').format(DateTime.now());
   String selectedDateString = "";
   // ignore: non_constant_identifier_names
   void _OnDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       selectedDay = day;
       String selectedDateString = DateFormat('EEEE, d MMMM y').format(day);
+     
       if (selectedDateString == currentDate) {
-        selectedDayString = "Today";
+        selectedDayString = DateFormat('EEEE').format(DateTime.now());
       } else {
         selectedDayString = DateFormat('EEEE').format(selectedDay);
       }
@@ -57,7 +61,21 @@ class _dayViewState extends State<DayView> {
   }
 
   Future<void> fetchTimetableData() async {
-    final data = await bloc.fetchTimetableData();
+    var response;
+    try {
+      final client = Client();
+      client
+          .setEndpoint('https://cloud.appwrite.io/v1')
+          .setProject('6507b9d722fa8ccd95eb');
+      Account account = Account(client);
+      response = await account.get();
+    } catch (error) {
+      print('Error while fetching account info: $error');
+      // Handle the error, e.g., show an error message to the user.
+    }
+
+    final data =
+        await bloc.fetchTimetableData(response.prefs.data['Program'], 'spring');
     setState(() {
       timetableData = data;
     });
@@ -150,15 +168,8 @@ class _dayViewState extends State<DayView> {
               ),
               Expanded(child: Builder(builder: (BuildContext context) {
                 return Stack(
+                  // context.read<AccountCubit>().state.email,
                   children: [
-                    // Wrap the RedLine widget with Builder
-                    // Builder(
-                    //   builder: (BuildContext context) {
-                    //     return RedLine(linePosition: calculateLinePosition());
-                    //   },
-                    // ),
-                    // RedLine(linePosition: calculateLinePosition()),
-                    // RedLine(linePosition: calculateLinePosition()),
                     ListView.builder(
                       itemCount: timetableData.length,
                       itemBuilder: (context, index) {
@@ -180,27 +191,30 @@ class _dayViewState extends State<DayView> {
                         }
                       },
                     ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(25.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15.0),
-                          child: Container(
-                            height: 50.0,
-                            width: 50.0,
-                            color: const Color.fromARGB(246, 202, 230, 255),
-                            child: IconButton(
-                              icon: Icon(
-                                isExpanded ? Icons.close : Icons.add,
-                                size: 30.0,
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: const EdgeInsets.all(25.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15.0),
+                            child: Container(
+                              height: 50.0,
+                              width: 50.0,
+                              color: const Color.fromARGB(246, 202, 230, 255),
+                              child: IconButton(
+                                icon: Icon(
+                                  isExpanded ? Icons.close : Icons.add,
+                                  size: 30.0,
+                                ),
+                                color: const Color.fromARGB(255, 59, 125, 176),
+                                onPressed: () {
+                                  setState(() {
+                                    isExpanded = !isExpanded;
+                                  });
+                                },
                               ),
-                              color: const Color.fromARGB(255, 59, 125, 176),
-                              onPressed: () {
-                                setState(() {
-                                  isExpanded = !isExpanded;
-                                });
-                              },
                             ),
                           ),
                         ),

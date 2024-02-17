@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/RedLine.dart';
+
+// import 'package:nott_a_student/src/features/timetable/presentation/views/RedLine.dart';
+
+// colour of the module card darkest when the current time is within the start time and end time of the module, else lighter colour
+// colour of the module card is lightest when the card is furthest from the current time
 
 // ignore: must_be_immutable
 class ModuleCard extends StatelessWidget {
@@ -52,11 +56,35 @@ class ModuleCard extends StatelessWidget {
       return null;
     }
 
-    DateTime? start = parseTimeString(timeStart);
-    DateTime? end = parseTimeString(timeEnd);
+    // get current time
+    DateTime now = DateTime.now();
 
-    int timeDiff = end!.difference(start!).inHours;
-    double cardHeight = timeDiff <= 1 ? 50.0 : 100.0;
+    //return color based on time
+
+    Color getCardColor() {
+      DateTime? start = parseTimeString(timeStart);
+      DateTime? end = parseTimeString(timeEnd);
+
+      // Calculate time differences
+      int timeDiffStart = now.difference(start!).inHours.abs();
+      int timeDiffEnd = now.difference(end!).inHours.abs();
+
+      // Calculate opacity based on the time difference from the end time
+      double opacity =
+          0.3 + (0.05 * timeDiffEnd); // You can adjust the factor as needed
+
+      if (start != null && end != null) {
+        if (now.isAfter(start) && now.isBefore(end)) {
+          // current time is within the start time and end time of the module
+          return const Color(0xFF3B7DB0);
+        } else {
+          // Adjust the opacity based on the time difference
+          return const Color(0xFF3B7DB0).withOpacity(opacity);
+        }
+      } else {
+        return const Color(0xFF3B7DB0).withOpacity(0.3);
+      }
+    }
 
     courseTitle =
         '${courseCode.split('/')[0]}${courseCode.split('/')[1]} $module';
@@ -126,9 +154,10 @@ class ModuleCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: isExpanded
-                        ? const Color(0xFF3B7DB0)
+                        ? getCardColor()
                             .withOpacity(0.3) // Adjust the opacity as needed
-                        : const Color(0xFF3B7DB0),
+
+                        : getCardColor(),
                   ),
                   width: 350,
                   // height: cardHeight,

@@ -24,7 +24,7 @@ class Activity {
       this.roomDescription,
       this.roomSize,
       this.staff,
-      this.weeks});
+      this.weeks, required String program});
 
   Activity.fromJson(Map<String, dynamic> json) {
     activity = json['Activity'];

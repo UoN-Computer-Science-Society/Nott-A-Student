@@ -49,7 +49,7 @@ class AppRouter {
         );
       case '/timetable':
         return MaterialPageRoute(
-          builder: (_) => const dayView(),
+          builder: (_) => const DayView(),
         );
       case '/account':
         return MaterialPageRoute(

@@ -23,6 +23,11 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
+  //just added
+  void onLoginSuccess(String program) {
+    emit(LoginGetProgram(program: program));
+  }
+
   // Future<void> onFormSubmit(String username,String password) async {
   Future<void> onFormSubmit(BuildContext ctx) async {
     if (state.email.isEmpty || state.password.isEmpty) {

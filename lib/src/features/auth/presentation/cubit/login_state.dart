@@ -38,3 +38,14 @@ class LoginSuccess extends LoginState {
   @override
   List<Object> get props => [userId];
 }
+
+//just added
+class LoginGetProgram extends LoginState {
+  final String program;
+
+  LoginGetProgram({required this.program});
+
+  @override
+  List<Object> get props => [program];
+}
+

@@ -1,71 +1,93 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
+
+// import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+part 'Module_state.dart';
 
-class ModuleRequestBloc {
+class ModuleRequestBloc extends Cubit<ModuleState> {
+  List<Activity>? _cachedTimetableData;
+
+  ModuleRequestBloc()
+      : super(const ModuleState(
+          activity: [], // Change to activity
+          authStatus: AuthInitial(),
+        ));
+
   Future<List<Activity>> fetchTimetableData(
       String coursecode, String semester) async {
-    Client client = Client();
-    client
-            .setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
-            .setProject('6507b9d722fa8ccd95eb') // Your project ID
-        ;
-    Functions functions = Functions(client);
+    final cachedData = await _getCachedTimetableData();
+    if (cachedData != null) {
+      emit(state.copyWith(activity: cachedData)); // Change to activity
+      return cachedData;
+    }
 
+    // Fetch timetable data manually from remote source
+    try {
+      final timetableData = await _fetchTimetableManually(coursecode, semester);
+      emit(state.copyWith(activity: timetableData)); // Change to activity
+
+      // Cache the fetched timetable data
+      await _cacheTimetableData(timetableData);
+      return timetableData;
+    } catch (e) {
+      // Handle error
+      print('Error fetching timetable data: $e');
+      return [];
+    }
+    
+  }
+
+  Future<void> _cacheTimetableData(List<Activity> timetableData) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final encodedData = json
+        .encode(timetableData.map((activity) => activity.toJson()).toList());
+    await prefs.setString('timetable_data', encodedData);
+  }
+
+  Future<List<Activity>?> _getCachedTimetableData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final encodedData = prefs.getString('timetable_data');
+    if (encodedData != null) {
+      final decodedData = json.decode(encodedData) as List<dynamic>;
+      final timetableData =
+          decodedData.map((data) => Activity.fromJson(data)).toList();
+      return timetableData;
+    }
+    return null;
+  }
+
+  Future<List<Activity>> _fetchTimetableManually(
+      String coursecode, String semester) async {
+    Client client = Client();
+    client.setEndpoint('https://cloud.appwrite.io/v1') // Your API Endpoint
+            .setProject('6507b9d722fa8ccd95eb'); // Your project ID
+
+
+    Functions functions = Functions(client);
     try {
       final execution = await functions.createExecution(
-          functionId: '6512b5a466b1baa2a89c',
-          path: '/timetable',
-          method: 'GET',
-          headers: {
-            "CourseCode": coursecode,
-            "Day": "1-5",
-            "Semester": semester
-          });
+        functionId: '6512b5a466b1baa2a89c',
+        path: '/timetable',
+        method: 'GET',
+        headers: {"CourseCode": coursecode, "Day": "1-5", "Semester": semester},
+      );
 
-      print(execution.toMap());
       final List<dynamic> data = json.decode(execution.responseBody);
-      return data.map((json) => Activity.fromJson(json)).toList();
+
+      // Cache the fetched data
+      _cachedTimetableData =
+          data.map((json) => Activity.fromJson(json)).toList();
+
+      return _cachedTimetableData!;
     } catch (exception) {
       print(exception.toString());
       throw exception;
     }
   }
 }
-
-// import 'dart:async';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-// import 'package:nott_a_student/src/features/timetable/domain/models/Activity.dart';
-
-// class ModuleRequestBloc {
-//   final StreamController<Activity> _dataController =
-//       StreamController<Activity>();
-
-//   Stream<Activity> get dataStream => _dataController.stream;
-
-//   Future<void> fetchDataFromAppwrite() async {
-//     final url = Uri.parse(
-//         'https://your-appwrite-api-endpoint-here'); // Replace with your actual Appwrite API URL
-
-//     final response = await http.get(url);
-
-//     if (response.statusCode == 200) {
-//       final List<dynamic> responseData = json.decode(response.body);
-//       final data = responseData.map((json) => MyData.fromJson(json)).toList();
-//       setState(() {
-//         timetableData = data;
-//       });
-//     } else {
-//       // Handle the error or non-200 response here
-//       print('Failed to fetch data: ${response.statusCode}');
-//     }
-//   }
-
-//   // Future<Activity> getDataFromAppwrite() async {
-//   //   // Make the HTTP request and process the response
-//   //   // Create and return a MyData object
-
-//   //   return
-//   // }
-// }

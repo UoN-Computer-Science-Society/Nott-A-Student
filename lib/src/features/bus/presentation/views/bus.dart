@@ -1,3 +1,4 @@
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/headerbusDeparturing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
@@ -47,6 +48,7 @@ class _BusState extends State<Bus> {
               FavouriteBusCardList(
                 key: _favouriteBusCardListKey,
               ),
+               const HeaderBusDepartureCard(),
               const BusDepartureCard(),
             ],
           ),

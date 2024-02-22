@@ -1,10 +1,12 @@
+import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/news_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'dashboard_state.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
-  DashboardCubit() : super(DashboardState());
+  DashboardCubit() : super(DashboardState.initial());
 
   void setState(String type) {
     emit(state.copyWith(type: type));
@@ -14,5 +16,13 @@ class DashboardCubit extends Cubit<DashboardState> {
     if (type != state.type) {
       emit(state.copyWith(type: type));
     }
+  }
+
+  void updateNews(List<NewsModel> news) {
+    emit(state.copyWith(news: news));
+  }
+
+  void clearNews() {
+    emit(state.copyWith(news: []));
   }
 }

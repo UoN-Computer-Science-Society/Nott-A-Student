@@ -1,3 +1,4 @@
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -5,6 +6,7 @@ import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouri
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCarddetails.dart';
 import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RouteDetailsPage extends StatefulWidget {
   final List<String> timetableData;
@@ -23,6 +25,7 @@ class RouteDetailsPage extends StatefulWidget {
 
 class _RouteDetailsPageState extends State<RouteDetailsPage> {
   bool routeExists = false;
+  int duration = 0;
 
   @override
   void initState() {
@@ -35,16 +38,15 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
     bool exists = await checkIsRouteExists(route);
     setState(() {
       routeExists = exists;
+      duration = getEstimateTripDuration(route);
     });
   }
 
   Future<void> _updateIcons() async {
-     String route = '${widget.departure} to ${widget.destination}';
+    String route = '${widget.departure} to ${widget.destination}';
     setState(() {
       // Assuming addToFavourite returns a Future<void>
-      context
-          .read<LocationCubit>()
-          .addOrRemoveFavourite(route);
+      context.read<LocationCubit>().addOrRemoveFavourite(route);
       routeExists = !routeExists;
     });
   }
@@ -136,10 +138,10 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                       ),
                     ],
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Estimated Trip Duration",
                         style: TextStyle(
                           color: Color(0xFF3E3E3E),
@@ -148,8 +150,8 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                         ),
                       ),
                       Text(
-                        "15 mins",
-                        style: TextStyle(
+                        '${duration.toString()} minutes',
+                        style: const TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

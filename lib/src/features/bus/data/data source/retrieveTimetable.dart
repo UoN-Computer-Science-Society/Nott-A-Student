@@ -180,7 +180,7 @@ String filterTime(String input) {
     return '$time $amPm'; // Concatenate the parts with a space
   } else {
     // If no match is found, return an empty string or handle it as needed
-    return '';
+    return 'No Bus';
   }
 }
 
@@ -250,6 +250,57 @@ int getRouteIndex(String route) {
       break;
     case 'IOI City Mall Putrajaya to Campus':
       num = 13;
+      break;
+    default:
+      print("fail");
+  }
+  return num;
+}
+
+int getEstimateTripDuration(String route) {
+  int num = 15;
+  switch (route) {
+    case 'KTM to Campus':
+      num = 30;
+      break;
+    case 'Campus to KTM':
+      num = 30;
+      break;
+    case 'Campus to TTS':
+      num = 10;
+      break;
+    case 'TTS to Campus':
+      num = 10;
+      break;
+    case 'Campus to TBS':
+      num = 40;
+      break;
+    case 'TBS to Campus':
+      num = 40;
+      break;
+    case 'Campus to Mosque':
+      num = 15;
+      break;
+    case 'Mosque to Campus':
+      num = 15;
+      break;
+    case 'LOTUS to Campus':
+      num = 15;
+      break;
+    case 'Campus to LOTUS':
+      num = 15;
+      break;
+    case 'KLTC to Campus ':
+      num = 50;
+      break;
+    case 'Campus to KLTC':
+      num = 50;
+      break;
+    case 'Campus to IOI City Mall Putrajaya':
+      num = 30;
+      break;
+    case 'IOI City Mall Putrajaya to Campus':
+      num = 30;
       break;
     default:
       print("fail");

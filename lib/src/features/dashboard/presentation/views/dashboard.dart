@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/dashboard_cubit.dart';
 import 'package:intl/intl.dart';
 
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
@@ -29,7 +30,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  List<NewsCard> news = [];
+  List<NewsModel> news = [];
   List<NewsModel> featuredNews = [];
   String chosenType = "ALL";
   double linePositionAnimation = 0;
@@ -56,10 +57,36 @@ class _DashboardState extends State<Dashboard> {
       _newsTypeKeys[newsType[i]] = key;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {});
+    // Load the news when the widget is initialized
+    // context.read<DashboardCubit>().updateNews(news);
+
+    final bloc = SAEventsRequestBloc();
+    bloc.retrieveSAEvents().then((saEvents) {
+      DateFormat format = DateFormat("MMM d", "en_MY");
+      List<NewsModel> _news = List.generate(
+          saEvents.length,
+          (index) => NewsModel(
+                author: saEvents[index].club!,
+                cat: NewsCategory.sa,
+                title: saEvents[index].title!,
+                description: saEvents[index].description!,
+                url: saEvents[index].signupLink!,
+                urlToImage: saEvents[index].image!,
+                eventDate: format.parse(saEvents[index].date!),
+                startTime: saEvents[index].startTime!,
+                endTime: saEvents[index].endTime!,
+                eventVenue: saEvents[index].venue!,
+              ));
+
+      // await Future.delayed(const Duration(seconds: 1));
+      context.read<DashboardCubit>().clearNews();
+      context.read<DashboardCubit>().updateNews(_news);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    news = context.read<DashboardCubit>().state.news;
     chosenType = context.read<NewsTypeCubit>().state.type;
     // logger.info(chosenType);
     return Scaffold(
@@ -147,7 +174,7 @@ class _DashboardState extends State<Dashboard> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: const SafeArea(bottom: false, child: BottomNavBar()),
     );
   }
 
@@ -208,79 +235,78 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       },
-      child: RefreshIndicator(
-        onRefresh: () async {
-          // var num = Random().nextInt(10) + 1;
-          // logger.info(num.toString());
-          // List<NewsCard> _news = List.generate(
-          //     num,
-          //     (index) => NewsCard(
-          //           news: NewsModel(
-          //               author: "",
-          //               cat: [
-          //                 NewsCategory.sa,
-          //                 NewsCategory.careers,
-          //                 NewsCategory.fose,
-          //                 NewsCategory.fass,
-          //               ][Random().nextInt(4)],
-          //               title:
-          //                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id est sed elit volutpat mollis.",
-          //               description: "",
-          //               url: "",
-          //               urlToImage:
-          //                   "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-          //               publishedAt: DateTime.now()),
-          //         ));
+      child: BlocBuilder<DashboardCubit, DashboardState>(
+        // key: ValueKey(context.read<DashboardCubit>().state.news.length),
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: () {
+              // TODO: Need to fix up not just SA events
+              // Retrieve the SA events information from the web
+              final bloc = SAEventsRequestBloc();
+              bloc.retrieveSAEvents().then((saEvents) {
+                DateFormat format = DateFormat("MMM d", "en_MY");
+                List<NewsModel> _news = List.generate(
+                    saEvents.length,
+                    (index) => NewsModel(
+                          author: saEvents[index].club!,
+                          cat: NewsCategory.sa,
+                          title: saEvents[index].title!,
+                          description: saEvents[index].description!,
+                          url: saEvents[index].signupLink!,
+                          urlToImage: saEvents[index].image!,
+                          eventDate: format.parse(saEvents[index].date!),
+                          startTime: saEvents[index].startTime!,
+                          endTime: saEvents[index].endTime!,
+                          eventVenue: saEvents[index].venue!,
+                        ));
 
-          // Retrieve the SA events information from the web
-          final bloc = SAEventsRequestBloc();
-          var saEvents = await bloc.retrieveSAEvents();
-          DateFormat format = DateFormat("MMM d", "en_US");
-          List<NewsCard> _news = List.generate(
-              saEvents.length,
-              (index) => NewsCard(
-                      news: NewsModel(
-                    author: saEvents[index].club!,
-                    cat: NewsCategory.sa,
-                    title: saEvents[index].title!,
-                    description: saEvents[index].description!,
-                    url: saEvents[index].signupLink!,
-                    urlToImage: saEvents[index].image!,
-                    eventDate: format.parseStrict(saEvents[index].date!),
-                  )));
-
-          await Future.delayed(const Duration(seconds: 1));
-          setState(() {
-            news.clear();
-            news = _news;
-          });
-          logger.info('Refreshed');
+                // await Future.delayed(const Duration(seconds: 1));
+                context.read<DashboardCubit>().clearNews();
+                context.read<DashboardCubit>().updateNews(_news);
+                logger.info('Refreshed');
+                print('refreshed ${_news.length}');
+              });
+              return Future.delayed(const Duration(seconds: 1));
+            },
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: context.read<DashboardCubit>().state.news.isNotEmpty
+                  ? context.read<DashboardCubit>().state.news.length
+                  : 1,
+              // Scroll the NewsCard widgets vertically
+              itemBuilder: (context, index) {
+                if (context.read<DashboardCubit>().state.news.isNotEmpty) {
+                  return BlocListener<NewsTypeCubit, NewsTypeState>(
+                    key: ValueKey(
+                        context.read<DashboardCubit>().state.news.length),
+                    listener: (context, state) {
+                      logger.info(state.type);
+                      setState(() {
+                        chosenType = state.type;
+                      });
+                    },
+                    child: Visibility(
+                        visible: chosenType == "ALL"
+                            ? true
+                            : (chosenType ==
+                                context
+                                    .read<DashboardCubit>()
+                                    .state
+                                    .news[index]
+                                    .GetCategoryString()),
+                        child: NewsCard(
+                            news: context
+                                .read<DashboardCubit>()
+                                .state
+                                .news[index])),
+                  );
+                } else {
+                  return noNewsShowing();
+                }
+              },
+            ),
+          );
         },
-        child: ListView.builder(
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: news.length != 0 ? news.length : 1,
-          // Scroll the NewsCard widgets vertically
-          itemBuilder: (context, index) {
-            if (news.isNotEmpty) {
-              return BlocListener<NewsTypeCubit, NewsTypeState>(
-                listener: (context, state) {
-                  logger.info(state.type);
-                  setState(() {
-                    chosenType = state.type;
-                  });
-                },
-                child: Visibility(
-                    visible: chosenType == "ALL"
-                        ? true
-                        : (chosenType ==
-                            news[index].GetNewsInfo().GetCategoryString()),
-                    child: news[index]),
-              );
-            } else {
-              return noNewsShowing();
-            }
-          },
-        ),
       ),
     );
   }

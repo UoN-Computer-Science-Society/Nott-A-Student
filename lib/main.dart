@@ -1,8 +1,10 @@
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/dashboard_cubit.dart';
 import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:is_first_run/is_first_run.dart';
 import 'package:Nott_A_Student/src/config/router/app_router.dart';
 import 'package:Nott_A_Student/src/config/themes/app_theme.dart';
@@ -28,6 +30,7 @@ void main() async {
   final accountCubit = AccountCubit();
   firstRun = await IsFirstRun.isFirstRun();
 //authCubit.logout();
+  initializeDateFormatting('en_MY', null);
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider.value(
@@ -65,6 +68,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => LocationCubit()),
         BlocProvider(
           create: (BuildContext context) => NewsTypeCubit(),
+        ),
+        BlocProvider(
+          create: (BuildContext context) => DashboardCubit(),
         ),
         BlocProvider(
           create: (BuildContext context) => BottomNavBarCubit(),

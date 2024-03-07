@@ -58,7 +58,7 @@ class _DashboardState extends State<Dashboard> {
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {});
     // Load the news when the widget is initialized
-    context.read<DashboardCubit>().updateNews(news);
+    // context.read<DashboardCubit>().updateNews(news);
   }
 
   @override
@@ -212,48 +212,54 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       },
-      child: RefreshIndicator(
-        onRefresh: () async {
-          // TODO: Need to fix up not just SA events
-          // Retrieve the SA events information from the web
-          final bloc = SAEventsRequestBloc();
-          var saEvents = await bloc.retrieveSAEvents();
-          DateFormat format = DateFormat("MMM d", "en_US");
-          List<NewsModel> _news = List.generate(
-              saEvents.length,
-              (index) => NewsModel(
-                    author: saEvents[index].club!,
-                    cat: NewsCategory.sa,
-                    title: saEvents[index].title!,
-                    description: saEvents[index].description!,
-                    url: saEvents[index].signupLink!,
-                    urlToImage: saEvents[index].image!,
-                    eventDate: format.parseStrict(saEvents[index].date!),
-                    startTime: saEvents[index].startTime!,
-                    endTime: saEvents[index].endTime!,
-                    eventVenue: saEvents[index].venue!,
-                  ));
-
-          await Future.delayed(const Duration(seconds: 1));
-          context.read<DashboardCubit>().clearNews();
-          context.read<DashboardCubit>().updateNews(_news);
-          logger.info('Refreshed');
-          print('refreshed ${_news.length}');
+      child: BlocListener<DashboardCubit, DashboardState>(
+        // key: ValueKey(context.read<DashboardCubit>().state.news.length),
+        listenWhen: (previous, current) => previous.news != current.news,
+        listener: (context, state) {
+          logger.info(state.news.length);
+          print('DashboardState changed: ${state.news.length}');
         },
-        child: BlocListener<DashboardCubit, DashboardState>(
-          listener: (context, state) {
-            logger.info(state.news.length);
-            print('DashboardState changed: $state');
+        child: RefreshIndicator(
+          onRefresh: () {
+            // TODO: Need to fix up not just SA events
+            // Retrieve the SA events information from the web
+            final bloc = SAEventsRequestBloc();
+            bloc.retrieveSAEvents().then((saEvents) {
+              DateFormat format = DateFormat("MMM d", "en_MY");
+              List<NewsModel> _news = List.generate(
+                  saEvents.length,
+                  (index) => NewsModel(
+                        author: saEvents[index].club!,
+                        cat: NewsCategory.sa,
+                        title: saEvents[index].title!,
+                        description: saEvents[index].description!,
+                        url: saEvents[index].signupLink!,
+                        urlToImage: saEvents[index].image!,
+                        eventDate: format.parse(saEvents[index].date!),
+                        startTime: saEvents[index].startTime!,
+                        endTime: saEvents[index].endTime!,
+                        eventVenue: saEvents[index].venue!,
+                      ));
+
+              // await Future.delayed(const Duration(seconds: 1));
+              //context.read<DashboardCubit>().clearNews();
+              context.read<DashboardCubit>().updateNews(_news);
+              logger.info('Refreshed');
+              print('refreshed ${_news.length}');
+            });
+            return Future.delayed(const Duration(seconds: 1));
           },
           child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
-            itemCount: context.watch<DashboardCubit>().state.news.isNotEmpty
-                ? context.watch<DashboardCubit>().state.news.length
+            itemCount: context.read<DashboardCubit>().state.news.isNotEmpty
+                ? context.read<DashboardCubit>().state.news.length
                 : 1,
             // Scroll the NewsCard widgets vertically
             itemBuilder: (context, index) {
-              if (context.watch<DashboardCubit>().state.news.isNotEmpty) {
+              if (context.read<DashboardCubit>().state.news.isNotEmpty) {
                 return BlocListener<NewsTypeCubit, NewsTypeState>(
+                  key: ValueKey(
+                      context.read<DashboardCubit>().state.news.length),
                   listener: (context, state) {
                     logger.info(state.type);
                     setState(() {
@@ -265,13 +271,13 @@ class _DashboardState extends State<Dashboard> {
                           ? true
                           : (chosenType ==
                               context
-                                  .watch<DashboardCubit>()
+                                  .read<DashboardCubit>()
                                   .state
                                   .news[index]
                                   .GetCategoryString()),
                       child: NewsCard(
                           news: context
-                              .watch<DashboardCubit>()
+                              .read<DashboardCubit>()
                               .state
                               .news[index])),
                 );

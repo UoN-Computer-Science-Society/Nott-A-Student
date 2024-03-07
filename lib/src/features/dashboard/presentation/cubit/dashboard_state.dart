@@ -2,11 +2,11 @@ part of 'dashboard_cubit.dart';
 
 class DashboardState extends Equatable {
   final String type;
-  final List<NewsModel> news;
+  List<NewsModel> news;
 
-  const DashboardState({
+  DashboardState({
     this.type = "All",
-    required this.news,
+    this.news = const [],
   });
 
   DashboardState copyWith({
@@ -17,9 +17,9 @@ class DashboardState extends Equatable {
   }
 
   @override
-  List<Object> get props => [type];
+  List<Object> get props => [type, news];
 
   static DashboardState initial() {
-    return const DashboardState(news: []);
+    return DashboardState();
   }
 }

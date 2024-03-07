@@ -1,6 +1,9 @@
 // dayView.dart
+import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/cubit/school_timetable_cubit.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart'; // Import your ModuleRequestBloc
 import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
@@ -16,10 +19,9 @@ class dayView extends StatefulWidget {
 }
 
 class _dayViewState extends State<dayView> {
-  final ModuleRequestBloc bloc = ModuleRequestBloc();
-  String currentDay = DateFormat('EEEE').format(DateTime.now());
   DateTime selectedDay = DateTime.now();
-  String selectedDayString = "";
+  String selectedDayString = DateFormat('EEEE').format(DateTime.now());
+
   void _OnDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       selectedDay = day;
@@ -27,36 +29,19 @@ class _dayViewState extends State<dayView> {
     });
   }
 
-  bool _isWeekend(DateTime day) {
-    return day.weekday == DateTime.saturday || day.weekday == DateTime.sunday;
-  }
-
-  List<Activity> timetableData = [];
-
   @override
   void initState() {
     super.initState();
-    fetchTimetableData();
-  }
+    context
+        .read<SchoolTimetableCubit>()
+        .onChangeSelectedDay(DateFormat('EEEE').format(DateTime.now()));
 
-  Future<void> fetchTimetableData() async {
-    var response;
-    try {
-      final client = Client()
-          .setEndpoint('https://cloud.appwrite.io/v1')
-          .setProject('6507b9d722fa8ccd95eb');
-      Account account = Account(client);
-      response = await account.get();
-    } catch (error) {
-      print('Error while fetching account info: $error');
-      // Handle the error, e.g., show an error message to the user.
-    }
-
-    final data =
-        await bloc.fetchTimetableData(response.prefs.data['Program'], 'spring');
-    setState(() {
-      timetableData = data;
-    });
+    context
+        .read<SchoolTimetableCubit>()
+        .fetchTimetableData(context.read<AuthCubit>().state.program, 'spring')
+        .then((value) => {
+              context.read<SchoolTimetableCubit>().onChangeTimeTableData(value),
+            });
   }
 
   @override
@@ -74,8 +59,9 @@ class _dayViewState extends State<dayView> {
           backgroundColor: Colors.white,
         ),
         body: Container(
-            padding: const EdgeInsets.only(left: 15),
-            child: Column(children: [
+          padding: const EdgeInsets.only(left: 15),
+          child: Column(
+            children: [
               Align(
                   alignment: Alignment.topLeft,
                   child: Text(
@@ -93,25 +79,41 @@ class _dayViewState extends State<dayView> {
                 selectedDayPredicate: (day) => isSameDay(day, selectedDay),
                 onDaySelected: _OnDaySelected,
               ),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: timetableData.length,
-                      itemBuilder: (context, index) {
-                        Activity act = timetableData[index];
-                        if (act.day == selectedDayString) {
-                          return ModuleCard(
-                            courseCode: act.activity ?? 'N/A',
-                            moduleConvener: act.staff ?? 'N/A',
-                            module: act.module ?? 'N/A',
-                            time: '${act.start} - ${act.end}',
-                            room: act.room ?? 'N/A',
-                            day: act.day ?? 'N/A',
-                          );
-                        } else {
-                          return Container();
-                        }
-                      }))
-            ])),
+              BlocBuilder<SchoolTimetableCubit, SchoolTimetableState>(
+                builder: (context, state) {
+                  if (state.timetableData.isEmpty) {
+                    return const CircularProgressIndicator();
+                  }
+                  return Expanded(
+                      child: ListView.builder(
+                          itemCount: context
+                              .read<SchoolTimetableCubit>()
+                              .state
+                              .timetableData
+                              .length,
+                          itemBuilder: (context, index) {
+                            Activity act = context
+                                .read<SchoolTimetableCubit>()
+                                .state
+                                .timetableData[index];
+                            if (act.day == selectedDayString) {
+                              return ModuleCard(
+                                courseCode: act.activity ?? 'N/A',
+                                moduleConvener: act.staff ?? 'N/A',
+                                module: act.module ?? 'N/A',
+                                time: '${act.start} - ${act.end}',
+                                room: act.room ?? 'N/A',
+                                day: act.day ?? 'N/A',
+                              );
+                            } else {
+                              return Container();
+                            }
+                          }));
+                },
+              ),
+            ],
+          ),
+        ),
         bottomNavigationBar: const BottomNavBar());
   }
 }

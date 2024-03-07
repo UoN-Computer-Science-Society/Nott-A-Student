@@ -1,5 +1,6 @@
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/dashboard_cubit.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/cubit/school_timetable_cubit.dart';
 import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,6 +75,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (BuildContext context) => BottomNavBarCubit(),
+        ),
+         BlocProvider(
+          create: (BuildContext context) => SchoolTimetableCubit(),
         ),
       ],
       child: MaterialApp(

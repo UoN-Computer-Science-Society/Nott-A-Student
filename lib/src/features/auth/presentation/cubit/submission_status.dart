@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class SubmissionStatus extends Equatable {
@@ -67,9 +68,10 @@ class AfterSignupSuccess extends SubmissionStatus {
 }
 
 class SignupFailed extends SubmissionStatus {
-  final String exception;
+  final AppwriteException exception;
+  final String errorMessage;
 
-  SignupFailed({required this.exception});
+  const SignupFailed({required this.exception, required this.errorMessage});
 
   @override
   List<Object> get props => [exception];

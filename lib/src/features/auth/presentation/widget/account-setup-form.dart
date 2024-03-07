@@ -224,9 +224,12 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
       style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
+            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
         hintText: 'Confirm your password',
         hintStyle: Theme.of(context).textTheme.bodyMedium,
         suffixIcon: IconButton(
@@ -280,9 +283,12 @@ class _passwordFieldState extends State<_passwordField> {
       style: Theme.of(context).textTheme.bodyMedium,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
+            borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
         hintText: 'Enter your Password',
         hintStyle: Theme.of(context).textTheme.bodyMedium,
         suffixIcon: IconButton(
@@ -299,10 +305,10 @@ class _passwordFieldState extends State<_passwordField> {
       validator: MultiValidator(
         [
           RequiredValidator(errorText: "* Required"),
-          MinLengthValidator(6,
+          MinLengthValidator(8,
               errorText: "Password should be atleast 8 characters"),
-          MaxLengthValidator(15,
-              errorText: "Password should not be greater than 15 characters")
+          MaxLengthValidator(16,
+              errorText: "Password should not be greater than 16 characters")
         ],
       ),
       onChanged: (value) {
@@ -328,9 +334,12 @@ class _emailField extends StatelessWidget {
         style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(12),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
           border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
+              borderSide: const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
           hintText: 'Enter your email',
           hintStyle: Theme.of(context).textTheme.bodyMedium,
         ),

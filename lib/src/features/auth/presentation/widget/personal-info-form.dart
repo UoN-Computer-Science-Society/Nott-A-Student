@@ -123,7 +123,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
                         // Show an error message to the user.
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${state.status}'),
+                            content: Text('${state.status.props[0]}'),
                             duration: const Duration(seconds: 3),
                           ),
                         );
@@ -164,10 +164,14 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         return DropdownMenu(
           inputDecorationTheme: InputDecorationTheme(
               contentPadding: const EdgeInsets.all(12),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide:
-                      const BorderSide(color: Color(0xFF3F3F3F), width: 2))),
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 1))),
           width: inputWidth,
           dropdownMenuEntries: const [
             DropdownMenuEntry(value: "Year 1", label: "Year 1"),
@@ -195,12 +199,17 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
           if (snapshot.hasData) {
             deptList = snapshot.data!;
             return DropdownMenu(
+                textStyle: Theme.of(context).textTheme.bodyMedium,
                 inputDecorationTheme: InputDecorationTheme(
                     contentPadding: const EdgeInsets.all(12),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                            color: Color(0xFF3F3F3F), width: 1)),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: const BorderSide(
-                            color: Color(0xFF3F3F3F), width: 2))),
+                            color: Color(0xFF3F3F3F), width: 1))),
                 width: inputWidth,
                 menuHeight: screenHeight / 4,
                 dropdownMenuEntries: deptList,
@@ -228,12 +237,17 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
         log("$programList");
         return DropdownMenu(
           key: Key(state.school),
+          textStyle: Theme.of(context).textTheme.bodyMedium,
           inputDecorationTheme: InputDecorationTheme(
               contentPadding: const EdgeInsets.all(12),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide:
-                      const BorderSide(color: Color(0xFF3F3F3F), width: 2))),
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 1))),
           width: inputWidth,
           menuHeight: screenHeight / 4,
           dropdownMenuEntries: programList.toList(),
@@ -273,10 +287,14 @@ class _nameField extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(12),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide:
-                      const BorderSide(color: Color(0xFF3F3F3F), width: 2)),
+                      const BorderSide(color: Color(0xFF3F3F3F), width: 1)),
               hintStyle: Theme.of(context).textTheme.labelLarge,
               hintText: 'Enter your name',
             ),

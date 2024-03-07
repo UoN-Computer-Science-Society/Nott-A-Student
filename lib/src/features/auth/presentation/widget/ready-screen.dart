@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,7 +31,6 @@ class _ReadyScreen extends State<ReadyScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
@@ -106,15 +106,23 @@ class _ReadyScreen extends State<ReadyScreen> {
                 context.read<AuthCubit>().attemptAutoLogin();
                 print("sign up sucesss");
               } else if (state.status is SignupFailed) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("signup failed"),
-                    duration: Duration(seconds: 3),
-                  ),
-                );
-                Navigator.of(context).pushNamed(
-                  '/signup',
-                );
+                // Attempt to handle exceptions
+                AppwriteException exception =
+                    (state.status as SignupFailed).exception;
+
+                // Add more exception handling if necessary
+                if (exception.code == 409 ||
+                    exception.message ==
+                        "user_already_exists, A user with the same id, email, or phone already exists in this project.") {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          "Signup Failed: A user with the same email already exists! Quack!"),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                }
+                context.read<SignupCubit>().resetState();
               }
             },
             child: Row(

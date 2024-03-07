@@ -22,7 +22,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   void updateNews(List<NewsModel> news) {
     print("Emitting new state: ${news.length}");
     // emit(state.copyWith(news: news));
-    print(news);
+    print(news[0].author);
     emit(state.copyWith(news: news));
   }
 

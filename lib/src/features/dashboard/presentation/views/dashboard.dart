@@ -59,6 +59,29 @@ class _DashboardState extends State<Dashboard> {
     WidgetsBinding.instance.addPostFrameCallback((_) {});
     // Load the news when the widget is initialized
     // context.read<DashboardCubit>().updateNews(news);
+
+    final bloc = SAEventsRequestBloc();
+    bloc.retrieveSAEvents().then((saEvents) {
+      DateFormat format = DateFormat("MMM d", "en_MY");
+      List<NewsModel> _news = List.generate(
+          saEvents.length,
+          (index) => NewsModel(
+                author: saEvents[index].club!,
+                cat: NewsCategory.sa,
+                title: saEvents[index].title!,
+                description: saEvents[index].description!,
+                url: saEvents[index].signupLink!,
+                urlToImage: saEvents[index].image!,
+                eventDate: format.parse(saEvents[index].date!),
+                startTime: saEvents[index].startTime!,
+                endTime: saEvents[index].endTime!,
+                eventVenue: saEvents[index].venue!,
+              ));
+
+      // await Future.delayed(const Duration(seconds: 1));
+      context.read<DashboardCubit>().clearNews();
+      context.read<DashboardCubit>().updateNews(_news);
+    });
   }
 
   @override
@@ -212,81 +235,78 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       },
-      child: BlocListener<DashboardCubit, DashboardState>(
+      child: BlocBuilder<DashboardCubit, DashboardState>(
         // key: ValueKey(context.read<DashboardCubit>().state.news.length),
-        listenWhen: (previous, current) => previous.news != current.news,
-        listener: (context, state) {
-          logger.info(state.news.length);
-          print('DashboardState changed: ${state.news.length}');
-        },
-        child: RefreshIndicator(
-          onRefresh: () {
-            // TODO: Need to fix up not just SA events
-            // Retrieve the SA events information from the web
-            final bloc = SAEventsRequestBloc();
-            bloc.retrieveSAEvents().then((saEvents) {
-              DateFormat format = DateFormat("MMM d", "en_MY");
-              List<NewsModel> _news = List.generate(
-                  saEvents.length,
-                  (index) => NewsModel(
-                        author: saEvents[index].club!,
-                        cat: NewsCategory.sa,
-                        title: saEvents[index].title!,
-                        description: saEvents[index].description!,
-                        url: saEvents[index].signupLink!,
-                        urlToImage: saEvents[index].image!,
-                        eventDate: format.parse(saEvents[index].date!),
-                        startTime: saEvents[index].startTime!,
-                        endTime: saEvents[index].endTime!,
-                        eventVenue: saEvents[index].venue!,
-                      ));
+        builder: (context, state) {
+          return RefreshIndicator(
+            onRefresh: () {
+              // TODO: Need to fix up not just SA events
+              // Retrieve the SA events information from the web
+              final bloc = SAEventsRequestBloc();
+              bloc.retrieveSAEvents().then((saEvents) {
+                DateFormat format = DateFormat("MMM d", "en_MY");
+                List<NewsModel> _news = List.generate(
+                    saEvents.length,
+                    (index) => NewsModel(
+                          author: saEvents[index].club!,
+                          cat: NewsCategory.sa,
+                          title: saEvents[index].title!,
+                          description: saEvents[index].description!,
+                          url: saEvents[index].signupLink!,
+                          urlToImage: saEvents[index].image!,
+                          eventDate: format.parse(saEvents[index].date!),
+                          startTime: saEvents[index].startTime!,
+                          endTime: saEvents[index].endTime!,
+                          eventVenue: saEvents[index].venue!,
+                        ));
 
-              // await Future.delayed(const Duration(seconds: 1));
-              //context.read<DashboardCubit>().clearNews();
-              context.read<DashboardCubit>().updateNews(_news);
-              logger.info('Refreshed');
-              print('refreshed ${_news.length}');
-            });
-            return Future.delayed(const Duration(seconds: 1));
-          },
-          child: ListView.builder(
-            physics: const AlwaysScrollableScrollPhysics(),
-            itemCount: context.read<DashboardCubit>().state.news.isNotEmpty
-                ? context.read<DashboardCubit>().state.news.length
-                : 1,
-            // Scroll the NewsCard widgets vertically
-            itemBuilder: (context, index) {
-              if (context.read<DashboardCubit>().state.news.isNotEmpty) {
-                return BlocListener<NewsTypeCubit, NewsTypeState>(
-                  key: ValueKey(
-                      context.read<DashboardCubit>().state.news.length),
-                  listener: (context, state) {
-                    logger.info(state.type);
-                    setState(() {
-                      chosenType = state.type;
-                    });
-                  },
-                  child: Visibility(
-                      visible: chosenType == "ALL"
-                          ? true
-                          : (chosenType ==
-                              context
-                                  .read<DashboardCubit>()
-                                  .state
-                                  .news[index]
-                                  .GetCategoryString()),
-                      child: NewsCard(
-                          news: context
-                              .read<DashboardCubit>()
-                              .state
-                              .news[index])),
-                );
-              } else {
-                return noNewsShowing();
-              }
+                // await Future.delayed(const Duration(seconds: 1));
+                context.read<DashboardCubit>().clearNews();
+                context.read<DashboardCubit>().updateNews(_news);
+                logger.info('Refreshed');
+                print('refreshed ${_news.length}');
+              });
+              return Future.delayed(const Duration(seconds: 1));
             },
-          ),
-        ),
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: context.read<DashboardCubit>().state.news.isNotEmpty
+                  ? context.read<DashboardCubit>().state.news.length
+                  : 1,
+              // Scroll the NewsCard widgets vertically
+              itemBuilder: (context, index) {
+                if (context.read<DashboardCubit>().state.news.isNotEmpty) {
+                  return BlocListener<NewsTypeCubit, NewsTypeState>(
+                    key: ValueKey(
+                        context.read<DashboardCubit>().state.news.length),
+                    listener: (context, state) {
+                      logger.info(state.type);
+                      setState(() {
+                        chosenType = state.type;
+                      });
+                    },
+                    child: Visibility(
+                        visible: chosenType == "ALL"
+                            ? true
+                            : (chosenType ==
+                                context
+                                    .read<DashboardCubit>()
+                                    .state
+                                    .news[index]
+                                    .GetCategoryString()),
+                        child: NewsCard(
+                            news: context
+                                .read<DashboardCubit>()
+                                .state
+                                .news[index])),
+                  );
+                } else {
+                  return noNewsShowing();
+                }
+              },
+            ),
+          );
+        },
       ),
     );
   }

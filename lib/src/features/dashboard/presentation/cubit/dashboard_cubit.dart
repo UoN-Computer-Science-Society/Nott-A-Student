@@ -9,6 +9,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   DashboardCubit() : super(DashboardState.initial());
 
   void setState(String type) {
+    print("Setting state");
     emit(state.copyWith(type: type));
   }
 
@@ -19,6 +20,9 @@ class DashboardCubit extends Cubit<DashboardState> {
   }
 
   void updateNews(List<NewsModel> news) {
+    print("Emitting new state: ${news.length}");
+    // emit(state.copyWith(news: news));
+    print(news);
     emit(state.copyWith(news: news));
   }
 

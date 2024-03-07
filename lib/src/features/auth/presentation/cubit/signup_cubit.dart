@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:equatable/equatable.dart';
@@ -86,7 +89,8 @@ class SignupCubit extends Cubit<SignupState> {
           state.school.isEmpty) {
         emit(state.copyWith(
             status: ProceedFailed(
-                errorMessage: "Please fill in all the field before proceed")));
+                errorMessage:
+                    "Please fill in all the field before you proceed. Quack!")));
       } else {
         emit(state.copyWith(status: ProceedSuccess()));
         emit(state.copyWith(status: ProceedInitial()));
@@ -100,13 +104,15 @@ class SignupCubit extends Cubit<SignupState> {
         print("failed empty");
         emit(state.copyWith(
             status: ProceedFailed(
-                errorMessage: "Please fill in all the field before proceed")));
+                errorMessage:
+                    "Please fill in all the field before you proceed. Quack!")));
         emit(state.copyWith(status: ProceedInitial()));
       } else if (state.password != state.confirmPassword) {
         print("failed not match");
         emit(state.copyWith(
             status: ProceedFailed(
-                errorMessage: "Password And Confirm Password does not match")));
+                errorMessage:
+                    "Password and Confirm Password does not match. Quack!")));
         emit(state.copyWith(status: ProceedInitial()));
       } else {
         print("success");
@@ -116,15 +122,19 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
+  void resetState() {
+    emit(state.copyWith(status: const InitialFormStatus()));
+  }
+
   Future<void> onFormSubmit(BuildContext ctx) async {
     emit(state.copyWith(status: SignupLoading()));
-    print(state.name +
-        state.year +
-        state.school +
-        state.program +
-        state.email +
-        state.password +
-        state.confirmPassword);
+    // print(state.name +
+    //     state.year +
+    //     state.school +
+    //     state.program +
+    //     state.email +
+    //     state.password +
+    //     state.confirmPassword);
 
     try {
       Client client = Client();
@@ -150,7 +160,8 @@ class SignupCubit extends Cubit<SignupState> {
             program: state.program);
 
         id.then((value) {
-          print(id);
+          log("User has been logged in: $id");
+          ctx.read<AccountCubit>().initializeAccountInfo();
           emit(state.copyWith(status: SignupSuccess()));
         });
         /*      test.then((value) {
@@ -180,9 +191,14 @@ class SignupCubit extends Cubit<SignupState> {
         }); */
       }).catchError((error) {
         print(error);
+        emit(state.copyWith(
+            status: SignupFailed(
+                exception: error, errorMessage: error.toString())));
       });
     } catch (e) {
-      emit(state.copyWith(status: SignupFailed(exception: e.toString())));
+      emit(state.copyWith(
+          status: SignupFailed(
+              exception: AppwriteException(), errorMessage: e.toString())));
     }
 
 /*     final userId = await authRepo.login(

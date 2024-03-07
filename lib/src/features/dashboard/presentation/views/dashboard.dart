@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:developer' as dev;
-import 'dart:math';
+import 'package:intl/intl.dart';
 
-import 'package:Nott_A_Student/src/features/dashboard/domain/models/NewsModel.dart';
+import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
+import 'package:Nott_A_Student/src/features/dashboard/domain/models/sa_events.dart';
+import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/sa_events_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +14,12 @@ import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/newsT
 import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/news_card.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
 import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
+import 'package:logging/logging.dart';
 
 import '../widgets/FeaturedNews.dart';
 
 List newsType = ["ALL", "SA", "FOSE", "FASS", "CAREERS"];
+var logger = Logger("NAS Dashboard");
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key});
@@ -49,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     for (int i = 0; i < newsType.length; i++) {
       final key = GlobalKey();
-      dev.log(newsType[i] + key.toString());
+      logger.info(newsType[i] + key.toString());
       _newsTypeKeys[newsType[i]] = key;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {});
@@ -58,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     chosenType = context.read<NewsTypeCubit>().state.type;
-    // dev.log(chosenType);
+    // logger.info(chosenType);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -89,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
 
                     Offset position =
                         newsTypebtnRenderBox.localToGlobal(Offset.zero);
-                    dev.log(position.dx.toString());
+                    logger.info(position.dx.toString());
                     setState(() {
                       chosenType = state.type;
                       linePositionAnimation = position.dx - 16;
@@ -122,7 +125,7 @@ class _DashboardState extends State<Dashboard> {
                         child: ListView.separated(
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              // dev.log(newsType[index]);
+                              // logger.info(newsType[index]);
                               var button = newsTypeButton(
                                   _newsTypeKeys[newsType[index]]!,
                                   context,
@@ -175,12 +178,12 @@ class _DashboardState extends State<Dashboard> {
 
         if (!isSwiping) {
           isSwiping = true;
-          dev.log("Swiping");
+          logger.info("Swiping");
           int sensitivity = 8;
           if (details.delta.dx > sensitivity) {
             // Right Swipe
             if (pageCounter > 0) {
-              dev.log('Right Swipe on Dashbooard');
+              logger.info('Right Swipe on Dashbooard');
               pageCounter--;
               if (pageCounter >= 0 && pageCounter < newsType.length) {
                 final text = newsType[pageCounter];
@@ -191,7 +194,7 @@ class _DashboardState extends State<Dashboard> {
           } else if (details.delta.dx < -sensitivity) {
             //Left Swipe
             if (pageCounter >= 0 && pageCounter < newsType.length - 1) {
-              dev.log('Left Swipe on Dashbooard');
+              logger.info('Left Swipe on Dashbooard');
               pageCounter++;
               if (pageCounter >= 0 && pageCounter < newsType.length) {
                 final text = newsType[pageCounter];
@@ -207,33 +210,51 @@ class _DashboardState extends State<Dashboard> {
       },
       child: RefreshIndicator(
         onRefresh: () async {
-          var num = Random().nextInt(10) + 1;
-          dev.log(num.toString());
+          // var num = Random().nextInt(10) + 1;
+          // logger.info(num.toString());
+          // List<NewsCard> _news = List.generate(
+          //     num,
+          //     (index) => NewsCard(
+          //           news: NewsModel(
+          //               author: "",
+          //               cat: [
+          //                 NewsCategory.sa,
+          //                 NewsCategory.careers,
+          //                 NewsCategory.fose,
+          //                 NewsCategory.fass,
+          //               ][Random().nextInt(4)],
+          //               title:
+          //                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id est sed elit volutpat mollis.",
+          //               description: "",
+          //               url: "",
+          //               urlToImage:
+          //                   "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
+          //               publishedAt: DateTime.now()),
+          //         ));
+
+          // Retrieve the SA events information from the web
+          final bloc = SAEventsRequestBloc();
+          var saEvents = await bloc.retrieveSAEvents();
+          DateFormat format = DateFormat("MMM d", "en_US");
           List<NewsCard> _news = List.generate(
-              num,
+              saEvents.length,
               (index) => NewsCard(
-                    news: NewsModel(
-                        author: "",
-                        cat: [
-                          NewsCategory.sa,
-                          NewsCategory.careers,
-                          NewsCategory.fose,
-                          NewsCategory.fass,
-                        ][Random().nextInt(4)],
-                        title:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam id est sed elit volutpat mollis.",
-                        description: "",
-                        url: "",
-                        urlToImage:
-                            "https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg",
-                        publishedAt: DateTime.now()),
-                  ));
+                      news: NewsModel(
+                    author: saEvents[index].club!,
+                    cat: NewsCategory.sa,
+                    title: saEvents[index].title!,
+                    description: saEvents[index].description!,
+                    url: saEvents[index].signupLink!,
+                    urlToImage: saEvents[index].image!,
+                    eventDate: format.parseStrict(saEvents[index].date!),
+                  )));
+
           await Future.delayed(const Duration(seconds: 1));
           setState(() {
             news.clear();
             news = _news;
           });
-          dev.log('Refreshed');
+          logger.info('Refreshed');
         },
         child: ListView.builder(
           physics: const AlwaysScrollableScrollPhysics(),
@@ -243,7 +264,7 @@ class _DashboardState extends State<Dashboard> {
             if (news.isNotEmpty) {
               return BlocListener<NewsTypeCubit, NewsTypeState>(
                 listener: (context, state) {
-                  dev.log(state.type);
+                  logger.info(state.type);
                   setState(() {
                     chosenType = state.type;
                   });
@@ -290,32 +311,4 @@ class _DashboardState extends State<Dashboard> {
       ),
     );
   }
-
-  /*  Widget NewsTypeButton (BuildContext context,String text) {
-    return BlocBuilder<NewsTypeCubit, NewsTypeState>(
-      builder: (context, state) {
-        return GestureDetector(
-          onTap: () {
-              context.read<NewsTypeCubit>().onNewsTypeChanged(text);
-          },
-          child: Container(
-            padding: const EdgeInsets.all(8.0), // Add padding
-            decoration: BoxDecoration(
-              color: context.read<NewsTypeCubit>().state.type == text  ? Colors.blue : Colors.white,
-              border: Border.all(
-                color: Colors.black, // Border color
-                width: 1.0, // Border width
-              ),
-            ), // Change color when clicked
-            child: Center(
-              child: Text(
-              text,
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  } */
 }

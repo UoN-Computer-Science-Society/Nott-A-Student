@@ -1,6 +1,31 @@
 import 'package:flutter/material.dart';
 
-class busDepartureCardDetails extends StatelessWidget {
+class BusDepartureCardDetails extends StatefulWidget {
+  final String time;
+  final String route;
+  const BusDepartureCardDetails(
+      {super.key,
+      required this.time,
+      required this.route});
+
+  @override
+  State<BusDepartureCardDetails> createState() => _BusDepartureCardDetailsState();
+}
+
+class _BusDepartureCardDetailsState extends State<BusDepartureCardDetails> {
+    String departure = "";
+   String destination= "";
+
+  @override
+  void initState() {
+    super.initState();
+    List<String> parts = widget.route.split(' to ');
+
+    if (parts.length == 2) {
+      departure = parts[0];
+      destination = parts[1];
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -9,29 +34,29 @@ class busDepartureCardDetails extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         side: const BorderSide(color: Color(0xFF3E3E3E), width: 2),
       ),
-      shadowColor: Color(0x33454745),
+      shadowColor: const Color(0x33454745),
       elevation: 10,
-      child: const Padding(
-        padding: EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '10:45 AM',
-              style: TextStyle(
+              widget.time,
+              style: const TextStyle(
                 color: Color(0xFF3E3E3E),
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'From',
                       style: TextStyle(
                         color: Color(0xFF3E3E3E),
@@ -39,8 +64,8 @@ class busDepartureCardDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Campus',
-                      style: TextStyle(
+                      departure,
+                      style: const TextStyle(
                         color: Color(0xFF3E3E3E),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -51,7 +76,7 @@ class busDepartureCardDetails extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'To',
                       style: TextStyle(
                         color: Color(0xFF3E3E3E),
@@ -59,8 +84,8 @@ class busDepartureCardDetails extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Lotus',
-                      style: TextStyle(
+                      destination,
+                      style: const TextStyle(
                         color: Color(0xFF3E3E3E),
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

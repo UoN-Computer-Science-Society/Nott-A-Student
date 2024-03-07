@@ -1,12 +1,12 @@
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCarddetails.dart';
 import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class RouteDetailsPage extends StatefulWidget {
   final List<String> timetableData;
@@ -25,6 +25,7 @@ class RouteDetailsPage extends StatefulWidget {
 
 class _RouteDetailsPageState extends State<RouteDetailsPage> {
   bool routeExists = false;
+  int duration = 0;
 
   @override
   void initState() {
@@ -33,18 +34,19 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
   }
 
   Future<void> _initializeIcons() async {
-    bool exists = await checkIsRouteExists(
-      context.read<LocationCubit>().state.route,
-    );
+    String route = '${widget.departure} to ${widget.destination}';
+    bool exists = await checkIsRouteExists(route);
     setState(() {
       routeExists = exists;
+      duration = getEstimateTripDuration(route);
     });
   }
 
   Future<void> _updateIcons() async {
+    String route = '${widget.departure} to ${widget.destination}';
     setState(() {
       // Assuming addToFavourite returns a Future<void>
-      context.read<LocationCubit>().addToFavourite();
+      context.read<LocationCubit>().addOrRemoveFavourite(route);
       routeExists = !routeExists;
     });
   }
@@ -136,10 +138,10 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                       ),
                     ],
                   ),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "Estimated Trip Duration",
                         style: TextStyle(
                           color: Color(0xFF3E3E3E),
@@ -148,8 +150,8 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                         ),
                       ),
                       Text(
-                        "15 mins",
-                        style: TextStyle(
+                        '${duration.toString()} minutes',
+                        style: const TextStyle(
                           color: Color(0xFF3E3E3E),
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -178,7 +180,26 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
                 ],
               ),
               const SizedBox(height: 10),
-              buildTimetable(context),
+              //buildTimetable(context),
+              Wrap(
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                spacing: 2.0, // spacing between boxes
+                runSpacing: 3.0, // spacing between rows
+                children: widget.timetableData.map((item) {
+                  return Container(
+                    margin: const EdgeInsets.all(2.0),
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    child: Text(item,
+                        style: Theme.of(context).textTheme.labelMedium),
+                  );
+                }).toList(),
+              ),
+
               const SizedBox(height: 10),
               Container(
                 width: screenWidth * 0.8,
@@ -223,39 +244,6 @@ class _RouteDetailsPageState extends State<RouteDetailsPage> {
         ),
       ]),
       bottomNavigationBar: const BottomNavBar(),
-    );
-  }
-
-  Widget buildTimetable(BuildContext context) {
-    List<Widget> rows = [];
-    for (int i = 0; i < widget.timetableData.length; i += 4) {
-      List<String> rowTimes = widget.timetableData.sublist(
-          i,
-          i + 4 < widget.timetableData.length
-              ? i + 4
-              : widget.timetableData.length);
-      rows.add(buildRow(rowTimes, context));
-    }
-
-    return Column(
-      children: rows,
-    );
-  }
-
-  Widget buildRow(List<String> rowTimes, BuildContext context) {
-    return Row(
-      children: rowTimes
-          .map((time) => Container(
-                margin: const EdgeInsets.all(2.0),
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child:
-                    Text(time, style: Theme.of(context).textTheme.titleSmall),
-              ))
-          .toList(),
     );
   }
 }

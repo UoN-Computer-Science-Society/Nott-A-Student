@@ -13,6 +13,9 @@ import 'package:Nott_A_Student/src/features/auth/presentation/view/signup.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/views/bus.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/TimeTable.dart';
+import 'package:Nott_A_Student/src/features/timetable/presentation/views/dayView.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/views/search_result.dart';
 
 class AppRouter {
   final LoginCubit _loginCubit = LoginCubit(authRepo: AuthRepository());
@@ -58,6 +61,10 @@ class AppRouter {
       case '/bus':
         return NoAnimationMaterialPageRoute(
           builder: (_) => const Bus(),
+        );
+      case '/search_result':
+        return MaterialPageRoute(
+          builder: (_) => const SearchResult(),
         );
 
       default:

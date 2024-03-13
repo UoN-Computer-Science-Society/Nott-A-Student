@@ -59,18 +59,16 @@ class _dayViewState extends State<dayView> {
           backgroundColor: Colors.white,
         ),
         body: Container(
-          padding: const EdgeInsets.only(left: 15),
+          padding: const EdgeInsets.only(left: 12, right: 12),
           child: Column(
             children: [
-              Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    selectedDayString,
-                    style: const TextStyle(
-                        fontSize: 30,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold),
-                  )),
+              Text(
+                selectedDayString,
+                style: const TextStyle(
+                    fontSize: 24,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.bold),
+              ),
               TableCalendar(
                 focusedDay: DateTime.now(),
                 firstDay: DateTime.utc(2023, 1, 1),

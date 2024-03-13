@@ -40,6 +40,7 @@ class BusDepartureCard extends StatelessWidget {
 
               return Container(
                 padding: const EdgeInsets.all(10.0),
+              
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: validDepartingSoonData.map((data) {

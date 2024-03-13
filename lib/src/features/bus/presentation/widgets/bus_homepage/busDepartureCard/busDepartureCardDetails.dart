@@ -28,14 +28,16 @@ class _BusDepartureCardDetailsState extends State<BusDepartureCardDetails> {
   }
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: Color(0xFF3E3E3E), width: 2),
-      ),
-      shadowColor: const Color(0x33454745),
-      elevation: 10,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+       decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Colors.grey.withOpacity(0.5),
+                width: 1,
+              ),
+            ),
+          ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

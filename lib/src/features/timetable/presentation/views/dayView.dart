@@ -4,6 +4,7 @@ import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetabl
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart'; // Import your ModuleRequestBloc
 import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
@@ -49,26 +50,31 @@ class _dayViewState extends State<dayView> {
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text(
-            "Nott-A-Timetable",
-            style: TextStyle(
-              color: Color(0xFF3B7DB0),
-              fontFamily: 'Poppins',
-            ),
-          ),
           backgroundColor: Colors.white,
+          toolbarHeight: 0,
         ),
         body: Container(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+               Text(
+              "Nott-A-News",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge
+                  ?.copyWith(color: Theme.of(context).primaryColor,),
+            ),
+             const Gap(5),
+            Text(DateFormat('EEEE, d MMMM y').format(DateTime.now()),
+                style: Theme.of(context).textTheme.bodyMedium),
+           /*    Text(
                 selectedDayString,
                 style: const TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontFamily: 'Poppins',
-                    fontWeight: FontWeight.bold),
-              ),
+                    fontWeight: FontWeight.normal),
+              ), */
               TableCalendar(
                 focusedDay: DateTime.now(),
                 firstDay: DateTime.utc(2023, 1, 1),

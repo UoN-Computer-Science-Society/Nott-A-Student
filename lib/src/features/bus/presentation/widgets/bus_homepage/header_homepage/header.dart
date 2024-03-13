@@ -12,8 +12,8 @@ class Header extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Nott Bus",
+             Text(
+              "Nott-A-Bus",
               style: Theme.of(context)
                   .textTheme
                   .headlineLarge

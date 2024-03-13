@@ -14,7 +14,7 @@ class Header extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Nott-y News",
+              "Nott-A-News",
               style: Theme.of(context)
                   .textTheme
                   .headlineLarge
@@ -25,12 +25,7 @@ class Header extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium)
           ],
         ),
-        IconButton(
-          onPressed: () {
-            // Add the function to execute when the button is pressed
-          },
-          icon: const Icon(Icons.notifications),
-        ),
+     
       ],
     );
   }

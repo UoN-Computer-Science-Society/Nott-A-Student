@@ -80,7 +80,7 @@ class _SearchResultState extends State<SearchResult> {
                                 },
                                 child: Text(
                                   "Route Details",
-                                  style: Theme.of(context).textTheme.titleSmall,
+                                  style: Theme.of(context).textTheme.titleSmall?.copyWith(decorationThickness: 2, fontWeight: FontWeight.bold,color:  const Color(0xFF059CC0),decoration: TextDecoration.underline,),
                                 ),
                               ),
                             ],

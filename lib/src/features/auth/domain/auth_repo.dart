@@ -18,6 +18,7 @@ class AuthRepository {
   }) async {
     final client = Client()
         .setEndpoint('https://cloud.appwrite.io/v1')
+        .setEndPointRealtime('https://cloud.appwrite.io/v1')
         .setProject('6507b9d722fa8ccd95eb');
 
     showLoadingDialogBar(context, "Logging you in");
@@ -26,7 +27,7 @@ class AuthRepository {
     print(email);
     print(password);
 
-    final account = Account(client);
+    var account = Account(client);
     final session =
         await account.createEmailSession(email: email, password: password);
     saveData(session);

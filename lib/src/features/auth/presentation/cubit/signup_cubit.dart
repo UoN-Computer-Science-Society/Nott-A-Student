@@ -144,7 +144,6 @@ class SignupCubit extends Cubit<SignupState> {
 
       result.then((response) {
         final id = authRepo.login(
-            context: ctx,
             email: state.email,
             password: state.password,
             year: state.year,

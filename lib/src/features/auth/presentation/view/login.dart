@@ -19,6 +19,7 @@ class _LoginState extends State<Login> {
   final log = Logger('Login');
   bool passwordVisible = false;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final dialogKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +150,7 @@ class _LoginState extends State<Login> {
                 BlocListener<LoginCubit, LoginState>(
                   listener: (context, state) async {
                     if (state is LoginSuccess) {
+                      Navigator.of(dialogKey.currentContext!).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Login success!'),
@@ -161,6 +163,7 @@ class _LoginState extends State<Login> {
                         '/dashboard',
                       );
                     } else if (state is LoginFailed) {
+                      Navigator.of(dialogKey.currentContext!).pop();
                       // Show an error message to the user.
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -173,16 +176,16 @@ class _LoginState extends State<Login> {
                   child: InkWell(
                     onTap: (() {
                       if (formkey.currentState!.validate()) {
+                        showLoadingDialogBar(context, "Logging you in");
                         context.read<LoginCubit>().onUserNameChanged(email);
                         context.read<LoginCubit>().onPasswordChanged(password);
-                        context.read<LoginCubit>().onFormSubmit(context);
+                        context.read<LoginCubit>().onFormSubmit();
                         log.info("Validated Information");
                       } else {
                         log.info("Not Validated");
                       }
                     }),
-                    child: 
-                        Align(
+                    child: Align(
                       alignment: Alignment.center,
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -211,5 +214,32 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> showLoadingDialogBar(
+      BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Prevent dismissing the dialog by tapping outside
+      builder: (context) => SimpleDialog(
+        key: dialogKey,
+        children: [
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(height: 16),
+                Text(message),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+
+    // Simulate a long-running process
+    await Future.delayed(const Duration(milliseconds: 2000));
   }
 }

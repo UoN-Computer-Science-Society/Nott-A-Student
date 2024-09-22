@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 class AuthRepository {
-  final dialogKey = GlobalKey();
   var logger = Logger("AuthRepo");
 
   Future<String> login({
     required String email,
     required String password,
-    required BuildContext context,
     String? year,
     String? program,
     String? school,
@@ -19,8 +17,6 @@ class AuthRepository {
         .setEndpoint('https://cloud.appwrite.io/v1')
         .setEndPointRealtime('https://cloud.appwrite.io/v1')
         .setProject('6507b9d722fa8ccd95eb');
-
-    showLoadingDialogBar(context, "Logging you in");
 
     var account = Account(client);
 
@@ -33,7 +29,6 @@ class AuthRepository {
         if (year != null && school != null && program != null) {
           setUserPref(account, year, school, program);
         }
-        Navigator.of(dialogKey.currentContext!).pop();
         return session.userId;
       } else {
         throw Exception("Login failed: Invalid session");
@@ -41,7 +36,6 @@ class AuthRepository {
     } catch (error) {
       logger.info(error.toString());
       logger.info("Session empty or login failed");
-      Navigator.of(dialogKey.currentContext!).pop();
       throw Exception("Login failed: $error");
     }
   }
@@ -60,30 +54,5 @@ class AuthRepository {
     } catch (error) {
       logger.info(Level.SHOUT, "Preferences Update Error: ${error.toString()}");
     }
-  }
-
-  Future<void> showLoadingDialogBar(
-      BuildContext context, String message) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => WillPopScope(
-        onWillPop: () async => false,
-        child: SimpleDialog(
-          key: dialogKey,
-          children: [
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [const CircularProgressIndicator(), Text(message)],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-
-    await Future.delayed(
-        const Duration(milliseconds: 2000)); // Simulate a long-running process
   }
 }

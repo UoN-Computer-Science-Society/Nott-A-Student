@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,14 +24,16 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   // Future<void> onFormSubmit(String username,String password) async {
-  Future<void> onFormSubmit(BuildContext ctx) async {
+  Future<void> onFormSubmit() async {
+    log(state.email);
+    log(state.password);
     if (state.email.isEmpty || state.password.isEmpty) {
       emit(LoginFailed(errorMessage: "Username or Password is empty"));
     } else {
       try {
         try {
           final userId = await authRepo.login(
-              email: state.email, password: state.password, context: ctx);
+              email: state.email, password: state.password);
 
           if (userId.isNotEmpty) {
             emit(LoginSuccess(userId: userId));

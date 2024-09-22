@@ -1,4 +1,5 @@
 import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
+import 'package:appwrite/enums.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:appwrite/appwrite.dart';
@@ -23,7 +24,7 @@ class SchoolTimetableCubit extends Cubit<SchoolTimetableState> {
       final execution = await functions.createExecution(
           functionId: '6512b5a466b1baa2a89c',
           path: '/timetable',
-          method: 'GET',
+          method: ExecutionMethod.gET,
           headers: {
             "CourseCode": coursecode,
             "Day": "1-5",

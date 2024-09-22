@@ -1,3 +1,4 @@
+import 'package:appwrite/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/config/router/app_router.dart';
@@ -19,7 +20,6 @@ void main() async{
   client = Client()
       .setEndpoint("https://cloud.appwrite.io/v1")
       .setProject("6507b9d722fa8ccd95eb");
-  ;
 
   final functions = Functions(client);
 
@@ -27,7 +27,7 @@ void main() async{
     final execution = await functions.createExecution(
       functionId: '6512b5a466b1baa2a89c',
       path: '/timetable',
-      method: 'GET',
+      method: ExecutionMethod.gET,
       headers:
       {
         "coursecode": "UG/M1059/M6UCOMPAI/F/02",

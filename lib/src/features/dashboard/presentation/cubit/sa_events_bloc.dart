@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/sa_events.dart';
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/enums.dart';
 
 class SAEventsRequestBloc {
   // Method to retrieve the SA events information from the appwrite scraper
@@ -15,7 +16,7 @@ class SAEventsRequestBloc {
 
     try {
       final execution = await functions.createExecution(
-          functionId: '65bf9c91008da2a67097', method: 'GET');
+          functionId: '65bf9c91008da2a67097', method: ExecutionMethod.gET);
 
       final List<dynamic> data = json.decode(execution.responseBody);
       return data.map((json) => SAEvents.fromJson(json)).toList();

@@ -1,12 +1,10 @@
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/headerbusDeparturing.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/bus_departing_header.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCard.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/bus_departure_card.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCardList.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/headerfavouriteRouteCard.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/headerContainer.dart';
-import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/header_container.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav_bar.dart';
 
 class Bus extends StatefulWidget {
   const Bus({Key? key});
@@ -21,7 +19,6 @@ class _BusState extends State<Bus> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _favouriteBusCardListKey.currentState?.rebuild();
   }

@@ -42,7 +42,7 @@ void main() async {
       ),
       // Add more BlocProvider.value as needed
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
   final log = Logger("Main");
   if (firstRun) log.info("First Run detected.");
@@ -52,6 +52,8 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -88,7 +90,6 @@ class _MyAppState extends State<MyApp> {
         home: Scaffold(
           body: BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
-              final log = Logger('MainAccount');
               if (firstRun) {
                 dev.log("First Run");
                 const cacheIntroImages = [

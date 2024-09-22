@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/account-setup-form.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/personal-info-form.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/ready-screen.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/account_setup_form.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/personal_info_form.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/ready_screen.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});

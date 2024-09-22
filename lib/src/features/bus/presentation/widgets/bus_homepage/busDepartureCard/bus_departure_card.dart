@@ -1,8 +1,6 @@
-import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieve_timetable.dart';
 import 'package:flutter/material.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/busDepartureCardDetails.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/headerbusDeparturing.dart';
-
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/bus_departure_card_details.dart';
 class BusDepartureCard extends StatelessWidget {
   const BusDepartureCard({Key? key});
 

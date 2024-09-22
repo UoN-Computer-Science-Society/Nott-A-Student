@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/route_detail_row.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/single_day_route_detail_row.dart';
 
 class SingleDayRouteDetailTable extends StatefulWidget {

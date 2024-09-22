@@ -36,17 +36,17 @@ class SAEvents {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Date'] = this.date;
-    data['Title'] = this.title;
-    data['Club'] = this.club;
-    data['Venue'] = this.venue;
-    data['Start Time'] = this.startTime;
-    data['End Time'] = this.endTime;
-    data['Description'] = this.description;
-    data['Image'] = this.image;
-    data['Signup Link'] = this.signupLink;
-    data['Club Instagram'] = this.clubInstagram;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Date'] = date;
+    data['Title'] = title;
+    data['Club'] = club;
+    data['Venue'] = venue;
+    data['Start Time'] = startTime;
+    data['End Time'] = endTime;
+    data['Description'] = description;
+    data['Image'] = image;
+    data['Signup Link'] = signupLink;
+    data['Club Instagram'] = clubInstagram;
     return data;
   }
 }

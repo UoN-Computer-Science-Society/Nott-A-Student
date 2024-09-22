@@ -1,12 +1,12 @@
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/search_bar_departure.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/swap_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/header.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchBarDestination.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchButton.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/searchBarDeparture.dart';
-import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/swapButton.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/search_bar_destination.dart';
+import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/header_homepage/search_button.dart';
 
 class HeaderContainer extends StatefulWidget {
   const HeaderContainer({Key? key}) : super(key: key);
@@ -112,7 +112,7 @@ class _HeaderContainerState extends State<HeaderContainer> {
                   ),
                 ],
               ),
-              const swapButton(),
+              const SwapButton(),
             ],
           );
         },

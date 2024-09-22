@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Nott_A_Student/src/presentation/widget/nav-item.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav_item.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
-import 'package:Nott_A_Student/src/features/dashboard/domain/models/sa_events.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';

@@ -31,36 +31,35 @@ class AuthRepository {
 
       if (session.userId.isNotEmpty) {
         if (year != null && school != null && program != null) {
-          var userPrefs = {
-            'Year': year,
-            'School': school,
-            'Program': program,
-          };
-
-          //   savePrefs(userPrefs);
-
-          // Use async/await for cleaner asynchronous code
-          try {
-            await account.updatePrefs(prefs: userPrefs);
-            var prefs = await account.getPrefs();
-            logger.info(Level.INFO, prefs.data);
-            logger.info(Level.INFO,
-                "Preferences updated successfully in login function");
-          } catch (error) {
-            logger.info(
-                Level.SHOUT, "Preferences Update Error: ${error.toString()}");
-          }
+          setUserPref(account, year, school, program);
         }
         Navigator.of(dialogKey.currentContext!).pop();
         return session.userId;
+      } else {
+        throw Exception("Login failed: Invalid session");
       }
-    } catch ($error) {
-      logger.info($error.toString());
-      logger.info("session empty");
+    } catch (error) {
+      logger.info(error.toString());
+      logger.info("Session empty or login failed");
       Navigator.of(dialogKey.currentContext!).pop();
+      throw Exception("Login failed: $error");
     }
+  }
 
-    return "";
+  Future<void> setUserPref(Account account, year, school, program) async {
+    try {
+      await account.updatePrefs(prefs: {
+        'Year': year,
+        'School': school,
+        'Program': program,
+      });
+      var prefs = await account.getPrefs();
+      logger.info(Level.INFO, prefs.data);
+      logger.info(
+          Level.INFO, "Preferences updated successfully in login function");
+    } catch (error) {
+      logger.info(Level.SHOUT, "Preferences Update Error: ${error.toString()}");
+    }
   }
 
   Future<void> showLoadingDialogBar(

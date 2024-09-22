@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
@@ -150,15 +149,14 @@ class _LoginState extends State<Login> {
                 BlocListener<LoginCubit, LoginState>(
                   listener: (context, state) async {
                     if (state is LoginSuccess) {
-                      await context.read<AuthCubit>().attemptAutoLogin();
-                      context.read<AccountCubit>().initializeAccountInfo();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content:
-                              Text('Login success: Welcome ${state.userId}'),
+                        const SnackBar(
+                          content: Text('Login success!'),
                           duration: Duration(seconds: 3),
                         ),
                       );
+                      //await context.read<AuthCubit>().attemptAutoLogin();
+                      context.read<AccountCubit>().initializeAccountInfo();
                       Navigator.of(context).pushNamed(
                         '/dashboard',
                       );
@@ -167,7 +165,7 @@ class _LoginState extends State<Login> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Login failed: ${state.errorMessage}'),
-                          duration: Duration(seconds: 3),
+                          duration: const Duration(seconds: 3),
                         ),
                       );
                     }
@@ -183,20 +181,7 @@ class _LoginState extends State<Login> {
                         log.info("Not Validated");
                       }
                     }),
-                    child: /* Container(
-                        width: 250,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xff005697),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                        ),
-                      ), */
+                    child: 
                         Align(
                       alignment: Alignment.center,
                       child: Container(

@@ -119,15 +119,18 @@ class Account extends StatelessWidget {
                 const Divider(),
                 BlocListener<AuthCubit, AuthState>(
                   listener: (context, state) {
-                    if (state.authStatus is AuthUnauthorized) {
-                      Navigator.of(context).popAndPushNamed(
-                        '/login',
-                      );
-                    }
+                    // if (state.authStatus is AuthUnauthorized) {
+                    //   Navigator.of(context).popAndPushNamed(
+                    //     '/login',
+                    //   );
+                    // }
                   },
                   child: InkWell(
                     onTap: (() {
                       context.read<AuthCubit>().logout();
+                      Navigator.of(context).popAndPushNamed(
+                        '/login',
+                      );
                     }),
                     child: Container(
                       width: 328, // Width of 328px

@@ -1,7 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
@@ -22,7 +21,7 @@ class _ReadyScreen extends State<ReadyScreen> {
     _initializeField();
   }
 
-  void _initializeField() {
+  void _initializeField() { 
     setState(() {
       _username = context.read<SignupCubit>().state.name;
     });
@@ -93,7 +92,6 @@ class _ReadyScreen extends State<ReadyScreen> {
                   child: CircularProgressIndicator(),
                 );
               } else if (state.status is SignupSuccess) {
-                //context.read<SignupCubit>().updateUserPreferences();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('Welcome'),
@@ -130,9 +128,7 @@ class _ReadyScreen extends State<ReadyScreen> {
               children: [
                 InkWell(
                   onTap: (() => {
-                        /* context
-                            .read<SignupCubit>()
-                            .onStatusChanged(ProceedInitial()), */
+
                         context.read<SignupCubit>().onStepChanged(1),
                       }),
                   child: Container(

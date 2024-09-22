@@ -1,12 +1,11 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:logging/logging.dart';
 
 class AuthRepository {
   final dialogKey = GlobalKey();
+  var logger = Logger("AuthRepo");
 
   Future<String> login({
     required String email,
@@ -23,43 +22,45 @@ class AuthRepository {
 
     showLoadingDialogBar(context, "Logging you in");
 
-    print('attempting login');
-    print(email);
-    print(password);
-
     var account = Account(client);
-    final session =
-        await account.createEmailSession(email: email, password: password);
-    saveData(session);
 
-    if (session.current) {
-      if (year != null && school != null && program != null) {
-        print("Update preferences start");
+    try {
+      final session = await account.createEmailPasswordSession(
+          email: email, password: password);
+      saveData(session);
 
-        var userPrefs = {
-          'Year': year,
-          'School': school,
-          'Program': program,
-        };
+      if (session.userId.isNotEmpty) {
+        if (year != null && school != null && program != null) {
+          var userPrefs = {
+            'Year': year,
+            'School': school,
+            'Program': program,
+          };
 
-        //   savePrefs(userPrefs);
+          //   savePrefs(userPrefs);
 
-        // Use async/await for cleaner asynchronous code
-        try {
-          await account.updatePrefs(prefs: userPrefs);
-          var prefs = await account.getPrefs() as Preferences;
-          print(prefs.data);
-          print("Preferences updated successfully in login function");
-        } catch (error) {
-          print(error);
-          print('Preference update error');
+          // Use async/await for cleaner asynchronous code
+          try {
+            await account.updatePrefs(prefs: userPrefs);
+            var prefs = await account.getPrefs();
+            logger.info(Level.INFO, prefs.data);
+            logger.info(Level.INFO,
+                "Preferences updated successfully in login function");
+          } catch (error) {
+            logger.info(
+                Level.SHOUT, "Preferences Update Error: ${error.toString()}");
+          }
         }
+        Navigator.of(dialogKey.currentContext!).pop();
+        return session.userId;
       }
+    } catch ($error) {
+      logger.info($error.toString());
+      logger.info("session empty");
       Navigator.of(dialogKey.currentContext!).pop();
-      return session.userId;
-    } else {
-      throw Exception('Login failed');
     }
+
+    return "";
   }
 
   Future<void> showLoadingDialogBar(

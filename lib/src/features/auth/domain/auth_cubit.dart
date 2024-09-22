@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
-import 'package:logging/logging.dart';
 import 'dart:developer';
 part 'auth_state.dart';
 
@@ -15,7 +14,6 @@ class AuthCubit extends Cubit<AuthState> {
       : super(const AuthState(
           authStatus: AuthInitial(),
         ));
-  // final log = Logger('AuthCubit');
 
   final client = Client()
       .setEndpoint('https://cloud.appwrite.io/v1')
@@ -59,12 +57,6 @@ class AuthCubit extends Cubit<AuthState> {
         log("Auto Login Failed.");
       }
     } else {
-      // Show splash screen for just 3 seconds
-      // final timer = Timer(const Duration(seconds: 1), () {
-      //   emit(state.copyWith(
-      //     authStatus: const AuthUnauthorized(),
-      //   ));
-      // });
       emit(state.copyWith(
         authStatus: const AuthUnauthorized(),
       ));

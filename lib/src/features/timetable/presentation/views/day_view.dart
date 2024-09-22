@@ -1,29 +1,27 @@
 // dayView.dart
 import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/cubit/school_timetable_cubit.dart';
-import 'package:appwrite/appwrite.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart'; // Import your ModuleRequestBloc
-import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
+import 'package:Nott_A_Student/src/features/timetable/domain/models/activity.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/widgets/ModuleCard.dart';
-import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class dayView extends StatefulWidget {
-  const dayView({super.key});
+class DayView extends StatefulWidget {
+  const DayView({super.key});
 
   @override
-  State<dayView> createState() => _dayViewState();
+  State<DayView> createState() => _DayViewState();
 }
 
-class _dayViewState extends State<dayView> {
+class _DayViewState extends State<DayView> {
   DateTime selectedDay = DateTime.now();
   String selectedDayString = DateFormat('EEEE').format(DateTime.now());
 
-  void _OnDaySelected(DateTime day, DateTime focusedDay) {
+  void onDaySelected(DateTime day, DateTime focusedDay) {
     setState(() {
       selectedDay = day;
       selectedDayString = DateFormat('EEEE').format(selectedDay);
@@ -80,7 +78,7 @@ class _dayViewState extends State<dayView> {
                 lastDay: DateTime.utc(2050, 1, 1),
                 calendarFormat: CalendarFormat.week,
                 selectedDayPredicate: (day) => isSameDay(day, selectedDay),
-                onDaySelected: _OnDaySelected,
+                onDaySelected: onDaySelected,
               ),
               BlocBuilder<SchoolTimetableCubit, SchoolTimetableState>(
                 builder: (context, state) {

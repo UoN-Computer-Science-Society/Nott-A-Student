@@ -1,11 +1,11 @@
-import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
+import 'dart:developer';
+
+import 'package:Nott_A_Student/src/features/timetable/domain/models/activity.dart';
 import 'package:appwrite/enums.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:appwrite/appwrite.dart';
 import 'dart:convert';
-
-import 'package:intl/intl.dart';
 part 'school_timetable_state.dart';
 
 class SchoolTimetableCubit extends Cubit<SchoolTimetableState> {
@@ -31,12 +31,11 @@ class SchoolTimetableCubit extends Cubit<SchoolTimetableState> {
             "Semester": semester
           });
 
-      print(execution.toMap());
       final List<dynamic> data = json.decode(execution.responseBody);
       return data.map((json) => Activity.fromJson(json)).toList();
     } catch (exception) {
-      print(exception.toString());
-      throw exception;
+      log(exception.toString());
+      rethrow;
     }
   }
 
@@ -44,7 +43,7 @@ class SchoolTimetableCubit extends Cubit<SchoolTimetableState> {
     emit(state.copyWith(selectedDay: selectedDay));
   }
 
-  void onChangeTimeTableData(List<Activity> timetableData){
+  void onChangeTimeTableData(List<Activity> timetableData) {
     emit(state.copyWith(timetableData: timetableData));
   }
 }

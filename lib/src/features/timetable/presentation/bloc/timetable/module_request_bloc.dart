@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:appwrite/appwrite.dart';
-import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
+import 'package:Nott_A_Student/src/features/timetable/domain/models/activity.dart';
 import 'dart:convert';
 
 import 'package:appwrite/enums.dart';
@@ -25,12 +27,11 @@ class ModuleRequestBloc {
             "Semester": semester
           });
 
-      print(execution.toMap());
       final List<dynamic> data = json.decode(execution.responseBody);
       return data.map((json) => Activity.fromJson(json)).toList();
     } catch (exception) {
-      print(exception.toString());
-      throw exception;
+      log(exception.toString());
+      rethrow;
     }
   }
 }
@@ -60,7 +61,7 @@ class ModuleRequestBloc {
 //       });
 //     } else {
 //       // Handle the error or non-200 response here
-//       print('Failed to fetch data: ${response.statusCode}');
+//       log('Failed to fetch data: ${response.statusCode}');
 //     }
 //   }
 

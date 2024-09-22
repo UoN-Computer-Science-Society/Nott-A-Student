@@ -3,7 +3,6 @@ import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/dashboa
 import 'package:intl/intl.dart';
 
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
-import 'package:Nott_A_Student/src/features/dashboard/domain/models/sa_events.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/sa_events_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/heade
 import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/newsTypeButton.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/news_card.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/scrollBehaviour.dart';
-import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav_bar.dart';
 import 'package:logging/logging.dart';
 
 import '../widgets/FeaturedNews.dart';
@@ -264,7 +263,6 @@ class _DashboardState extends State<Dashboard> {
                 context.read<DashboardCubit>().clearNews();
                 context.read<DashboardCubit>().updateNews(_news);
                 logger.info('Refreshed');
-                print('refreshed ${_news.length}');
               });
               return Future.delayed(const Duration(seconds: 1));
             },
@@ -321,7 +319,6 @@ class _DashboardState extends State<Dashboard> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            //TODO: Update to use sv
             'lib/src/utils/resources/NoNewsVector.png',
             height: 225,
           ),

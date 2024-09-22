@@ -1,27 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/_showLoginButton.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/show_login_button.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/input_label.dart';
 
 class AccountSetup extends StatefulWidget {
-  AccountSetup({super.key});
+  const AccountSetup({super.key});
 
   @override
   State<AccountSetup> createState() => _AccountSetupState();
 }
 
 class _AccountSetupState extends State<AccountSetup> {
-/*   String email = '';
-  String password = '';
-  String confirmPassword = ''; */
-
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmPasswordcontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _confirmPasswordcontroller = TextEditingController();
 
   @override
   void initState() {
@@ -71,13 +69,13 @@ class _AccountSetupState extends State<AccountSetup> {
             ),
             const Gap(10),
             const InputLabel(label: "Email"),
-            _emailField(emailcontroller: _emailcontroller),
+            EmailField(emailcontroller: _emailcontroller),
             const Gap(10),
             const InputLabel(label: "Password"),
-            _passwordField(passwordcontroller: _passwordcontroller),
+            PasswordField(passwordcontroller: _passwordcontroller),
             const Gap(10),
             const InputLabel(label: "Confirm Password"),
-            _confirmPasswordField(
+            ConfirmPasswordField(
                 confirmPasswordcontroller: _confirmPasswordcontroller),
             const Gap(10),
             const ShowLoginButton(),
@@ -123,7 +121,7 @@ class _AccountSetupState extends State<AccountSetup> {
                         ),
                       );
                     } else {
-                      print("error");
+                      log("error");
                     }
                   },
                   child: InkWell(
@@ -131,24 +129,22 @@ class _AccountSetupState extends State<AccountSetup> {
                           if (formkey.currentState!.validate())
                             {
                               context.read<SignupCubit>().onNextStep(1),
-                              print("Validated"),
+                              log("Validated"),
                             }
                           else
                             {
-                              print("Not Validated"),
+                              log("Not Validated"),
                             }
                         }),
-                    child: Container(
-                      child: Row(children: [
-                        Text("Next",
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor)),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                      ]),
-                    ),
+                    child: Row(children: [
+                      Text("Next",
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor)),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ]),
                   ),
                 ),
               ],
@@ -158,52 +154,10 @@ class _AccountSetupState extends State<AccountSetup> {
       ),
     );
   }
-
-/*   TextFormField _emailField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        hintText: 'Enter your email',
-        hintStyle: Theme.of(context).textTheme.labelLarge,
-      ),
-      onChanged: (value) {
-        email = value;
-      },
-    );
-  } */
-
-/*   TextFormField _passwordField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        hintText: 'Enter your Password',
-        hintStyle: Theme.of(context).textTheme.labelLarge,
-      ),
-      onChanged: (value) {
-        // Update the password variable or state when the user types
-        //  context.read<SignupCubit>().onPasswordChanged(value);
-        password = value;
-      },
-    );
-  } */
-
-  /*  TextFormField _confirmPasswordField(BuildContext context) {
-    return TextFormField(
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        hintText: 'Confirm your password',
-        hintStyle: Theme.of(context).textTheme.labelLarge,
-      ),
-      onChanged: (value) {
-        //context.read<SignupCubit>().onConfirmPasswordChanged(value);
-        confirmPassword = value;
-      },
-    );
-  } */
 }
 
-class _confirmPasswordField extends StatefulWidget {
-  const _confirmPasswordField({
+class ConfirmPasswordField extends StatefulWidget {
+  const ConfirmPasswordField({
     super.key,
     required TextEditingController confirmPasswordcontroller,
   }) : _confirmPasswordcontroller = confirmPasswordcontroller;
@@ -211,10 +165,10 @@ class _confirmPasswordField extends StatefulWidget {
   final TextEditingController _confirmPasswordcontroller;
 
   @override
-  State<_confirmPasswordField> createState() => _confirmPasswordFieldState();
+  State<ConfirmPasswordField> createState() => ConfirmPasswordFieldState();
 }
 
-class _confirmPasswordFieldState extends State<_confirmPasswordField> {
+class ConfirmPasswordFieldState extends State<ConfirmPasswordField> {
   bool confirmPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
@@ -261,8 +215,8 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
   }
 }
 
-class _passwordField extends StatefulWidget {
-  const _passwordField({
+class PasswordField extends StatefulWidget {
+  const PasswordField({
     super.key,
     required TextEditingController passwordcontroller,
   }) : _passwordcontroller = passwordcontroller;
@@ -270,10 +224,10 @@ class _passwordField extends StatefulWidget {
   final TextEditingController _passwordcontroller;
 
   @override
-  State<_passwordField> createState() => _passwordFieldState();
+  State<PasswordField> createState() => PasswordFieldState();
 }
 
-class _passwordFieldState extends State<_passwordField> {
+class PasswordFieldState extends State<PasswordField> {
   bool passwordVisible = false;
   @override
   Widget build(BuildContext context) {
@@ -319,8 +273,8 @@ class _passwordFieldState extends State<_passwordField> {
   }
 }
 
-class _emailField extends StatelessWidget {
-  const _emailField({
+class EmailField extends StatelessWidget {
+  const EmailField({
     super.key,
     required TextEditingController emailcontroller,
   }) : _emailcontroller = emailcontroller;

@@ -38,7 +38,7 @@ class SearchBarDeparture extends StatelessWidget {
                   onTap: () => _showDepartureDialog(context),
                   child: BlocListener<LocationCubit, LocationState>(
                     listener: (context, state) {
-                      context.read<LocationCubit>().filterLocation_Campus();
+                      context.read<LocationCubit>().filterLocationCampus();
                     },
                     child: Text(
                         state.departure.isEmpty

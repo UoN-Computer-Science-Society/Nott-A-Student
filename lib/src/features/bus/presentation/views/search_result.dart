@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieve_timetable.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/cubit/location_cubit.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/views/route_details_page.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/route_detail_table.dart';

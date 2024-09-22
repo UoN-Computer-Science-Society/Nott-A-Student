@@ -9,8 +9,8 @@ import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/model/dept.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/signup_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/submission_status.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/_showLoginButton.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/show_login_button.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/input_label.dart';
 import 'package:Nott_A_Student/src/utils/constants/program.dart';
 
 Future<List<DeptItem>> loadDropdownItems() async {

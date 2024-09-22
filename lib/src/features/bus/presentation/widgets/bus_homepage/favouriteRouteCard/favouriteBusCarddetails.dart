@@ -3,7 +3,7 @@ import 'package:Nott_A_Student/src/features/bus/presentation/views/route_details
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieveTimetable.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/retrieve_timetable.dart';
 
 class FavouriteBusCardDetails extends StatefulWidget {
   final String route;

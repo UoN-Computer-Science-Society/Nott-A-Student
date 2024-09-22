@@ -5,7 +5,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/input_label.dart';
 import 'package:logging/logging.dart';
 
 class Login extends StatefulWidget {

@@ -3,11 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
-import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Nott_A_Student/src/features/auth/presentation/widget/input_label.dart';
+import 'package:Nott_A_Student/src/presentation/widget/nav_bar.dart';
 
 class Account extends StatelessWidget {
   const Account({super.key});

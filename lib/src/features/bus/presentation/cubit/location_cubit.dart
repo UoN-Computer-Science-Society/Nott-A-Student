@@ -1,7 +1,6 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favourite_route.dart';
 
 part 'location_state.dart';
 
@@ -10,20 +9,14 @@ class LocationCubit extends Cubit<LocationState> {
 
   void selectedDeparture(String location) {
     emit(state.copyWith(departure: location));
-
-    print(state.departure);
   }
 
   void selectedDestination(String location) {
     emit(state.copyWith(destination: location));
-
-    print(state.destination);
   }
 
   void onChangedRoute(String route) {
     emit(state.copyWith(route: route));
-
-    print(state.route);
   }
 
   Future<void> swaplocations() async {
@@ -36,15 +29,12 @@ class LocationCubit extends Cubit<LocationState> {
 
   // ignore: non_constant_identifier_names
   Future<void> onClickSearchBus() async {
-    print('Departure: ${state.departure}, Destination: ${state.destination}');
-
     String route = '${state.departure} to ${state.destination}';
     emit(state.copyWith(route: route));
-    print(state.route);
   }
 
 
-  Future<void> filterLocation_Campus() async {
+  Future<void> filterLocationCampus() async {
     if (state.departure != "Campus" && state.departure != "") {
       emit(state.copyWith(destination: "Campus"));
     } else if (state.departure == "Campus" && state.destination == "Campus") {

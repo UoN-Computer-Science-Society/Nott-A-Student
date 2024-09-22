@@ -102,7 +102,6 @@ class _ReadyScreen extends State<ReadyScreen> {
                   '/dashboard',
                 );
                 context.read<AuthCubit>().attemptAutoLogin();
-                print("sign up sucesss");
               } else if (state.status is SignupFailed) {
                 // Attempt to handle exceptions
                 AppwriteException exception =

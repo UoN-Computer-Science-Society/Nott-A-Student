@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouriteRoute.dart';
+import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favourite_route.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/favouriteRouteCard/favouriteBusCarddetails.dart';
 
 class FavouriteBusCardList extends StatefulWidget {

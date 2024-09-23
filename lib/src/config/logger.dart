@@ -12,7 +12,7 @@ class CustomLogger {
   late SlackLogger _slackLogger;
 
   CustomLogger() {
-    webhookUrl = dotenv.env['API_URL'];
+    webhookUrl = dotenv.env['SLACK_WEBHOOK_URL'];
     _slackLogger = SlackLogger(webhookUrl: webhookUrl!);
     _configureLogger();
   }

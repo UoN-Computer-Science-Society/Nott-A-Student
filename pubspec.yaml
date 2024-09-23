@@ -128,6 +128,7 @@ flutter:
     - lib/src/utils/resources/bus_image/tbs1.jpeg
     - lib/src/utils/resources/bus_image/tbs2.jpeg
     - lib/src/utils/resources/bus_image/kltc1.jpeg
+    - .env
   
 
   #   - images/a_dot_ham.jpeg

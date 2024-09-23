@@ -4,6 +4,7 @@ import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetabl
 import 'package:Nott_A_Student/src/presentation/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:is_first_run/is_first_run.dart';
@@ -24,6 +25,7 @@ import 'dart:developer' as dev;
 
 bool firstRun = true;
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   Logger.root.level = Level.INFO;
   // Create and initialize your AuthCubit
@@ -76,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (BuildContext context) => BottomNavBarCubit(),
         ),
-         BlocProvider(
+        BlocProvider(
           create: (BuildContext context) => SchoolTimetableCubit(),
         ),
       ],

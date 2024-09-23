@@ -1,18 +1,19 @@
 import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:logging/logging.dart';
 import 'package:slack_logger/slack_logger.dart';
 
 class CustomLogger {
   final Logger _log = Logger('CustomLogger');
+  late String? webhookUrl;
 
   // Slack logger instance
-  final SlackLogger _slackLogger = SlackLogger(
-      webhookUrl:
-          "https://hooks.slack.com/services/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");
+  late SlackLogger _slackLogger;
 
   CustomLogger() {
+    webhookUrl = dotenv.env['API_URL'];
+    _slackLogger = SlackLogger(webhookUrl: webhookUrl!);
     _configureLogger();
   }
 
@@ -33,8 +34,7 @@ class CustomLogger {
 
   // Log to the console
   void _logToConsole(LogRecord record) {
-    log(
-        '${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}');
+    log('${record.level.name}: ${record.time}: ${record.loggerName}: ${record.message}');
   }
 
   // Log to Slack using the slacklogger package

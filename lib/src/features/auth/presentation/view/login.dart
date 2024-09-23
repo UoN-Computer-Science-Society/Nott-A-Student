@@ -21,10 +21,11 @@ class _LoginState extends State<Login> {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final dialogKey = GlobalKey();
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
-    String email = '';
-    String password = '';
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -51,6 +52,7 @@ class _LoginState extends State<Login> {
                 const InputLabel(label: "Email"),
                 // const SizedBox(height: 16),
                 TextFormField(
+                  controller: emailController,
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(12),
@@ -67,7 +69,6 @@ class _LoginState extends State<Login> {
                   onChanged: (value) => {
                     BlocProvider.of<LoginCubit>(context)
                         .onUserNameChanged(value),
-                    email = value,
                   },
                   validator: MultiValidator(
                     [
@@ -79,6 +80,7 @@ class _LoginState extends State<Login> {
                 const Gap(20),
                 const InputLabel(label: "Password"),
                 TextFormField(
+                    controller: passwordController,
                     style: Theme.of(context).textTheme.bodyLarge,
                     obscureText: !passwordVisible,
                     decoration: InputDecoration(
@@ -119,7 +121,7 @@ class _LoginState extends State<Login> {
                     onChanged: (value) => {
                           BlocProvider.of<LoginCubit>(context)
                               .onPasswordChanged(value),
-                          password = value
+                          passwordController.text = value
                         }),
                 const Gap(10),
                 Row(
@@ -177,8 +179,13 @@ class _LoginState extends State<Login> {
                     onTap: (() {
                       if (formkey.currentState!.validate()) {
                         showLoadingDialogBar(context, "Logging you in");
-                        context.read<LoginCubit>().onUserNameChanged(email);
-                        context.read<LoginCubit>().onPasswordChanged(password);
+                        context
+                            .read<LoginCubit>()
+                            .onUserNameChanged(emailController.text);
+                        context
+                            .read<LoginCubit>()
+                            .onPasswordChanged(passwordController.text);
+
                         context.read<LoginCubit>().onFormSubmit();
                         log.info("Validated Information");
                       } else {

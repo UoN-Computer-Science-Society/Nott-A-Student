@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:Nott_A_Student/src/config/logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +10,7 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepository authRepo;
   LoginCubit({required this.authRepo}) : super(LoginState());
+  final logger = CustomLogger();
 
   void onUserNameChanged(String email) {
     if (email != state.email) {
@@ -25,8 +26,8 @@ class LoginCubit extends Cubit<LoginState> {
 
   // Future<void> onFormSubmit(String username,String password) async {
   Future<void> onFormSubmit() async {
-    log(state.email);
-    log(state.password);
+    logger.info("${state.email} ${state.password}");
+
     if (state.email.isEmpty || state.password.isEmpty) {
       emit(LoginFailed(errorMessage: "Username or Password is empty"));
     } else {

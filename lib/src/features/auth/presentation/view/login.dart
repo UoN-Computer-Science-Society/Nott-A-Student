@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:gap/gap.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
@@ -20,11 +19,13 @@ class _LoginState extends State<Login> {
   final log = Logger('Login');
   bool passwordVisible = false;
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final dialogKey = GlobalKey();
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
-    String email = '';
-    String password = '';
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: true,
@@ -51,6 +52,7 @@ class _LoginState extends State<Login> {
                 const InputLabel(label: "Email"),
                 // const SizedBox(height: 16),
                 TextFormField(
+                  controller: emailController,
                   style: Theme.of(context).textTheme.bodyLarge,
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.all(12),
@@ -67,7 +69,6 @@ class _LoginState extends State<Login> {
                   onChanged: (value) => {
                     BlocProvider.of<LoginCubit>(context)
                         .onUserNameChanged(value),
-                    email = value,
                   },
                   validator: MultiValidator(
                     [
@@ -79,6 +80,7 @@ class _LoginState extends State<Login> {
                 const Gap(20),
                 const InputLabel(label: "Password"),
                 TextFormField(
+                    controller: passwordController,
                     style: Theme.of(context).textTheme.bodyLarge,
                     obscureText: !passwordVisible,
                     decoration: InputDecoration(
@@ -119,7 +121,7 @@ class _LoginState extends State<Login> {
                     onChanged: (value) => {
                           BlocProvider.of<LoginCubit>(context)
                               .onPasswordChanged(value),
-                          password = value
+                          passwordController.text = value
                         }),
                 const Gap(10),
                 Row(
@@ -150,24 +152,25 @@ class _LoginState extends State<Login> {
                 BlocListener<LoginCubit, LoginState>(
                   listener: (context, state) async {
                     if (state is LoginSuccess) {
-                      await context.read<AuthCubit>().attemptAutoLogin();
-                      context.read<AccountCubit>().initializeAccountInfo();
+                      Navigator.of(dialogKey.currentContext!).pop();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content:
-                              Text('Login success: Welcome ${state.userId}'),
+                        const SnackBar(
+                          content: Text('Login success!'),
                           duration: Duration(seconds: 3),
                         ),
                       );
+                      //await context.read<AuthCubit>().attemptAutoLogin();
+                      context.read<AccountCubit>().initializeAccountInfo();
                       Navigator.of(context).pushNamed(
                         '/dashboard',
                       );
                     } else if (state is LoginFailed) {
+                      Navigator.of(dialogKey.currentContext!).pop();
                       // Show an error message to the user.
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Login failed: ${state.errorMessage}'),
-                          duration: Duration(seconds: 3),
+                          duration: const Duration(seconds: 3),
                         ),
                       );
                     }
@@ -175,29 +178,21 @@ class _LoginState extends State<Login> {
                   child: InkWell(
                     onTap: (() {
                       if (formkey.currentState!.validate()) {
-                        context.read<LoginCubit>().onUserNameChanged(email);
-                        context.read<LoginCubit>().onPasswordChanged(password);
-                        context.read<LoginCubit>().onFormSubmit(context);
+                        showLoadingDialogBar(context, "Logging you in");
+                        context
+                            .read<LoginCubit>()
+                            .onUserNameChanged(emailController.text);
+                        context
+                            .read<LoginCubit>()
+                            .onPasswordChanged(passwordController.text);
+
+                        context.read<LoginCubit>().onFormSubmit();
                         log.info("Validated Information");
                       } else {
                         log.info("Not Validated");
                       }
                     }),
-                    child: /* Container(
-                        width: 250,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(0xff005697),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            "Login",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                        ),
-                      ), */
-                        Align(
+                    child: Align(
                       alignment: Alignment.center,
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.8,
@@ -226,5 +221,32 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
+  }
+
+  Future<void> showLoadingDialogBar(
+      BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      barrierDismissible:
+          false, // Prevent dismissing the dialog by tapping outside
+      builder: (context) => SimpleDialog(
+        key: dialogKey,
+        children: [
+          Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(height: 16),
+                Text(message),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+
+    // Simulate a long-running process
+    await Future.delayed(const Duration(milliseconds: 2000));
   }
 }

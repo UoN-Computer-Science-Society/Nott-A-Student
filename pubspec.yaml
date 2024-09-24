@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  appwrite: ^11.0.0
+  appwrite: ^12.0.1
   auto_route: ^7.7.1
   cupertino_icons: ^1.0.2
   dio: ^5.3.0
@@ -51,6 +51,11 @@ dependencies:
   table_calendar: ^3.0.9
   webview_flutter: ^4.7.0
   intl: ^0.19.0
+  mockito: ^5.4.4
+  slack_logger: ^1.0.7
+  bloc_test: ^9.1.7
+  mocktail: ^1.0.4
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
@@ -123,6 +128,7 @@ flutter:
     - lib/src/utils/resources/bus_image/tbs1.jpeg
     - lib/src/utils/resources/bus_image/tbs2.jpeg
     - lib/src/utils/resources/bus_image/kltc1.jpeg
+    - .env
   
 
   #   - images/a_dot_ham.jpeg

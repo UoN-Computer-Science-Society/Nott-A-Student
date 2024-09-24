@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'news_type_state.dart';
 
 class NewsTypeCubit extends Cubit<NewsTypeState> {
-  NewsTypeCubit() : super(NewsTypeState());
+  NewsTypeCubit() : super(const NewsTypeState());
 
   void setState(String type) {
     log("State set");

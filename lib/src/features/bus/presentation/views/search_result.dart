@@ -24,7 +24,7 @@ class _SearchResultState extends State<SearchResult> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
             context.read<LocationCubit>().selectedDeparture("");

@@ -43,7 +43,7 @@ class _RouteDetailTableState extends State<RouteDetailTable> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Color(0xFFFBFBFB),
+                color: const Color(0xFFFBFBFB),
                 border: Border.all(
                   color: Colors.black, // Set the border color
                   width: 2.0, // Set the border width

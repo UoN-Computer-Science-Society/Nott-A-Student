@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'package:Nott_A_Student/src/config/logger.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
 

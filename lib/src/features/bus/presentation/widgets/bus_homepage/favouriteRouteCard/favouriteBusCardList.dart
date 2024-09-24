@@ -43,11 +43,11 @@ class FavouriteBusCardListState extends State<FavouriteBusCardList> {
             if (favouriteRouteList.isEmpty) {
               return Container(
                 height: 30,
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text("No favourite route. Go add some"),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: const Text("No favourite route. Go add some"),
               );
             } else {
-              return Container(
+              return SizedBox(
                 height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,

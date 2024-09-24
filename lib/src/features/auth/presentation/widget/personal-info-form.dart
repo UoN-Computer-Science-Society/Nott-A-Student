@@ -53,7 +53,7 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
     return deptList;
   }
 
-  TextEditingController _namecontroller = TextEditingController();
+  final TextEditingController _namecontroller = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -272,7 +272,6 @@ class _PersonalInfoFormState extends State<PersonalInfoForm> {
 
 class _nameField extends StatelessWidget {
   const _nameField({
-    super.key,
     required TextEditingController controller,
   }) : _controller = controller;
 

@@ -23,7 +23,7 @@ List newsType = ["ALL", "SA", "FOSE", "FASS", "CAREERS"];
 var logger = Logger("NAS Dashboard");
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({Key? key});
+  const Dashboard({super.key, Key? key});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -38,7 +38,7 @@ class _DashboardState extends State<Dashboard> {
   int pageCounter = 0;
   bool isSwiping = false;
 
-  Map<String, GlobalKey> _newsTypeKeys = {};
+  final Map<String, GlobalKey> _newsTypeKeys = {};
 
   RenderBox _getWidgetRenderBox(GlobalKey key) {
     Offset position = Offset.zero;
@@ -63,7 +63,7 @@ class _DashboardState extends State<Dashboard> {
     final bloc = SAEventsRequestBloc();
     bloc.retrieveSAEvents().then((saEvents) {
       DateFormat format = DateFormat("MMM d", "en_MY");
-      List<NewsModel> _news = List.generate(
+      List<NewsModel> news = List.generate(
           saEvents.length,
           (index) => NewsModel(
                 author: saEvents[index].club!,
@@ -80,7 +80,7 @@ class _DashboardState extends State<Dashboard> {
 
       // await Future.delayed(const Duration(seconds: 1));
       context.read<DashboardCubit>().clearNews();
-      context.read<DashboardCubit>().updateNews(_news);
+      context.read<DashboardCubit>().updateNews(news);
     });
   }
 
@@ -115,7 +115,7 @@ class _DashboardState extends State<Dashboard> {
                   listener: (context, state) {
                     final newsTypebtnRenderBox =
                         _getWidgetRenderBox(_newsTypeKeys[state.type]!);
-                    final _lineWidthAnimation = newsTypebtnRenderBox.size.width;
+                    final lineWidthAnimation = newsTypebtnRenderBox.size.width;
 
                     Offset position =
                         newsTypebtnRenderBox.localToGlobal(Offset.zero);
@@ -123,7 +123,7 @@ class _DashboardState extends State<Dashboard> {
                     setState(() {
                       chosenType = state.type;
                       linePositionAnimation = position.dx - 16;
-                      lineWidthAnimation = _lineWidthAnimation;
+                      lineWidthAnimation = lineWidthAnimation;
                     });
                   },
                   child: AnimatedPositioned(
@@ -230,7 +230,7 @@ class _DashboardState extends State<Dashboard> {
               }
             }
           }
-          Timer(Duration(milliseconds: 200), () {
+          Timer(const Duration(milliseconds: 200), () {
             isSwiping = false;
           });
         }
@@ -245,7 +245,7 @@ class _DashboardState extends State<Dashboard> {
               final bloc = SAEventsRequestBloc();
               bloc.retrieveSAEvents().then((saEvents) {
                 DateFormat format = DateFormat("MMM d", "en_MY");
-                List<NewsModel> _news = List.generate(
+                List<NewsModel> news = List.generate(
                     saEvents.length,
                     (index) => NewsModel(
                           author: saEvents[index].club!,
@@ -262,9 +262,9 @@ class _DashboardState extends State<Dashboard> {
 
                 // await Future.delayed(const Duration(seconds: 1));
                 context.read<DashboardCubit>().clearNews();
-                context.read<DashboardCubit>().updateNews(_news);
+                context.read<DashboardCubit>().updateNews(news);
                 logger.info('Refreshed');
-                print('refreshed ${_news.length}');
+                print('refreshed ${news.length}');
               });
               return Future.delayed(const Duration(seconds: 1));
             },

@@ -140,7 +140,7 @@ class Account extends StatelessWidget {
                         borderRadius:
                             BorderRadius.circular(50), // Border-radius of 50px
                         border: Border.all(
-                          color: Color(0xFFC50243), // Border color
+                          color: const Color(0xFFC50243), // Border color
                           width: 2, // Border width of 2px
                         ),
                       ),

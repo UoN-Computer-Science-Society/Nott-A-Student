@@ -1,4 +1,3 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:Nott_A_Student/src/features/bus/data/data%20source/local/favouriteRoute.dart';

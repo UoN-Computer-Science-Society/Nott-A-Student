@@ -125,9 +125,7 @@ class SAEventsDetailsView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        if (newsModel.startTime != null &&
-                            newsModel.startTime.isNotEmpty &&
-                            newsModel.endTime != null &&
+                        if (newsModel.startTime.isNotEmpty &&
                             newsModel.endTime.isNotEmpty)
                           RichText(
                             text: TextSpan(
@@ -149,9 +147,7 @@ class SAEventsDetailsView extends StatelessWidget {
                               ],
                             ),
                           ),
-                        if (newsModel.startTime != null &&
-                            newsModel.startTime.isNotEmpty &&
-                            newsModel.endTime != null &&
+                        if (newsModel.startTime.isNotEmpty &&
                             newsModel.endTime.isNotEmpty)
                           RichText(
                             text: TextSpan(
@@ -214,7 +210,7 @@ class SAEventsDetailsView extends StatelessWidget {
   }
 
   Widget showSignUpBtn(BuildContext context) {
-    if (newsModel.url != null && newsModel.url.isNotEmpty) {
+    if (newsModel.url.isNotEmpty) {
       try {
         var uri = Uri.parse(newsModel.url);
         if (uri.hasScheme) {
@@ -225,13 +221,14 @@ class SAEventsDetailsView extends StatelessWidget {
               minWidth: double.infinity,
               child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                    backgroundColor: WidgetStateProperty.resolveWith<Color?>(
                   (states) => Theme.of(context).primaryColor,
                 )),
                 onPressed: () async {
                   // Handle button press
-                  if (!await launchUrl(Uri.parse(newsModel.url)))
+                  if (!await launchUrl(Uri.parse(newsModel.url))) {
                     throw 'Could not launch ${newsModel.url}';
+                  }
                 },
                 child: Text('Sign up here!',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(

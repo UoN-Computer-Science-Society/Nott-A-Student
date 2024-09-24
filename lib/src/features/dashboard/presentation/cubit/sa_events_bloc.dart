@@ -22,7 +22,7 @@ class SAEventsRequestBloc {
       return data.map((json) => SAEvents.fromJson(json)).toList();
     } catch (exception) {
       print(exception.toString());
-      throw exception;
+      rethrow;
     }
   }
 }

@@ -36,7 +36,7 @@ class SchoolTimetableCubit extends Cubit<SchoolTimetableState> {
       return data.map((json) => Activity.fromJson(json)).toList();
     } catch (exception) {
       print(exception.toString());
-      throw exception;
+      rethrow;
     }
   }
 

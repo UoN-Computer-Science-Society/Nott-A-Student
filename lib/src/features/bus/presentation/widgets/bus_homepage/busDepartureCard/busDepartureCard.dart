@@ -4,7 +4,7 @@ import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepag
 import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepage/busDepartureCard/headerbusDeparturing.dart';
 
 class BusDepartureCard extends StatelessWidget {
-  const BusDepartureCard({Key? key});
+  const BusDepartureCard({super.key, Key? key});
 
   @override
   Widget build(BuildContext context) {

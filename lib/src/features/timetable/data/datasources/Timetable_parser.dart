@@ -1,17 +1,6 @@
 import 'package:appwrite/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Nott_A_Student/src/config/router/app_router.dart';
-import 'package:Nott_A_Student/src/config/themes/app_theme.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_repo.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/cubit/login_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/view/login.dart';
-import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
-import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
 import 'package:appwrite/appwrite.dart';
-import 'dart:convert';
 
 
 void main() async{

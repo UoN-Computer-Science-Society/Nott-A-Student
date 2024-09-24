@@ -1,5 +1,4 @@
 import 'package:Nott_A_Student/src/features/dashboard/domain/models/news_model.dart';
-import 'package:Nott_A_Student/src/features/dashboard/presentation/widgets/news_card.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 

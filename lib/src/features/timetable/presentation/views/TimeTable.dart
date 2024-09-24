@@ -22,7 +22,7 @@ class TimeTable extends StatefulWidget {
 
 
 class _TimeTableState extends State<TimeTable> {
-  DateTime _focusedDay = DateTime.now();
+  final DateTime _focusedDay = DateTime.now();
   CalendarFormat calendarFormat = CalendarFormat.month;
   DateTime? _selectedDay;
 
@@ -130,7 +130,7 @@ class _TimeTableState extends State<TimeTable> {
             //   },
             ),
             
-            NewsCard()
+            const NewsCard()
           ],
           
         ),

@@ -1,5 +1,4 @@
 import 'package:Nott_A_Student/src/config/router/no_animation_material_page_route.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/TimeTable.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/views/dayView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +12,6 @@ import 'package:Nott_A_Student/src/features/auth/presentation/view/signup.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/views/bus.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/cubit/news_type_cubit.dart';
 import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/TimeTable.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/views/dayView.dart';
 import 'package:Nott_A_Student/src/features/bus/presentation/views/search_result.dart';
 
 class AppRouter {

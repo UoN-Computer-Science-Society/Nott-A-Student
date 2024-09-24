@@ -9,7 +9,7 @@ import 'package:Nott_A_Student/src/features/bus/presentation/widgets/bus_homepag
 import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';
 
 class Bus extends StatefulWidget {
-  const Bus({Key? key});
+  const Bus({super.key, Key? key});
 
   @override
   State<Bus> createState() => _BusState();

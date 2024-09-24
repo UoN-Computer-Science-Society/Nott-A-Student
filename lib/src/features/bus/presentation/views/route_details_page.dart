@@ -13,7 +13,7 @@ class RouteDetailsPage extends StatefulWidget {
   final String departure;
   final String destination;
 
-  RouteDetailsPage(
+  const RouteDetailsPage(
       {super.key,
       required this.timetableData,
       required this.departure,

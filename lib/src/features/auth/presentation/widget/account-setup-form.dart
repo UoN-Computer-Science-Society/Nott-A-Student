@@ -8,7 +8,7 @@ import 'package:Nott_A_Student/src/features/auth/presentation/widget/_showLoginB
 import 'package:Nott_A_Student/src/features/auth/presentation/widget/inputLabel.dart';
 
 class AccountSetup extends StatefulWidget {
-  AccountSetup({super.key});
+  const AccountSetup({super.key});
 
   @override
   State<AccountSetup> createState() => _AccountSetupState();
@@ -19,9 +19,9 @@ class _AccountSetupState extends State<AccountSetup> {
   String password = '';
   String confirmPassword = ''; */
 
-  TextEditingController _emailcontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
-  TextEditingController _confirmPasswordcontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _confirmPasswordcontroller = TextEditingController();
 
   @override
   void initState() {
@@ -204,7 +204,6 @@ class _AccountSetupState extends State<AccountSetup> {
 
 class _confirmPasswordField extends StatefulWidget {
   const _confirmPasswordField({
-    super.key,
     required TextEditingController confirmPasswordcontroller,
   }) : _confirmPasswordcontroller = confirmPasswordcontroller;
 
@@ -263,7 +262,6 @@ class _confirmPasswordFieldState extends State<_confirmPasswordField> {
 
 class _passwordField extends StatefulWidget {
   const _passwordField({
-    super.key,
     required TextEditingController passwordcontroller,
   }) : _passwordcontroller = passwordcontroller;
 
@@ -321,7 +319,6 @@ class _passwordFieldState extends State<_passwordField> {
 
 class _emailField extends StatelessWidget {
   const _emailField({
-    super.key,
     required TextEditingController emailcontroller,
   }) : _emailcontroller = emailcontroller;
 

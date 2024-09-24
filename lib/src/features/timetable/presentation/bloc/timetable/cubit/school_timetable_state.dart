@@ -5,7 +5,7 @@ class SchoolTimetableState extends Equatable {
   final String selectedDay; // New field to store the selected day
 
   // Constructor with default values for timetableData and selectedDay
-  SchoolTimetableState({
+  const SchoolTimetableState({
     this.timetableData = const [],
     this.selectedDay = '', // Initialize selectedDay with current day
   });

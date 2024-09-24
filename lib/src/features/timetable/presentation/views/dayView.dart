@@ -1,12 +1,11 @@
 // dayView.dart
 import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/cubit/school_timetable_cubit.dart';
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:Nott_A_Student/src/features/timetable/presentation/bloc/timetable/ModuleRequestBloc.dart'; // Import your ModuleRequestBloc
+// Import your ModuleRequestBloc
 import 'package:Nott_A_Student/src/features/timetable/domain/models/Activity.dart';
 import 'package:Nott_A_Student/src/features/timetable/presentation/widgets/ModuleCard.dart';
 import 'package:Nott_A_Student/src/presentation/widget/nav-bar.dart';

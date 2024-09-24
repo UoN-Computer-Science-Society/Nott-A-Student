@@ -4,7 +4,7 @@ class LoginState extends Equatable {
   final String email;
   final String password;
 
-  LoginState({
+  const LoginState({
     this.email = '',
     this.password = '',
   });

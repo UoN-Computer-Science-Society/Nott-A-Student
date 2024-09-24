@@ -1,11 +1,4 @@
-import 'package:Nott_A_Student/src/features/auth/domain/auth_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/cubit/account_cubit.dart';
-import 'package:Nott_A_Student/src/features/auth/presentation/view/login.dart';
-import 'package:Nott_A_Student/src/features/dashboard/presentation/views/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:logging/logging.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -8,7 +8,7 @@ Future<Map<String, List<String>>> getTimeTable(String route) async {
   var url = Uri.https('whereismybus.nottingham.edu.my',
       '/mobile/www/api/get_schedule_new.php', {'q': num.toString()});
   var response = await http.get(url);
-  var data;
+  Map<String, dynamic> data;
   if (response.statusCode == 200) {
     // Remove BOM if present and then parse the JSON data
     var jsonResponse =

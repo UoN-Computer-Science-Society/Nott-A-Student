@@ -2,8 +2,6 @@ import 'package:appwrite/appwrite.dart';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'account_state.dart';
 

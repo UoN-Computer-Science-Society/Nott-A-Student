@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/auth_status.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
-import 'package:logging/logging.dart';
 import 'dart:developer';
 part 'auth_state.dart';
 

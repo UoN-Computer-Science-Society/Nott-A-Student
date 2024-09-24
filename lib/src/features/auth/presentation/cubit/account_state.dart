@@ -8,7 +8,7 @@ class AccountState extends Equatable {
   final String program;
 
   // Use a constructor or an initialization method to retrieve SharedPreferences
-  AccountState({
+  const AccountState({
     this.name = '',
     this.email = '',
     this.year = '',

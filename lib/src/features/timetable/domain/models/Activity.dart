@@ -42,19 +42,19 @@ class Activity {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Activity'] = this.activity;
-    data['Module'] = this.module;
-    data['Type'] = this.type;
-    data['Day'] = this.day;
-    data['Start'] = this.start;
-    data['End'] = this.end;
-    data['Duration'] = this.duration;
-    data['Room'] = this.room;
-    data['Room Description'] = this.roomDescription;
-    data['Room Size'] = this.roomSize;
-    data['Staff'] = this.staff;
-    data['Weeks'] = this.weeks;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['Activity'] = activity;
+    data['Module'] = module;
+    data['Type'] = type;
+    data['Day'] = day;
+    data['Start'] = start;
+    data['End'] = end;
+    data['Duration'] = duration;
+    data['Room'] = room;
+    data['Room Description'] = roomDescription;
+    data['Room Size'] = roomSize;
+    data['Staff'] = staff;
+    data['Weeks'] = weeks;
     return data;
   }
 }

@@ -20,7 +20,7 @@ class FormSubmitting extends SubmissionStatus {
 class SubmissionSuccess extends SubmissionStatus {
   final String userId;
 
-  SubmissionSuccess({required this.userId});
+  const SubmissionSuccess({required this.userId});
   @override
   List<Object> get props => [userId];
 }
@@ -28,7 +28,7 @@ class SubmissionSuccess extends SubmissionStatus {
 class SubmissionFailed extends SubmissionStatus {
   final String errorMessage;
 
-  SubmissionFailed({required this.errorMessage});
+  const SubmissionFailed({required this.errorMessage});
   @override
   List<Object> get props => [errorMessage];
 }
@@ -46,7 +46,7 @@ class ProceedSuccess extends SubmissionStatus {
 class ProceedFailed extends SubmissionStatus {
   final String errorMessage;
 
-  ProceedFailed({required this.errorMessage});
+  const ProceedFailed({required this.errorMessage});
 
   @override
   List<Object> get props => [errorMessage];

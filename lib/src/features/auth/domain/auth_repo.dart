@@ -1,6 +1,5 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:Nott_A_Student/src/features/auth/domain/session.dart';
-import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
 class AuthRepository {

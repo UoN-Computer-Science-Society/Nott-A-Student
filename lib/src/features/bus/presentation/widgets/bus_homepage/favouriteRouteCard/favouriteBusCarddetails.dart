@@ -35,7 +35,7 @@ class _FavouriteBusCardDetailsState extends State<FavouriteBusCardDetails> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, List<String>>>(
-        future: getTimeTable('${departure} to ${destination}'),
+        future: getTimeTable('$departure to $destination'),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
